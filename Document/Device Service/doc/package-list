@@ -1,0 +1,6 @@
+com.dreamtek.smartpos.deviceservice.aidl
+com.dreamtek.smartpos.deviceservice.aidl.card_reader
+com.dreamtek.smartpos.deviceservice.aidl.key_manager
+com.dreamtek.smartpos.deviceservice.aidl.sde
+com.dreamtek.smartpos.deviceservice.aidl.utils
+com.dreamtek.smartpos.deviceservice.constdefine
