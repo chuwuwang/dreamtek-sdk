@@ -1,0 +1,228 @@
+<resources>
+    <string name="app_name">DTKTestClient</string>
+    <string name="no_message">本测试案例无被编译，本次测试废弃</string>
+    <string name="A01001">API原型：IBinder getBeeper() 前置条件：服务已启动 入参：－ 后置条件:－ 期望出参：－ 期望结果:返回蜂鸣器操作对象成功                         </string>
+    <string name="A02001">API原型：IBinder getLed() 前置条件：服务已启动 入参：－ 后置条件:－ 期望出参：－ 期望结果:返回LED灯操作对象成功                             </string>
+    <string name="A03001">API原型：IBinder getPrinter() 前置条件：服务已启动 入参：－ 后置条件:－ 期望出参：－ 期望结果:返回打印机操作对象成功                        </string>
+    <string name="A04001">API原型：IBinder getScanner(int cameraId) 前置条件：服务已启动 入参：cameraId:0 后置条件:－ 期望出参：－ 期望结果:返回前置扫描头操作对象成功</string>
+    <string name="A04002">API原型：IBinder getScanner(int cameraId) 前置条件：服务已启动 入参：cameraId:1 期望结果:返回后置扫描头操作对象成功                         </string>
+    <string name="A05001">API原型：IBinder getSerialPort() 前置条件：服务已启动 入参：－ 后置条件:－ 期望出参：－ 期望结果:返回串口操作对象成功                       </string>
+    <string name="A06001">API原型：IBinder getDeviceInfo() 前置条件：服务已启动 入参：－ 后置条件:－ 期望出参：－ 期望结果:返回终端设备操作对象成功                   </string>
+    <string name="A07001">API原型：IBinder getPBOC() 前置条件：服务已启动 入参：－ 后置条件:－ 期望出参：－ 期望结果:返回PBOC流程操作对象成功                         </string>
+    <string name="A08001">API原型：IBinder getMagCardReader() 前置条件：服务已启动 入参：－ 后置条件:－ 期望出参：－ 期望结果:返回磁条卡操作对象成功                  </string>
+    <string name="A09001">API原型：IBinder getInsertCardReader() 前置条件：服务已启动 入参：－ 后置条件:－ 期望出参：－ 期望结果:返回接触式IC卡读卡器设备操作对象成功 </string>
+    <string name="A10001">API原型：IIBinder getRFCardReader() 前置条件：服务已启动 入参：－ 后置条件:－ 期望出参：－ 期望结果:返回非接触式IC卡读卡器操作对象成功      </string>
+    <string name="A11001">API原型：IBinder getPinpad(int kapId) 前置条件：服务已启动 入参：kapId: 后置条件:－ 期望出参：－ 期望结果:返回密码键盘Pinpad操作对象成功    </string>
+    <string name="A11002">API原型：IBinder getPinpad(int kapId) 前置条件：服务已启动 入参：kapId: 后置条件:－ 期望出参：－ 期望结果:返回密码键盘Pinpad操作对象成功    </string>
+    <!--蜂鸣器操作模块-->
+    <string name="B01001">API原型:void startBeep(int msec)测试点:入参msec有效值测试前置条件:服务已启动入参:msec:1000后置条件:－期望出参:－期望结果:蜂鸣器响一声                   </string>
+    <string name="B02001">API原型:void stopBeep()测试点:单接口测试前置条件:没有蜂鸣直接执行stopBeep()入参:－后置条件:－期望出参:－期望结果:蜂鸣器无响应                        </string>
+    <!--LED操作模块-->
+    <string name="C01001">API原型:void turnOn(int led) 测试点:入参led有效值测试 前置条件:服务已启动 "入参:led:1 " 后置条件:－ 期望出参:－ 期望结果:蓝灯亮                                                       </string>
+    <string name="C01002">API原型:void turnOn(int led) 测试点:入参led有效值测试 前置条件:服务已启动 "入参:led:2 " 后置条件:－ 期望出参:－ 期望结果:橙灯亮                                                       </string>
+    <string name="C01003">API原型:void turnOn(int led) 测试点:入参led有效值测试 前置条件:服务已启动 "入参:led:3 " 后置条件:－ 期望出参:－ 期望结果:黄灯亮                                                       </string>
+    <string name="C01004">API原型:void turnOn(int led) 测试点:入参led有效值测试 前置条件:服务已启动 "入参:led:4 " 后置条件:－ 期望出参:－ 期望结果:红灯亮                                                       </string>
+    <string name="C02001">API原型:void turnOff(int led) 测试点:入参led有效值测试 "前置条件:执行C01001执行turnOff(int led)" 入参:led:1 后置条件:－ 期望出参:－ 期望结果:蓝灯由亮变灭                             </string>
+    <string name="C02002">API原型:void turnOff(int led) 测试点:入参led有效值测试 "前置条件:执行C01002执行turnOff(int led)" "入参:led:2 " 后置条件:－ 期望出参:－ 期望结果:橙由亮变灭                            </string>
+    <string name="C02003">API原型:void turnOff(int led) 测试点:入参led有效值测试 "前置条件:执行C01003执行turnOff(int led)" "入参:led:3 " 后置条件:－ 期望出参:－ 期望结果:黄由亮变灭                            </string>
+    <string name="C02004">API原型:void turnOff(int led) 测试点:入参led有效值测试 "前置条件:执行C01004执行turnOff(int led)" "入参:led:4 " 后置条件:－ 期望出参:－ 期望结果:红由亮变灭                            </string>
+    <!--//打印机操作模块-->
+    <string name="D01001">API原型：int getStatus()\n获取打印机状态</string>
+    <string name="D02001">API原型：void setGray(int gray)\n服务已启动\n入参：gray:0\n后置条件：打印文本，条码，二维码，图片\n期望出参：无\n期望结果：颜色灰度为0\n备注说明：无</string>
+    <string name="D02002">API原型：void setGray(int gray)\n服务已启动\n入参：gray:1\n后置条件：打印文本，条码，二维码，图片\n期望出参：无\n期望结果：颜色灰度为1\n备注说明：无</string>
+    <string name="D02003">API原型：void setGray(int gray)\n服务已启动\n入参：gray:2\n后置条件：打印文本，条码，二维码，图片\n期望出参：无\n期望结果：颜色灰度为2\n备注说明：无</string>
+    <string name="D02004">API原型：void setGray(int gray)\n服务已启动\n入参：gray:3\n后置条件：打印文本，条码，二维码，图片\n期望出参：无\n期望结果：颜色灰度为3\n备注说明：无</string>
+    <string name="D02005">API原型：void setGray(int gray)\n服务已启动\n入参：gray:4\n后置条件：打印文本，条码，二维码，图片\n期望出参：无\n期望结果：颜色灰度为4\n备注说明：无</string>
+    <string name="D02006">API原型：void setGray(int gray)\n服务已启动\n入参：gray:5\n后置条件：打印文本，条码，二维码，图片\n期望出参：无\n期望结果：颜色灰度为5\n备注说明：无</string>
+    <string name="D02007">API原型：void setGray(int gray)\n服务已启动\n入参：gray:6\n后置条件：打印文本，条码，二维码，图片\n期望出参：无\n期望结果：颜色灰度为6\n备注说明：无</string>
+    <string name="D02008">API原型：void setGray(int gray)\n服务已启动\n入参：gray:7\n后置条件：打印文本，条码，二维码，图片\n期望出参：无\n期望结果：颜色灰度为7\n备注说明：无</string>
+    <string name="D03001">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:0 format.align:0 text:Test\n后置条件：无\n期望出参：无\n期望结果：添加一行文字打印成功\n备注说明：无</string>
+    <string name="D03002">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:0 format.align:0 text:Test\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字小字体，左对齐\n备注说明：无</string>
+    <string name="D03003">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:0 format.align:1 text:Test:!@#$ *().::{}^&amp; ?&quot; &quot; 甯(ning)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字小字体，中对齐\n备注说明：无</string>
+    <string name="D03004">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:0 format.align:2 text:Test:!@#$ *().::{}^&amp; ?&quot; &quot; 甯(ning)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字小字体，右对齐\n备注说明：无</string>
+    <string name="D03005">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:0 format.align:0 text:Test:!@#$ *().::{}^&amp; &quot; &quot; 甯(ning)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字中字体，左对齐\n备注说明：无</string>
+    <string name="D03006">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:1 format.align:1 text:Tes:!@#$ *().::{}^&amp; ?&quot; &quot; 甯(ning)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字中字体，中对齐\n备注说明：无</string>
+    <string name="D03007">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:1 format.align:2 text:Test:!@#$ *().::{}^&amp; &quot; &quot; 甯(ning)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字中字体，右对齐\n备注说明：无</string>
+    <string name="D03008">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:2 format.align:0 text:Test:!@#$ *().::{}^&amp; &quot; &quot; 甯(ning)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字大字体，左对齐\n备注说明：无</string>
+    <string name="D03009">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:2 format.align:1 text:Test:!@#$ *().::{}^&amp; &quot; &quot; 甯(ning)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字大字体，中对齐\n备注说明：无</string>
+    <string name="D03010">API原型：void addText(Bundle format, String text)\n前置条件:返回打印机，操作对象成功，打印机正常状态\n入参：format.font:2 format.align:2 text:Test:!@#$ *().::{}^&amp; ?&quot; &quot; 甯(ning)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字大字体，右对齐\n备注说明：无</string>
+    <string name="D03019">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:2 format.align:0 text:Test:!@#$ *().::{}^&amp; &quot; &quot; 甯(ning)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字字体及对齐格式正确，打印不下的部分换行打印？\n备注说明：无</string>
+    <string name="D03023">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:0 format.align:0 text:！@#￥%……&amp; *（）——+-={}【】|、《》，。、？‘“；：:&quot; \/\\|][}{:;’‘\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字字体及对齐格式正确，所有特殊字符打印正确\n备注说明：无</string>
+    <string name="D03024">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:0 format.align:0 text:囧槑（mei）烎(yin)氼（ni）嘂（jiao）嘦（jiao）嫑（biao）圐（ku）圙（lue）玊（su）孖（ma）丼（jing）嬛(huan)"甯(ning)寗(ning)"\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印文字字体及对齐格式正确，所有特殊字符打印正确\n备注说明：无</string>
+    <string name="D03025">API原型：void addText(Bundle format, String text)\n前置条件:服务已启动,打印机正常状态\n入参：format.font:0 format.align:0 text:string内容有1192000个数字\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+
+    <string name="D04001">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:128 barcode：12345678\n后置条件：无\n期望出参：无\n期望结果：添加打印条形码成功\n备注说明：无</string>
+    <string name="D04002">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:128 barcode：12345678\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：左对齐格式正确，barcode码打印正确\n备注说明：无</string>
+    <string name="D04003">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:1 format.width:192 format.heigh:128 barcode：abcdefg\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：居中对齐格式正确，barcode码打印正确\n备注说明：无</string>
+    <string name="D04004">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:2 format.width:192 format.heigh:128 barcode：abcdefg\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：右对齐格式正确，barcode码打印正确\n备注说明：无</string>
+    <string name="D04005">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:-1 format.width:192 format.heigh:128 barcode：abcdefg\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印为默认齐格式正确，barcode码打印正确\n备注说明：无</string>
+    <string name="D04008">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:600 format.heigh:128 barcode：abcdefg\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D04009">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:0 format.heigh:128 barcode：abcdefg\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D04010">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:null format.heigh:128 barcode：abcdefg\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D04011">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:“abc” format.heigh:128 barcode：abcdefg\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D04012">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:1024 barcode：12345678\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码高度及宽度跟设置值一致\n备注说明：无</string>
+    <string name="D04013">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:1-108 barcode：12345678\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D04014">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:null barcode：12345678\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D04015">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:null barcode：12345678\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D04016">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:128 barcode：null\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D04017">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:“abc” format.heigh:128 barcod："         "(5个空格)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D0068">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:128 barcode：甯(ning)寗\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D0069">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:128 barcode：！@#￥%……\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+    <string name="D0070">API原型：void addBarCode(Bundle format, String barcode)\n前置条件:服务已启动,打印机正常状态\n入参：format.align:0 format.width:192 format.heigh:128 barcode：string内容有1192000个数字\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印\n备注说明：无</string>
+
+    <string name="D05001">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.expectedHeight:128 qrCode：18620518880\n后置条件：无\n期望出参：无\n期望结果：添加打印二维码成功\n备注说明：无</string>
+    <string name="D05002">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.expectedHeight:128 qrCode：18620518880\n后置条件：调用startPrint成功\n期望出参：打印二维码成功，打印起始位置为50，高度128，打印的为QR Code实例内容\n备注说明：无</string>
+    <string name="D05003">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.expectedHeight:128 qrCode：18620518880@qq.com\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功，打印起始位置为0，高度为128，打印的为Data Matrix实例内容\n备注说明：无</string>
+    <string name="D05004">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:-1 format.expectedHeight:128 qrCode：https://www.baidu.com/\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：起始位置为0或者无法打印\n备注说明：无</string>
+    <string name="D05005">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:384 format.expectedHeight:100 qrCode：https://www.baidu.com/\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：起始位置为384或者无法打印\n备注说明：无</string>
+    <string name="D05006">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:385 format.expectedHeight:100 qrCode：https://www.baidu.com/\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：起始位置为0或者无法打印\n备注说明：无</string>
+    <string name="D05007">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:null format.expectedHeight:100 qrCode：https://www.baidu.com/\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印机不响应\n备注说明：无</string>
+    <string name="D05008">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:1 format.expectedHeight:-50 qrCode：https://www.baidu.com/\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印机不响应\n备注说明：无</string>
+    <string name="D05009">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:1 format.expectedHeight:null qrCode：https://www.baidu.com/\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印机不响应\n备注说明：无</string>
+    <string name="D05010">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:1 format.expectedHeight:“abc” qrCode：https://www.baidu.com/\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印机不响应\n备注说明：无</string>
+    <string name="D05011">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:1 format.expectedHeight:int最大值+1 qrCode：https://www.baidu.com/\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印机不响应\n备注说明：无</string>
+    <string name="D05012">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.expectedHeight:128 qrCode：null\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印机不响应\n备注说明：无</string>
+    <string name="D05013">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:10 format.expectedHeight:192 qrCode："         "(5个空格)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功\n备注说明：无</string>
+    <string name="D05014">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:1 format.expectedHeight:192 qrCode：甯(ning)寗\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功\n备注说明：无</string>
+    <string name="D05015">API原型：void addQrCode(Bundle format, String qrCode)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:1 format.expectedHeight:192 qrCode：！@#￥%……\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功\n备注说明：无</string>
+
+    <string name="D06001">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:192 format.heigh:128 imageData：图片内容实例\n后置条件：无\n期望出参：无\n期望结果：添加图片打印成功\n备注说明：无</string>
+    <string name="D06002">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:128 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功，打印起始位置为50，高度为128，宽度为128，打印的为图片内容对应的图片\n备注说明：无</string>
+    <string name="D06003">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:0 format.width:128 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功，打印起始位置为0，高度为128，宽度为128，打印的为图片内容对应的图片\n备注说明：无</string>
+    <string name="D06004">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:-50 format.width:128 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功，打印起始位置为0，高度为128，宽度为128，打印的为图片内容对应的图片或者无法打印？\n备注说明：无</string>
+    <string name="D06005">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:null format.width:128 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功，打印起始位置为0，高度为128，宽度为128，打印的为图片内容对应的图片或者无法打印？\n备注说明：无</string>
+    <string name="D06006">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:384 format.width:128 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功，打印起始位置为0，高度为128，宽度为128，打印的为图片内容对应的图片或者无法打印？\n备注说明：无</string>
+    <string name="D06007">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:385 format.width:128 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：打印二维码成功，打印起始位置为0，高度为128，宽度为128，打印的为图片内容对应的图片或者无法打印？\n备注说明：无</string>
+    <string name="D06008">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:0 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+    <string name="D06009">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:-50 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+    <string name="D06010">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:null format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+    <string name="D06011">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:385 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+    <string name="D06012">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:128 format.heigh:128 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+    <string name="D06013">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:128 format.heigh:-50 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+    <string name="D06014">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:128 format.heigh:null imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+    <string name="D06015">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:128 format.heigh:int最大值 imageData：图片内容实例\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+    <string name="D06016">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:192 format.heigh:128 imageData：null\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+    <string name="D06017">API原型：void addImage(Bundle format, byte[] imageData)\n前置条件:服务已启动,打印机正常状态\n入参：format.offset:50 format.width:192 format.heigh:128 imageData："         "(5个空格)\n后置条件：调用startPrint成功\n期望出参：无\n期望结果：无法打印？\n备注说明：无</string>
+
+    <string name="D08001">API原型：void feedLine(1)\n前置条件:服务已启动\n期望结果：执行成功，打印机走纸1行，PrinterListener返回onFinish()\n备注说明：无</string>
+    <string name="D08002">API原型：void feedLine(100)\n前置条件:服务已启动\n期望结果：执行成功，打印机走纸100行，PrinterListener返回onFinish()\n备注说明：无</string>
+
+    //扫描头操作模块
+    <string name="E01001">API原型:void startScan(long timeout, ScannerListener listener) 测试点:启动前置摄像头 前置条件:返回前置扫描头操作对象成功 入参:timeout：= 1 listener：扫描头回调实例 后置条件:－ 期望出参:－ 期望结果:启动前置扫描头                                                                                                                                                                                                       </string>
+    <string name="E01002">API原型:void startScan(long timeout, ScannerListener listener) 测试点:启动后置摄像头 前置条件:返回前置扫描头操作对象成功 入参:timeout：= 0 listener：扫描头回调实例 后置条件:－ 期望出参:－ 期望结果:启动后置扫描头                                                                                                                                                                                                     </string>
+    //刷磁条卡
+    <string name="H01001">API原型:void searchCard(timeout, listener) 入参: 超时时间，监听回调  出参: 无 期望结果:获取磁卡数据                                                                                                                                                                                                                                 </string>
+    <string name="H02001">API原型:void stopSearch() 入参: 无  出参: 无 期望结果:停止寻卡                                                                                                                                                                                                                                </string>
+    <string name="H02002">启动刷卡，超时60秒，并在十秒后调用关闭寻卡                                                                                                                                                                                                                                </string>
+    //ic卡
+    <string name="I01001">ic卡上电</string>
+    <string name="I02001">ic卡下电</string>
+    <string name="I03001">检测ic卡是否插入</string>
+    <string name="I04001">ic卡热复位</string>
+    <string name="I04002">ic卡冷复位</string>
+    <string name="I05001">ic卡执行apdu指令</string>
+    <string name="I07001">插入IC卡</string>
+    <string name="I07002">插入IC卡，后上电</string>
+    <string name="I07003">插入IC卡，后上电，拔卡</string>
+    <string name="I07004">不插卡直接执行案例</string>
+    <string name="I07005">插IC卡，上电后下电</string>
+    <string name="I07006">反插卡</string>
+    //非接卡
+    <string name="J01001">API原型:void searchCard(listener) 入参: 监听回调  出参: 无 期望结果:获取非接卡类型  </string>
+    <string name="J02001">API原型:void stopSearch() 入参: 无  出参: 无 期望结果:停止寻卡        </string>
+    //pboc
+    <string name="K01001">检卡操作，可识别刷卡、插卡和挥卡，超时30秒  </string>
+    <string name="K02001">停止检卡操作  </string>
+    <string name="K03001">测试手机卡  </string>
+    <string name="K04001">增加AID参数并打印 </string>
+    <string name="K04003">删除AID参数 </string>
+    <string name="K04005">清空AID参数 </string>
+    <string name="K05001">清空RID后添加RID参数 </string>
+    <string name="K05002">添加RID参数后删除</string>
+    <string name="K05003">删除RID参数</string>
+    <string name="K05004">清空RID参数</string>
+    <string name="K06001">导入金额0L</string>
+    <string name="K06002">导入金额99999999999999999L</string>
+    <string name="K06006">启动pboc流程 消费0元,期望返回错误</string>
+    <string name="K06007">启动pboc 消费10元,导入金额》输入pin》联机处理</string>
+    <string name="K07001">importAppSelect(0) 取消选择  </string>
+    <string name="K07002">importAppSelect(1) 选择第一个应用  </string>
+    <string name="K07003">importAppSelect(1) 选择第二个应用  </string>
+    <string name="K07004">importAppSelect(1) 选择第十个应用  </string>
+    <string name="K07008">importAppSelect(1) pboc流程，选择应用第一个应用  </string>
+    <string name="K07010">importAppSelect(1) pboc流程，选择应用第二个应用  </string>
+    <string name="K07011">importAppSelect(1) pboc流程，选择应用第三个应用  </string>
+    <string name="K08001">取消导入pin 123456 </string>
+    <string name="K08002">取消导入pin 123456789012 </string>
+    <string name="K08003">pboc流程，导入pin 123456 </string>
+    <string name="K08004">pboc流程，导入pin 123456789012 </string>
+    <string name="K08007">pboc流程，取消pin </string>
+    <string name="K08008">pboc流程，取消pin </string>
+    <string name="K08009">pboc流程，取消pin </string>
+    <string name="K08010">pboc流程，取消pin </string>
+    <string name="K08015">pboc流程，导入pin null </string>
+    <string name="K09001">持卡人身份确认，（跳过） </string>
+    <string name="K09002">持卡人身份确认，（确认） </string>
+    <string name="K09003">持卡人身份确认，（不符合） </string>
+    <string name="K10001">确认卡信息 （正确） </string>
+    <string name="K10002">确认卡信息 （错误） </string>
+    <string name="K10003">PBOC流程 cardType = 1 确认卡信息 （正确） </string>
+    <string name="K10004">PBOC流程 cardType = 1 确认卡信息 （错误） </string>
+    <string name="K10005">PBOC流程 cardType = 0 确认卡信息 （正确） </string>
+    <string name="K10006">PBOC流程 cardType = 0 确认卡信息 （错误） </string>
+    <string name="K11001"> 导入联机数据。失败，未在pboc流程中</string>
+    <string name="K11003"> 导入联机数据。失败，未在pboc流程中</string>
+    <string name="K11004"> 导入联机数据。失败，未在pboc流程中</string>
+    <string name="K11005"> 导入联机数据。失败，未在pboc流程中</string>
+    <string name="K11006"> 导入联机数据。失败，未在pboc流程中</string>
+    <string name="K11008"> pboc流程中， 交易不成功（应答码09）交易拒绝</string>
+    <string name="K11009"> pboc流程中， 交易不成功（应答码00,55域数据错误,55域改成空联机成功）交易拒绝</string>
+    <string name="K11011"> pboc流程中， 交易不成功（应答码00,55域数据错误,55域改成空联机成功）交易拒绝</string>
+    <string name="K12001"> 设置TLV数据</string>
+    <string name="K12002"> 设置TLV数据</string>
+    <string name="K12003"> 设置TLV数据</string>
+    <string name="K12004"> 设置TLV数据</string>
+    <string name="K12005"> 设置TLV数据</string>
+    <string name="K12006"> 设置TLV数据</string>
+    <string name="K13001"> 获取指定的TLV数据</string>
+    <string name="K13002"> 获取指定的TLV数据</string>
+    <string name="K13003"> 获取9F06的TLV数据</string>
+    <string name="K13004"> 获取错误tag的TLV数据</string>
+    <string name="K13005"> 获取tag为空的TLV数据</string>
+    <string name="K13006"> 获取tag为null的TLV数据</string>
+    <string name="K14001"> 获取卡片数据</string>
+    <string name="K14002"> 获取卡片数据</string>
+    <string name="K14003"> 获取卡片数据</string>
+    <string name="K14004"> 获取卡片数据</string>
+    <string name="K14005"> 获取卡片9F79数据</string>
+    <string name="K14006"> 获取卡片9F51数据</string>
+    <string name="K14007"> 获取卡片DF79数据</string>
+    <string name="K14008"> 获取卡片DF71数据</string>
+    <string name="K15001"> 获取PBOC流程数据(卡号、有效期、卡片序列号等)数据</string>
+    <string name="K15002"> 获取PBOC流程数据(卡号、有效期、卡片序列号等)数据</string>
+    <string name="K15003"> 获取PBOC流程数据(卡号、有效期、卡片序列号等)数据</string>
+    <string name="K15004"> 获取PBOC流程数据(卡号、有效期、卡片序列号等)数据, 输入错误参数</string>
+    <string name="K15005"> 获取PBOC流程数据(卡号、有效期、卡片序列号等)数据, 输入错误参数</string>
+    <string name="K15006"> 获取PBOC流程数据(卡号、有效期、卡片序列号等)数据</string>
+    <string name="K16001"> 获取卡片候选应用信息</string>
+    <string name="K17001"> 启动pboc流程,pboc回调为null</string>
+    <string name="K17002"> 启动pboc流程,intent参数为null</string>
+    <string name="K17003"> 启动pboc流程,交易类型错误</string>
+    <string name="K17004"> 启动pboc流程,交易类型错误</string>
+    <string name="K17005"> 启动pboc流程,CARDTYPE错误</string>
+    <string name="K17007"> 启动pboc流程,Q_QUERY</string>
+    <string name="K17010"> 启动pboc流程,查询电子现金余额</string>
+    <string name="K17012"> 启动pboc流程,快速消费</string>
+    <string name="K17023"> 启动pboc流程,非接消费</string>
+    <string name="K17025"> 启动pboc流程,非接消费</string>
+    <string name="K17031"> 启动pboc流程,插卡消费</string>
+    <string name="K17043"> 启动pboc流程,插卡消费</string>
+    <string name="K17045"> 启动pboc流程,消费撤销</string>
+    <string name="K17051"> 启动pboc流程,消费撤销</string>
+    <string name="K18001"> 取消导入金额</string>
+    <string name="K18004"> 取消联机pin</string>
+
+
+    <!-- 获取设备信息操作模块-->
+
+</resources>

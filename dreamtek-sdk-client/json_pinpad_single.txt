@@ -1,0 +1,26 @@
+[
+ { 
+//API原型为：iskeyexist
+  "moudleId":"Pinpad",
+  "API":"isKeyExist",
+  "caseId":"Pinpad_isKeyExist_001",
+  "caseDescribe":"",
+  "methodParams":
+//int
+   {
+    "keyId":1,
+	"keyType":2
+   },  
+// 值类型：int,String,Boolean.
+  "expectResultType":"",
+  "expectResult":"",
+//案例执行失败
+// int 1:continue 2:stop 3:exit
+  "caseState":,
+  },
+  {
+	//....
+  }
+]
+
+

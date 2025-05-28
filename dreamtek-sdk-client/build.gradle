@@ -1,0 +1,56 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/nexus/content/groups/public/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://dl.google.com/dl/android/maven4/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://www.jitpack.io'
+            // allowInsecureProtocol = true
+        }
+        maven {
+            url "http://maven.aliyun.com/nexus/content/groups/public/"
+            allowInsecureProtocol = true
+        }
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.2.2'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+        // classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.3'
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/nexus/content/groups/public/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://dl.google.com/dl/android/maven4/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://www.jitpack.io'
+            // allowInsecureProtocol = true
+        }
+        maven {
+            url "http://maven.aliyun.com/nexus/content/groups/public/"
+            allowInsecureProtocol = true
+        }
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

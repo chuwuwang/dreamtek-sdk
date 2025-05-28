@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.verifone.activity">
+
+    <uses-permission android:name="smartpos.deviceservice.permission.Beeper" />
+    <uses-permission android:name="smartpos.deviceservice.permission.Led" />
+    <uses-permission android:name="smartpos.deviceservice.permission.SerialPort" />
+    <uses-permission android:name="smartpos.deviceservice.permission.Scanner" />
+    <uses-permission android:name="smartpos.deviceservice.permission.MagReader" />
+    <uses-permission android:name="smartpos.deviceservice.permission.ICReader" />
+    <uses-permission android:name="smartpos.deviceservice.permission.Pinpad" />
+    <uses-permission android:name="smartpos.deviceservice.permission.RFReader" />
+    <uses-permission android:name="smartpos.deviceservice.permission.Printer" />
+    <uses-permission android:name="smartpos.deviceservice.permission.PBOC" />
+    <uses-permission android:name="smartpos.deviceservice.permission.DeviceInfo" />
+    <uses-permission android:name="smartpos.deviceservice.permission.ExternalSerialPort" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--  从SDCard读取数据权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.usb.accessory" />
+    <application
+        android:name="base.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="view.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="view.TestActivity" />
+        <activity android:name="view.DevelopActivity" />
+        <activity android:name="view.OtherActivity" />
+        <activity android:name="view.ThirdActivity" />
+        <activity android:name="view.SqliteActivity" />
+        <activity android:name="view.SignatureActivity" />
+        <activity android:name="view.CustomPinActivity" />
+        <activity android:name="view.CustomKoreaPinActivity" />
+        <activity android:name="view.CustomCameraActivity" />
+        <activity android:name="view.NewTestActivity" />
+        <activity android:name="view.NewThirdActivity" />
+        <activity android:name="view.SecurityKeyboardActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/transparent_activity"/>
+
+        <activity android:name="view.PinInputActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/transparent_activity"/>
+        <service
+            android:name="testtools.MessageService"
+            android:enabled="true"
+            android:exported="true" />
+    </application>
+</manifest>

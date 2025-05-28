@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/activity_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.verifone.activity.MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bind_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="getConnected"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Connect Service"/>
+        <Button
+            android:id="@+id/test_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="testIn"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Tester Test"/>
+        <Button
+            android:id="@+id/devp_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="devpIn"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Developer Test"/>
+        <Button
+            android:id="@+id/other_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/test_bt"
+            android:onClick="otherIn"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Other Test"/>
+
+        <Button
+            android:id="@+id/new_test_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/other_bt"
+            android:onClick="newTestIn"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="New Test" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+    </LinearLayout>
+</RelativeLayout>
