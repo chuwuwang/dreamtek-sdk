@@ -1,3 +1,744 @@
 <resources>
-    <string name="app_name">DTK_Demo_EMV</string>
+    <string name="app_name">DTKTestClient</string>
+    <string name="no_message">This test case was not compiled, this test is abandoned</string>
+    <string name="A01001">API Prototype: IBinder getBeeper() Precondition: Service started Input: - Postcondition: - Expected Output: - Expected Result: Return beeper operation object successfully</string>
+    <string name="A02001">API Prototype: IBinder getLed() Precondition: Service started Input: - Postcondition: - Expected Output: - Expected Result: Return LED operation object successfully</string>
+    <string name="A03001">API Prototype: IBinder getPrinter() Precondition: Service started Input: - Postcondition: - Expected Output: - Expected Result: Return printer operation object successfully</string>
+    <string name="A04001">API Prototype: IBinder getScanner(int cameraId) Precondition: Service started Input: cameraId:0 Postcondition: - Expected Output: - Expected Result: Return rear scanner operation object successfully</string>
+    <string name="A04002">API Prototype: IBinder getScanner(int cameraId) Precondition: Service started Input: cameraId:1 Postcondition: - Expected Output: - Expected Result: Return front scanner operation object successfully</string>
+    <string name="A04003">API Prototype: IBinder getScanner(int cameraId) Precondition: Service started Input: cameraId:-1 Expected Result: The API defines only 0 and 1; record the observed return and mark this case NOT_RUN</string>
+    <string name="A04004">API Prototype: IBinder getScanner(int cameraId) Precondition: Service started Input: cameraId:2 Expected Result: The API defines only 0 and 1; record the observed return and mark this case NOT_RUN</string>
+    <string name="A05001">API Prototype: IBinder getSerialPort(String deviceType) Precondition: Service started Input: deviceType:rs232 Expected Result: Return serial port operation object successfully</string>
+    <string name="A05002">API Prototype: IBinder getSerialPort(String deviceType) Precondition: Service started Input: deviceType:usb-rs232 Expected Result: Return serial port operation object successfully</string>
+    <string name="A05003">API Prototype: IBinder getSerialPort(String deviceType) Precondition: Service started Input: deviceType:wanghui Expected Result: Return null for the unsupported type</string>
+    <string name="A05004">API Prototype: IBinder getSerialPort(String deviceType) Precondition: Service started Input: deviceType:usb2rs232-11CA-0240 Expected Result: Return serial port operation object successfully</string>
+    <string name="A05005">API Prototype: IBinder getSerialPort(String deviceType) Precondition: Service started Input: deviceType:usb2rs232-11CA-0204 Expected Result: Return serial port operation object successfully</string>
+    <string name="A06001">API Prototype: IBinder getServiceInfo() Precondition: Service started Input: - Postcondition: - Expected Output: - Expected Result: Return service information object successfully</string>
+    <string name="A07001">API Prototype: IBinder getPBOC() Precondition: Service started Input: - Postcondition: - Expected Output: - Expected Result: Return PBOC process operation object successfully</string>
+    <string name="A08001">API Prototype: IBinder getMagCardReader() Precondition: Service started Input: - Postcondition: - Expected Output: - Expected Result: Return magnetic card reader operation object successfully</string>
+    <string name="A09001">API Prototype: IBinder getSmartCardReader(int slotNo) Precondition: Service started Input: slotNo:0 Postcondition: - Expected Output: - Expected Result: Return contact IC card reader device operation object successfully</string>
+    <string name="A10001">API Prototype: IBinder getRFCardReader() Precondition: Service started Input: - Postcondition: - Expected Output: - Expected Result: Return contactless IC card reader operation object successfully</string>
+    <string name="A11001">API Prototype: IBinder getPinpad(int kapId) Precondition: Service started Input: kapId:1 Postcondition: - Expected Output: - Expected Result: Return Pinpad operation object successfully</string>
+    <string name="A11002">API Prototype: IBinder getPinpad(int kapId) Precondition: Service started Input: kapId:0 Postcondition: - Expected Output: - Expected Result: Return Pinpad operation object successfully</string>
+    <string name="A12001">API Prototype: IBinder getUsbSerialPort() Precondition: Service started Input: - Expected Result: Return USB serial port operation object successfully</string>
+    <string name="A13001">API Prototype: IBinder getEMV() Precondition: Service started Input: - Expected Result: Return EMV operation object successfully</string>
+    <string name="A14001">API Prototype: IBinder getDUKPT() Precondition: Service started Input: - Expected Result: Return DUKPT operation object successfully</string>
+    <string name="A15_AUTO">Aggregate the 21 atomic return contracts in module 1; mark the aggregate NOT_RUN when any case has no defined expected result</string>
+    <!-- Beeper operation module -->
+    <string name="B01001">API Prototype: void startBeep(int msec) Test Point: Input msec valid value test Precondition: Service started Input: msec:1000 Postcondition: - Expected Output: - Expected Result: Beeper beeps once</string>
+    <string name="B02001">API Prototype: void stopBeep() Test Point: Single interface test Precondition: Execute stopBeep() without beeping Input: - Postcondition: - Expected Output: - Expected Result: Beeper no response</string>
+    <!-- LED operation module -->
+    <string name="C01001">API Prototype: void turnOn(int led) Test Point: Input led valid value test Precondition: Service started Input: led:1 Postcondition: - Expected Output: - Expected Result: Blue light ON</string>
+    <string name="C01002">API Prototype: void turnOn(int led) Test Point: Input led valid value test Precondition: Service started Input: led:2 Postcondition: - Expected Output: - Expected Result: Orange light ON</string>
+    <string name="C01003">API Prototype: void turnOn(int led) Test Point: Input led valid value test Precondition: Service started Input: led:3 Postcondition: - Expected Output: - Expected Result: Yellow light ON</string>
+    <string name="C01004">API Prototype: void turnOn(int led) Test Point: Input led valid value test Precondition: Service started Input: led:4 Postcondition: - Expected Output: - Expected Result: Red light ON</string>
+    <string name="C02001">API Prototype: void turnOff(int led) Test Point: Input led valid value test Precondition: Execute C01001 then turnOff(int led) Input: led:1 Postcondition: - Expected Output: - Expected Result: Blue light OFF</string>
+    <string name="C02002">API Prototype: void turnOff(int led) Test Point: Input led valid value test Precondition: Execute C01002 then turnOff(int led) Input: led:2 Postcondition: - Expected Output: - Expected Result: Orange light OFF</string>
+    <string name="C02003">API Prototype: void turnOff(int led) Test Point: Input led valid value test Precondition: Execute C01003 then turnOff(int led) Input: led:3 Postcondition: - Expected Output: - Expected Result: Yellow light OFF</string>
+    <string name="C02004">API Prototype: void turnOff(int led) Test Point: Input led valid value test Precondition: Execute C01004 then turnOff(int led) Input: led:4 Postcondition: - Expected Output: - Expected Result: Red light OFF</string>
+    <!-- Printer operation module -->
+    <string name="D01001">API Prototype: int getStatus()\nGet printer status</string>
+    <string name="D02001">API Prototype: void setGray(int gray)
+Service started
+Input: gray:0
+Postcondition: Print text, barcode, QR code, image
+Expected Output: None
+Expected Result: Color grayscale is 0
+Remarks: None</string>
+    <string name="D02002">API Prototype: void setGray(int gray)
+Service started
+Input: gray:1
+Postcondition: Print text, barcode, QR code, image
+Expected Output: None
+Expected Result: Color grayscale is 1
+Remarks: None</string>
+    <string name="D02003">API Prototype: void setGray(int gray)
+Service started
+Input: gray:2
+Postcondition: Print text, barcode, QR code, image
+Expected Output: None
+Expected Result: Color grayscale is 2
+Remarks: None</string>
+    <string name="D02004">API Prototype: void setGray(int gray)
+Service started
+Input: gray:3
+Postcondition: Print text, barcode, QR code, image
+Expected Output: None
+Expected Result: Color grayscale is 3
+Remarks: None</string>
+    <string name="D02005">API Prototype: void setGray(int gray)
+Service started
+Input: gray:4
+Postcondition: Print text, barcode, QR code, image
+Expected Output: None
+Expected Result: Color grayscale is 4
+Remarks: None</string>
+    <string name="D02006">API Prototype: void setGray(int gray)
+Service started
+Input: gray:5
+Postcondition: Print text, barcode, QR code, image
+Expected Output: None
+Expected Result: Color grayscale is 5
+Remarks: None</string>
+    <string name="D02007">API Prototype: void setGray(int gray)
+Service started
+Input: gray:6
+Postcondition: Print text, barcode, QR code, image
+Expected Output: None
+Expected Result: Color grayscale is 6
+Remarks: None</string>
+    <string name="D02008">API Prototype: void setGray(int gray)
+Service started
+Input: gray:7
+Postcondition: Print text, barcode, QR code, image
+Expected Output: None
+Expected Result: Color grayscale is 7
+Remarks: None</string>
+    <string name="D03001">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:0 format.align:0 text:Test
+Postcondition: None
+Expected Output: None
+Expected Result: Add one line of text print successfully
+Remarks: None</string>
+    <string name="D03002">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:0 format.align:0 text:Test
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text small font, left aligned
+Remarks: None</string>
+    <string name="D03003">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:0 format.align:1 text:Test:!@#$ *().::{}^&amp; ?\" \" Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text small font, center aligned
+Remarks: None</string>
+    <string name="D03004">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:0 format.align:2 text:Test:!@#$ *().::{}^&amp; ?\" \" Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text small font, right aligned
+Remarks: None</string>
+    <string name="D03005">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:0 format.align:0 text:Test:!@#$ *().::{}^&amp; \" \" Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text medium font, left aligned
+Remarks: None</string>
+    <string name="D03006">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:1 format.align:1 text:Tes:!@#$ *().::{}^&amp; ?\" \" Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text medium font, center aligned
+Remarks: None</string>
+    <string name="D03007">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:1 format.align:2 text:Test:!@#$ *().::{}^&amp; \" \" Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text medium font, right aligned
+Remarks: None</string>
+    <string name="D03008">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:2 format.align:0 text:Test:!@#$ *().::{}^&amp; \" \" Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text large font, left aligned
+Remarks: None</string>
+    <string name="D03009">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:2 format.align:1 text:Test:!@#$ *().::{}^&amp; \" \" Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text large font, center aligned
+Remarks: None</string>
+    <string name="D03010">API Prototype: void addText(Bundle format, String text)
+Precondition: Return printer, operation object success, printer normal
+Input: format.font:2 format.align:2 text:Test:!@#$ *().::{}^&amp; ?\" \" Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text large font, right aligned
+Remarks: None</string>
+    <string name="D03019">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:2 format.align:0 text:Test:!@#$ *().::{}^&amp; \" \" Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text font and alignment format correct, overflow part wraps to next line
+Remarks: None</string>
+    <string name="D03023">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:0 format.align:0 text:!@#$%^&amp;*()--+-={}[]|,./?\';:\" \/\\|][}{:;\'\'
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text font and alignment format correct, all special characters printed correctly
+Remarks: None</string>
+    <string name="D03024">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:0 format.align:0 text: Special CJK characters test
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print text font and alignment format correct, all special characters printed correctly
+Remarks: None</string>
+    <string name="D03025">API Prototype: void addText(Bundle format, String text)
+Precondition: Service started, printer normal
+Input: format.font:0 format.align:0 text: string content has 1192000 digits
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D04001">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:128 barcode:12345678
+Postcondition: None
+Expected Output: None
+Expected Result: Add print barcode successfully
+Remarks: None</string>
+    <string name="D04002">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:128 barcode:12345678
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Left aligned format correct, barcode printed correctly
+Remarks: None</string>
+    <string name="D04003">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:1 format.width:192 format.heigh:128 barcode:abcdefg
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Center aligned format correct, barcode printed correctly
+Remarks: None</string>
+    <string name="D04004">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:2 format.width:192 format.heigh:128 barcode:abcdefg
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Right aligned format correct, barcode printed correctly
+Remarks: None</string>
+    <string name="D04005">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:-1 format.width:192 format.heigh:128 barcode:abcdefg
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Default alignment format correct, barcode printed correctly
+Remarks: None</string>
+    <string name="D04008">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:600 format.heigh:128 barcode:abcdefg
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D04009">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:0 format.heigh:128 barcode:abcdefg
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D04010">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:null format.heigh:128 barcode:abcdefg
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D04011">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:\"abc\" format.heigh:128 barcode:abcdefg
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D04012">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:1024 barcode:12345678
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print QR code height and width match settings
+Remarks: None</string>
+    <string name="D04013">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:1-108 barcode:12345678
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D04014">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:null barcode:12345678
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D04015">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:null barcode:12345678
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D04016">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:128 barcode:null
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D04017">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:\"abc\" format.heigh:128 barcode:\"         \"(5 spaces)
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D0068">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:128 barcode:Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D0069">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:128 barcode:!@#$%^
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D0070">API Prototype: void addBarCode(Bundle format, String barcode)
+Precondition: Service started, printer normal
+Input: format.align:0 format.width:192 format.heigh:128 barcode: string content has 1192000 digits
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print
+Remarks: None</string>
+    <string name="D05001">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.expectedHeight:128 qrCode:18620518880
+Postcondition: None
+Expected Output: None
+Expected Result: Add print QR code successfully
+Remarks: None</string>
+    <string name="D05002">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.expectedHeight:128 qrCode:18620518880
+Postcondition: startPrint called successfully
+Expected Output: Print QR code successfully, start position 50, height 128, printed QR Code instance content
+Remarks: None</string>
+    <string name="D05003">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.expectedHeight:128 qrCode:18620518880@qq.com
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print QR code successfully, start position 0, height 128, printed Data Matrix instance content
+Remarks: None</string>
+    <string name="D05004">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:-1 format.expectedHeight:128 qrCode:https://www.baidu.com/
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Start position is 0 or cannot print
+Remarks: None</string>
+    <string name="D05005">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:384 format.expectedHeight:100 qrCode:https://www.baidu.com/
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Start position is 384 or cannot print
+Remarks: None</string>
+    <string name="D05006">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:385 format.expectedHeight:100 qrCode:https://www.baidu.com/
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Start position is 0 or cannot print
+Remarks: None</string>
+    <string name="D05007">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:null format.expectedHeight:100 qrCode:https://www.baidu.com/
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Printer does not respond
+Remarks: None</string>
+    <string name="D05008">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:1 format.expectedHeight:-50 qrCode:https://www.baidu.com/
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Printer does not respond
+Remarks: None</string>
+    <string name="D05009">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:1 format.expectedHeight:null qrCode:https://www.baidu.com/
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Printer does not respond
+Remarks: None</string>
+    <string name="D05010">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:1 format.expectedHeight:\"abc\" qrCode:https://www.baidu.com/
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Printer does not respond
+Remarks: None</string>
+    <string name="D05011">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:1 format.expectedHeight:int MAX+1 qrCode:https://www.baidu.com/
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Printer does not respond
+Remarks: None</string>
+    <string name="D05012">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.expectedHeight:128 qrCode:null
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Printer does not respond
+Remarks: None</string>
+    <string name="D05013">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:10 format.expectedHeight:192 qrCode:\"         \"(5 spaces)
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print QR code successfully
+Remarks: None</string>
+    <string name="D05014">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:1 format.expectedHeight:192 qrCode:Ning
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print QR code successfully
+Remarks: None</string>
+    <string name="D05015">API Prototype: void addQrCode(Bundle format, String qrCode)
+Precondition: Service started, printer normal
+Input: format.offset:1 format.expectedHeight:192 qrCode:!@#$%^
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print QR code successfully
+Remarks: None</string>
+    <string name="D06001">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:192 format.heigh:128 imageData: image content instance
+Postcondition: None
+Expected Output: None
+Expected Result: Add image print successfully
+Remarks: None</string>
+    <string name="D06002">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:128 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print image successfully, start position 50, height 128, width 128, printed image content
+Remarks: None</string>
+    <string name="D06003">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:0 format.width:128 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print image successfully, start position 0, height 128, width 128, printed image content
+Remarks: None</string>
+    <string name="D06004">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:-50 format.width:128 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print image or cannot print
+Remarks: None</string>
+    <string name="D06005">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:null format.width:128 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print image or cannot print
+Remarks: None</string>
+    <string name="D06006">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:384 format.width:128 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print image or cannot print
+Remarks: None</string>
+    <string name="D06007">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:385 format.width:128 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Print image or cannot print
+Remarks: None</string>
+    <string name="D06008">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:0 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D06009">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:-50 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D06010">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:null format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D06011">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:385 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D06012">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:128 format.heigh:128 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D06013">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:128 format.heigh:-50 imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D06014">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:128 format.heigh:null imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D06015">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:128 format.heigh:int MAX imageData: image content instance
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D06016">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:192 format.heigh:128 imageData:null
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D06017">API Prototype: void addImage(Bundle format, byte[] imageData)
+Precondition: Service started, printer normal
+Input: format.offset:50 format.width:192 format.heigh:128 imageData:\"         \"(5 spaces)
+Postcondition: startPrint called successfully
+Expected Output: None
+Expected Result: Cannot print?
+Remarks: None</string>
+    <string name="D08001">API Prototype: void feedLine(1)\nPrecondition: Service started\nExpected Result: Execute successfully, printer feeds 1 line, PrinterListener returns onFinish()\nRemarks: None</string>
+    <string name="D08002">API Prototype: void feedLine(100)\nPrecondition: Service started\nExpected Result: Execute successfully, printer feeds 100 lines, PrinterListener returns onFinish()\nRemarks: None</string>
+    <!-- Scanner operation module -->
+    <string name="E01001">API Prototype: void startScan(long timeout, ScannerListener listener) Test Point: Start front camera Precondition: Return front scanner object successfully Input: timeout:=1 listener: scanner callback instance Postcondition: - Expected Output: - Expected Result: Start front scanner</string>
+    <string name="E01002">API Prototype: void startScan(long timeout, ScannerListener listener) Test Point: Start rear camera Precondition: Return front scanner object successfully Input: timeout:=0 listener: scanner callback instance Postcondition: - Expected Output: - Expected Result: Start rear scanner</string>
+    <!-- Magnetic card swipe -->
+    <string name="H01001">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=0, valid listener Expected Result: With no swipe, the invalid timeout falls back to 60 seconds and onTimeout is called</string>
+    <string name="H01002">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=10, valid listener Expected Result: With no swipe, onTimeout is called after about 10 seconds</string>
+    <string name="H01003">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=60, valid listener Expected Result: With no swipe, onTimeout is called after about 60 seconds</string>
+    <string name="H01004">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=10, listener=null Expected Result: No usable magnetic-card callback is produced and swiping has no response Automation Note: A null listener exposes no callback or state to verify the physical swipe, so this case is NOT_RUN</string>
+    <string name="H01005">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=60, valid listener Expected Result: A normal swipe calls onSuccess with the available track data; in SRED mode, error 101 may be returned instead</string>
+    <string name="H01013">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=60, valid listener Expected Result: A fast swipe does not report complete valid track data; the listener exits with an error, fragment, or empty data</string>
+    <string name="H01014">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=300, valid listener Expected Result: With no swipe, onTimeout is called after about 300 seconds</string>
+    <string name="H01015">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=-1, valid listener Expected Result: The invalid timeout falls back to 60 seconds and onTimeout is called</string>
+    <string name="H01016">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=301, valid listener Expected Result: The out-of-range timeout falls back to 60 seconds and onTimeout is called</string>
+    <string name="H01018">API Prototype: call searchCard twice while the first search is active Input: first timeout=60, second timeout=30 after 5 seconds Expected Result: The first search remains valid and the second call does not create a concurrent card search</string>
+    <string name="H01019">API Prototype: searchCard followed by printer case D03028 after about 5 seconds Expected Result: Magnetic-card detection remains available and the printer case can run normally Automation Note: The printer case currently exposes no result callback, so this case is NOT_RUN</string>
+    <string name="H01020">Current Code: posts START_SCAN after starting magnetic-card search, but the Handler has no START_SCAN branch Expected Result: NOT_RUN because the current code does not start scanning and differs from the workbook design</string>
+    <string name="H01023">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=60, valid listener Expected Result: The magnetic-card listener does not respond to inserting or tapping a card</string>
+    <string name="H01025">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=1, valid listener Expected Result: With no swipe, onTimeout is called after about 1 second</string>
+    <string name="H01026">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=300, valid listener Expected Result: Swiping after about 100 seconds still calls onSuccess with magnetic-card data</string>
+    <string name="H01027">API Prototype: void searchCard(int timeout, MagCardListener listener) Input: timeout=60, damaged magnetic card Expected Result: Reading fails and onError ends the magnetic-card search</string>
+    <string name="H02001">API Prototype: void stopSearch() Input: no active search Expected Result: The call completes without starting a listener, and a later swipe has no response</string>
+    <string name="H02002">API Prototype: searchCard(60, listener), then stopSearch() after about 10 seconds Expected Result: The active magnetic-card search stops successfully and a later swipe has no response</string>
+    <string name="H02003">API Prototype: repeat H02002 ten times Expected Result: Each of the ten magnetic-card searches can be stopped successfully</string>
+    <string name="H02005">API Prototype: searchCard(60, listener), then call stopSearch() twice Expected Result: Repeated stopSearch calls complete without an exception and no magnetic-card listener remains active</string>
+    <string name="H03_AUTO">Current Code: reflects DeviceBtMoudle methods and invokes them on MagCardReaderMoudle Expected Result: NOT_RUN because the workbook has no matching case and the reflected receiver type is invalid</string>
+    <string name="H04001">API Prototype: enableTrack(int trkNum), then searchCard Input: trkNum=0b00000001 Expected Result: A successful swipe returns track 1 only</string>
+    <string name="H04002">API Prototype: enableTrack(int trkNum), then searchCard Input: trkNum=0b00000010 Expected Result: A successful swipe returns track 2 only</string>
+    <string name="H04003">API Prototype: enableTrack(int trkNum), then searchCard Input: trkNum=0b00000100 Expected Result: A successful swipe returns track 3 only</string>
+    <string name="H04004">API Prototype: enableTrack(int trkNum), then searchCard Input: trkNum=0b00000011 Expected Result: A successful swipe returns tracks 1 and 2 only</string>
+    <string name="H04005">API Prototype: enableTrack(int trkNum), then searchCard Input: trkNum=0b00000101 Expected Result: A successful swipe returns tracks 1 and 3 only</string>
+    <string name="H04006">API Prototype: enableTrack(int trkNum), then searchCard Input: trkNum=0b00000111 Expected Result: A successful swipe returns tracks 1, 2, and 3</string>
+    <string name="H04007">API Prototype: enableTrack(int trkNum), then searchCard Input: trkNum=0b00000000 Expected Result: A successful swipe returns all available tracks</string>
+    <string name="H04008">API Prototype: enableTrack(int trkNum), then searchCard Input: trkNum=0b00001000 Expected Result: The out-of-range mask falls back to all available tracks</string>
+    <!-- IC card -->
+    <string name="I01001">IC card power on</string>
+    <string name="I02001">IC card power off</string>
+    <string name="I03001">Check if IC card is inserted</string>
+    <string name="I04001">IC card warm reset</string>
+    <string name="I04002">IC card cold reset</string>
+    <string name="I05001">IC card execute APDU command</string>
+    <string name="I07001">Insert IC card</string>
+    <string name="I07002">Insert IC card, then power on</string>
+    <string name="I07003">Insert IC card, power on, then remove card</string>
+    <string name="I07004">Execute case without inserting card</string>
+    <string name="I07005">Insert IC card, power on then power off</string>
+    <string name="I07006">Reverse insert card</string>
+    <!-- Contactless card -->
+    <string name="J01001">API Prototype: void searchCard(listener) Input: listener callback Output: None Expected Result: Get contactless card type</string>
+    <string name="J02001">API Prototype: void stopSearch() Input: None Output: None Expected Result: Stop card search</string>
+    <!-- PBOC -->
+    <string name="K01001">Card detection operation, can identify swipe, insert and tap cards, timeout 30 seconds</string>
+    <string name="K02001">Stop card detection operation</string>
+    <string name="K03001">Test mobile card</string>
+    <string name="K04001">Add AID parameter and print</string>
+    <string name="K04003">Delete AID parameter</string>
+    <string name="K04005">Clear AID parameters</string>
+    <string name="K05001">Clear RID then add RID parameter</string>
+    <string name="K05002">Add RID parameter then delete</string>
+    <string name="K05003">Delete RID parameter</string>
+    <string name="K05004">Clear RID parameters</string>
+    <string name="K06001">Import amount 0L</string>
+    <string name="K06002">Import amount 99999999999999999L</string>
+    <string name="K06006">Start PBOC process, consume 0 yuan, expect error return</string>
+    <string name="K06007">Start PBOC, consume 10 yuan, import amount > input PIN > online processing</string>
+    <string name="K07001">importAppSelect(0) Cancel selection</string>
+    <string name="K07002">importAppSelect(1) Select first application</string>
+    <string name="K07003">importAppSelect(1) Select second application</string>
+    <string name="K07004">importAppSelect(1) Select tenth application</string>
+    <string name="K07008">importAppSelect(1) PBOC process, select first application</string>
+    <string name="K07010">importAppSelect(1) PBOC process, select second application</string>
+    <string name="K07011">importAppSelect(1) PBOC process, select third application</string>
+    <string name="K08001">Cancel import PIN 123456</string>
+    <string name="K08002">Cancel import PIN 123456789012</string>
+    <string name="K08003">PBOC process, import PIN 123456</string>
+    <string name="K08004">PBOC process, import PIN 123456789012</string>
+    <string name="K08007">PBOC process, cancel PIN</string>
+    <string name="K08008">PBOC process, cancel PIN</string>
+    <string name="K08009">PBOC process, cancel PIN</string>
+    <string name="K08010">PBOC process, cancel PIN</string>
+    <string name="K08015">PBOC process, import PIN null</string>
+    <string name="K09001">Cardholder identity verification, (skip)</string>
+    <string name="K09002">Cardholder identity verification, (confirm)</string>
+    <string name="K09003">Cardholder identity verification, (not match)</string>
+    <string name="K10001">Confirm card info (correct)</string>
+    <string name="K10002">Confirm card info (wrong)</string>
+    <string name="K10003">PBOC process cardType = 1 Confirm card info (correct)</string>
+    <string name="K10004">PBOC process cardType = 1 Confirm card info (wrong)</string>
+    <string name="K10005">PBOC process cardType = 0 Confirm card info (correct)</string>
+    <string name="K10006">PBOC process cardType = 0 Confirm card info (wrong)</string>
+    <string name="K11001">Import online data. Failed, not in PBOC process</string>
+    <string name="K11003">Import online data. Failed, not in PBOC process</string>
+    <string name="K11004">Import online data. Failed, not in PBOC process</string>
+    <string name="K11005">Import online data. Failed, not in PBOC process</string>
+    <string name="K11006">Import online data. Failed, not in PBOC process</string>
+    <string name="K11008">In PBOC process, transaction unsuccessful (response code 09) transaction rejected</string>
+    <string name="K11009">In PBOC process, transaction unsuccessful (response code 00, field 55 data error, field 55 changed to empty online success) transaction rejected</string>
+    <string name="K11011">In PBOC process, transaction unsuccessful (response code 00, field 55 data error, field 55 changed to empty online success) transaction rejected</string>
+    <string name="K12001">Set TLV data</string>
+    <string name="K12002">Set TLV data</string>
+    <string name="K12003">Set TLV data</string>
+    <string name="K12004">Set TLV data</string>
+    <string name="K12005">Set TLV data</string>
+    <string name="K12006">Set TLV data</string>
+    <string name="K13001">Get specified TLV data</string>
+    <string name="K13002">Get specified TLV data</string>
+    <string name="K13003">Get 9F06 TLV data</string>
+    <string name="K13004">Get TLV data with wrong tag</string>
+    <string name="K13005">Get TLV data with empty tag</string>
+    <string name="K13006">Get TLV data with null tag</string>
+    <string name="K14001">Get card data</string>
+    <string name="K14002">Get card data</string>
+    <string name="K14003">Get card data</string>
+    <string name="K14004">Get card data</string>
+    <string name="K14005">Get card 9F79 data</string>
+    <string name="K14006">Get card 9F51 data</string>
+    <string name="K14007">Get card DF79 data</string>
+    <string name="K14008">Get card DF71 data</string>
+    <string name="K15001">Get PBOC process data (card number, expiry date, card serial number, etc.)</string>
+    <string name="K15002">Get PBOC process data (card number, expiry date, card serial number, etc.)</string>
+    <string name="K15003">Get PBOC process data (card number, expiry date, card serial number, etc.)</string>
+    <string name="K15004">Get PBOC process data (card number, expiry date, card serial number, etc.), input wrong parameters</string>
+    <string name="K15005">Get PBOC process data (card number, expiry date, card serial number, etc.), input wrong parameters</string>
+    <string name="K15006">Get PBOC process data (card number, expiry date, card serial number, etc.)</string>
+    <string name="K16001">Get card candidate application info</string>
+    <string name="K17001">Start PBOC process, PBOC callback is null</string>
+    <string name="K17002">Start PBOC process, intent parameter is null</string>
+    <string name="K17003">Start PBOC process, wrong transaction type</string>
+    <string name="K17004">Start PBOC process, wrong transaction type</string>
+    <string name="K17005">Start PBOC process, CARDTYPE error</string>
+    <string name="K17007">Start PBOC process, Q_QUERY</string>
+    <string name="K17010">Start PBOC process, query e-cash balance</string>
+    <string name="K17012">Start PBOC process, quick payment</string>
+    <string name="K17023">Start PBOC process, contactless payment</string>
+    <string name="K17025">Start PBOC process, contactless payment</string>
+    <string name="K17031">Start PBOC process, insert card payment</string>
+    <string name="K17043">Start PBOC process, insert card payment</string>
+    <string name="K17045">Start PBOC process, void payment</string>
+    <string name="K17051">Start PBOC process, void payment</string>
+    <string name="K18001">Cancel import amount</string>
+    <string name="K18004">Cancel online PIN</string>
+
+    <string name="btn_next">Next</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_save_and_run">Save and Run</string>
+    <string name="btn_run_only">Run Only</string>
+    <string name="dialog_modify_params">Modify Parameters</string>
+    <string name="tv_hint_enter_pin">Please enter PIN</string>
+
+    <!-- UI strings for layouts and Java code -->
+    <string name="print_mode_no_print">No Print</string>
+    <string name="print_mode_anytime">Print Anytime</string>
+    <string name="print_mode_after_test">Print After Test</string>
+    <string name="person_zhao">Zhao Kaiyi</string>
+    <string name="person_li_xn">Li Xuna</string>
+    <string name="person_li_kai">Li Kai</string>
+    <string name="sim_signal_strength">SIM Signal Strength</string>
+    <string name="e_signature">E-Signature</string>
+    <string name="btn_reset">Reset</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="case_info_label">Case Info:</string>
+    <string name="btn_edit_param">Edit Parameters</string>
+    <string name="btn_run_case">Run This Case</string>
+    <string name="run_log_label">Run Log:</string>
+    <string name="db_add">Add</string>
+    <string name="db_delete">Delete</string>
+    <string name="db_modify">Modify</string>
+    <string name="db_query">Query</string>
+    <string name="menu_import_param">Import Parameters</string>
+    <string name="toast_connected">Connected successfully</string>
+    <string name="toast_disconnected">Disconnected</string>
+    <string name="toast_system_service_disconnected">SystemService disconnected</string>
+    <string name="prompt_param_file">Parameter file:\n%s</string>
+    <string name="prompt_import_param">Please import parameters %s</string>
+    <string name="toast_crashed">App crashed, please report to developer</string>
+    <string name="toast_new_test_case">New test case received! Please go to NEW TEST screen and resend the case from PC!</string>
+    <string name="pinpad_confirm">Confirm</string>
+    <string name="toast_case_count">Case count: %d</string>
+    <string name="toast_file_format_invalid">File format incorrect,\nplease select again</string>
+    <string name="toast_import_params_first">Please import parameters first</string>
+    <string name="dialog_loading_params">Loading parameters...</string>
+    <string name="dialog_load_file">Load File</string>
+    <string name="dialog_no_valid_cases">No valid cases found, please reload</string>
+    <string name="toast_export_success">Export successful</string>
+    <string name="toast_start_executing">Starting execution...</string>
+    <string name="toast_signature_invalid">Signature does not meet requirements</string>
+    <string name="service_info_title">Service Information</string>
+    <string name="device_service_name">Device Service</string>
+    <string name="system_service_name">System Service</string>
+    <string name="service_status_connected">Connected</string>
+    <string name="service_status_disconnected">Disconnected</string>
+    <string name="service_status_not_installed">Not installed</string>
+    <string name="service_value_unknown">--</string>
+    <string name="service_info_loading">Loading service information…</string>
+    <string name="service_info_format">%1$s: %2$s\nVersion: %3$s\nUpdated: %4$s</string>
+    <string name="automation_title">Tester Test Automation</string>
+    <string name="automation_initializing">Initializing automation…</string>
+    <string name="automation_waiting">Waiting for PC command</string>
+    <string name="automation_log_started">Automation activity started</string>
 </resources>

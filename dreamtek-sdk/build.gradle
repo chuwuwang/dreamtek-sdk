@@ -1,20 +1,29 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.6.10'  // 使用当前稳定的 Kotlin 版本
     repositories {
-        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://dl.google.com/dl/android/maven2/' }
-        maven { url 'https://www.jitpack.io' }
-        mavenCentral()
+        maven {
+            url 'https://maven.aliyun.com/nexus/content/groups/public/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://dl.google.com/dl/android/maven4/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://www.jitpack.io'
+            // allowInsecureProtocol = true
+        }
+        maven {
+            url "http://maven.aliyun.com/nexus/content/groups/public/"
+            allowInsecureProtocol = true
+        }
         google()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        classpath 'com.github.kezong:fat-aar:1.3.8'
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0'
+        classpath "com.android.tools.build:gradle:8.1.0"
+        // classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.3'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -22,10 +31,31 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://dl.google.com/dl/android/maven2/' }
-        maven { url 'https://www.jitpack.io' }
+        // Local AARs are exposed through flatDir so that library modules (e.g. :SystemServiceTestClient)
+        // can depend on them as module coordinates. A library cannot bundle a direct local .aar file
+        // dependency (files(...)) into its own AAR output, which AGP rejects; flatDir avoids that while
+        // still letting :app resolve and package the AAR transitively via api.
+        flatDir {
+            dirs "$rootDir/SystemServiceTestClient/libs"
+        }
+        maven {
+            url 'https://maven.aliyun.com/nexus/content/groups/public/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://dl.google.com/dl/android/maven4/'
+            allowInsecureProtocol = true
+        }
+        maven {
+            url 'https://www.jitpack.io'
+            // allowInsecureProtocol = true
+        }
+        maven {
+            url "http://maven.aliyun.com/nexus/content/groups/public/"
+            allowInsecureProtocol = true
+        }
         google()
+        jcenter()
     }
 }
 

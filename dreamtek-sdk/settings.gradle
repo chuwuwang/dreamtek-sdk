@@ -1,1 +1,4 @@
 include ':app'
+include ':printer_sam_demo'
+include ':DV01Printer'
+include ':SystemServiceTestClient'

@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".BottomNavActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/rg_settingsSetActions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rg_datatime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="DATE_TIME" />
+
+                    <RadioButton
+                        android:id="@+id/rg_setlauncher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="LAUNCHER" />
+
+                    <RadioButton
+                        android:id="@+id/rg_power_optimize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="POWER_OPTIMIZE" />
+
+                    <RadioButton
+                        android:id="@+id/rg_tfenable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="TF_ENABLE" />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/option1Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  选择action:"
+                        android:textColor="#f33"
+                        android:textSize="17dp" />
+
+                    <RadioGroup
+                        android:id="@+id/rg_time_zone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <RadioButton
+                            android:id="@+id/time_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="GET_AUTO_SYSTEM_TIME_STATE"
+                            android:textColor="#f33" />
+
+                        <RadioButton
+                            android:id="@+id/time_zone_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="GET_AUTO_SYSTEM_TIME_ZONE_STATE"
+                            android:textColor="#f33" />
+                    </RadioGroup>
+
+
+                    <EditText
+                        android:id="@+id/et_system_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="设置系统时间，是否同步自动网络时间。\n输入AUTO_SYSTEM_TIME的值，如: 0"
+                        android:inputType="number"
+                        android:visibility="gone" />
+
+
+                    <EditText
+                        android:id="@+id/et_system_time_zone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="设置系统时区 是否同步自动网络时区. \n输入AUTO_SYSTEM_TIME_ZONE,如:0"
+                        android:inputType="number"
+                        android:visibility="gone" />
+
+
+                    <EditText
+                        android:id="@+id/et_system_time_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="设置系统时间: \nSYSTEM_DATE=yyyyMMdd\nSYSTEM_TIME=HHmmss,\n格式:20200707_150629"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/option2Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/et_launcher_action"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入LAUNCHER_ACTIONS,即:SET_LAUNCHER,为空默认设置" />
+
+                    <EditText
+                        android:id="@+id/et_launcher_pkg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:hint="输入LAUNCHER_PACKAGE_NAME的值,如: com.vfi.android.payment" />
+
+                    <EditText
+                        android:id="@+id/et_launcher_run"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:hint="输入RUN_PACKAGE的值，如: true/false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/option3Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="为某apk设置电源优化"
+                        android:textColor="@color/colorAccent" />
+
+                    <EditText
+                        android:id="@+id/et_power_optimize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入POWER_OPTIMIZE_PACKAGE的值，如: com.vfi.android.payment" />
+
+                    <EditText
+                        android:id="@+id/et_power_op_enable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入POWER_OPTIMIZE_ENABLE的值，如: true/false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/option4Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/et_tf_enable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:hint="输入TF_ENABLE值，如true/false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/settingsSetActions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="settings Set Actions"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/settingsReadActions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="settings read Actions"
+                        android:textAllCaps="false"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/et_settingsSetActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="如：1/LAUNCHER_ACTIONS=SET_LAUNCHER=string,LAUNCHER_PACKAGE_NAME=com.verifone.adc.launcher=string,RUN_PACKAGE=true=boolean
+                (说明：settingType是int值，使用0~3:
+                                    \nDATE_TIME = 0;  LAUNCHER = 1;  POWER_OPTIMIZE = 2; TF_ENABLE = 3;
+                \n第二个=号后面的数据类型使用 boolean/int/string,都是小写
+                \n bundle的值：使用具体值而不是引用，不要留空格。
+                \n settingType后面用/间隔。 bundle值之间使用英文逗号,间隔。一次只能设置一个action)"
+                android:visibility="gone" />
+
+
+            <Button
+                android:id="@+id/getAutoSystemTime"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Get Auto System Time State"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/getAutoSystemTimeZone"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Get Auto System Time Zone State"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/setAutoSystemTime"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Set Auto System Time State"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/setAutoSystemTimeZone"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Set Auto System Time Zone State"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/setSystemTime"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Set System Time"
+                android:textAllCaps="false" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_setTimeZone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Asia/Shanghai" />
+
+                <Button
+                    android:id="@+id/setTimeZone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="enter to set time zone"
+                    android:textAllCaps="false" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_setDefaultSystemLanguage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="zh_CN" />
+
+                <Button
+                    android:id="@+id/setDefaultSystemLanguage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="setDefaultSystemLanguage"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_clearCachesByPackageName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="packageName" />
+
+                <Button
+                    android:id="@+id/clearCachesByPackageName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="clearCachesByPackageName"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Switch
+                        android:id="@+id/sw_settingEnable"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="true/false"
+                        android:padding="10dp" />
+
+                    <Button
+                        android:id="@+id/set_battery_percent"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="showBattery percent"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/setScreenLock"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Set Screen Lock"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/isScreenLock"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Is Screen Lock"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etSetLauncher"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="packageName:true/false" />
+
+                <Button
+                    android:id="@+id/setLauncher"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Set Launcher"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etSettingPwd1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="input setting password"
+                    android:inputType="number" />
+
+
+                <Button
+                    android:id="@+id/setSettingPwd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Set Setting Password"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <EditText
+                    android:id="@+id/edt_duration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:hint="sleep duration"
+                    android:inputType="number"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/setSleepDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="setSleepDuration" />
+
+                <Button
+                    android:id="@+id/getSleepDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="getSleepDuration" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_loadCertificate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="input certificate path" />
+
+                <Button
+                    android:id="@+id/load_CaCertificate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Load Certificate"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_upgradeCustomPackages"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="input packages path" />
+
+                <Button
+                    android:id="@+id/upgradeCustomPackages"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="upgrade Custom Packages"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_setPCIRebootTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:hint="23:59:59" />
+
+                <Button
+                    android:id="@+id/settingPCIRebootTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="setting PCI Reboot Time"
+                    android:textAllCaps="false" />
+
+
+                <Button
+                    android:id="@+id/getPCIRebootTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="get PCI Reboot Time"
+                    android:textAllCaps="false" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_enableAlertWindow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:hint="package name" />
+
+                <Button
+                    android:id="@+id/enableAlertWindow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="enable Alert Window"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/jumpToDialog"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="测试alert window(5s后消失)"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_setWallpaper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:hint="input path,suppot sdcard/download and otg path" />
+
+                <Button
+                    android:id="@+id/setWallpaper"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:text="setWallpaper"
+                    android:textAllCaps="false" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/setScreenSleep"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="set Screen Sleep"
+                android:textAllCaps="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/et_brightnessLevel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:hint="input brightnessLevel,0-255" />
+            <Button
+                android:id="@+id/setDeviceBrightnessLevel"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="setDeviceBrightnessLevel"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>

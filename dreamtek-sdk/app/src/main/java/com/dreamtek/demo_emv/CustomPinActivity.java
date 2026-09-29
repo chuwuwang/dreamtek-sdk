@@ -5,7 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.dreamtek.smartpos.deviceservice.aidl.IPinpad;
 import com.dreamtek.smartpos.deviceservice.aidl.PinInputListener;
 import com.dreamtek.smartpos.deviceservice.aidl.PinKeyCoorInfo;
+import com.verifone.activity.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.dreamtek.demo_emv.Utilities.Utility;
 
 public class CustomPinActivity extends AppCompatActivity {
     private View v;
@@ -40,9 +39,9 @@ public class CustomPinActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("TAG", "oncreate...");
-        setContentView(R.layout.activity_keyboard);
-//        v = View.inflate(this, R.layout.activity_keyboard, null);
-        v = LayoutInflater.from(this).inflate(R.layout.activity_keyboard, null);
+        setContentView(R.layout.activity_emv_demo_keyboard);
+//        v = View.inflate(this, R.layout.activity_emv_demo_keyboard, null);
+        v = LayoutInflater.from(this).inflate(R.layout.activity_emv_demo_keyboard, null);
 
         try {
             iPinpad = MainActivity.idevice.getPinpad(0);
@@ -88,7 +87,7 @@ public class CustomPinActivity extends AppCompatActivity {
             @Override
             public void onInput(int len, int key) throws RemoteException {
                 // the key is * always.
-                Log.d("TAG", "onInput, length:" + len + ",key:" + key);
+                Log.d("TAG", "PIN key entered, length:" + len);
                 char buf[] = new char[len];
                 Arrays.fill(buf, '#');
                 final String s = String.valueOf(buf);
@@ -110,8 +109,7 @@ public class CustomPinActivity extends AppCompatActivity {
             public void onConfirm(Bundle pinInfos) throws RemoteException {
                 Log.d("TAG", "onConfirm");
                 exitKeyBoardOnUI();
-//                Log.d("TAG", data.toString());
-                Log.d("TAG", Utility.byte2HexStr(pinInfos.getByteArray("pinblock")));
+                Log.d("TAG", "PIN block received");
             }
 
 
@@ -138,7 +136,6 @@ public class CustomPinActivity extends AppCompatActivity {
                     Log.d("TAG", "size:" + keyMap.size());
                     Set<Map.Entry<String, String>> entrys = keyMap.entrySet();
                     for (Map.Entry<String, String> entry : entrys) {
-                        Log.d("TAG", entry.getKey() + "--" + entry.getValue());
                         Button btn = null;
                         int index = entry.getKey().charAt(4) - '0';
                         if( index >= 0 && index < 10 ) {
@@ -183,7 +180,7 @@ public class CustomPinActivity extends AppCompatActivity {
 
         public PinpadPopUpWindow(final Activity context) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            conentView = inflater.inflate(R.layout.keyboard, null);
+            conentView = inflater.inflate(R.layout.emv_demo_keyboard, null);
             this.setContentView(conentView);
 
             setBackgroundAlpha(0.5f);               // 设置背景透明度

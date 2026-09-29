@@ -125,3 +125,4 @@ public class ISO8583u extends ISO8583 {
     }
 
 }
+

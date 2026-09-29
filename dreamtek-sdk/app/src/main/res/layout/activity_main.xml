@@ -1,187 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    android:id="@+id/activity_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dreamtek.demo_emv.MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.verifone.activity.MainActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
+        <Button
+            android:id="@+id/bind_bt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="The first time run need SET AID, SET KEYS. \nThen run SIGN IN or BALANCE or others" />
-
-        <LinearLayout
+            android:onClick="getConnected"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Connect Service"/>
+        <Button
+            android:id="@+id/test_bt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnSetAID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="SET AID" />
-
-                <Button
-                    android:id="@+id/btnRID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="SET RID" />
-
-                <Button
-                    android:id="@+id/btnSetKeys"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Set Keys" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnClearAID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Clear AID" />
-
-                <Button
-                    android:id="@+id/btnClearRID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Clear RID" />
-
-                <Button
-                    android:id="@+id/btnPinPad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="PinPad" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnCustomPinpad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="customview_pinpad" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:enabled="false"
+            android:onClick="testIn"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Tester Test"/>
+        <Button
+            android:id="@+id/devp_bt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:enabled="false"
+            android:onClick="devpIn"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Developer Test"/>
+        <Button
+            android:id="@+id/other_bt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edIP"
-                android:layout_width="182dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="127.0.0.1" />
-
-            <EditText
-                android:id="@+id/edPort"
-                android:layout_width="114dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="5556" />
-
-            <Button
-                android:id="@+id/btnTransSignIn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Sign In" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnBalance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Balance" />
-
-            <EditText
-                android:id="@+id/edAmount"
-                android:layout_width="54dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="number"
-                android:text="12345" />
-
-            <Button
-                android:id="@+id/btnPurchase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="PURCHASE" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Button" />
-        </LinearLayout>
+            android:layout_below="@+id/test_bt"
+            android:onClick="otherIn"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Other Test"/>
 
         <Button
-            android:id="@+id/btnCheckCard"
+            android:id="@+id/new_test_bt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Test" />
-
+            android:layout_below="@+id/other_bt"
+            android:onClick="newTestIn"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="New Test" />
 
         <Button
-            android:id="@+id/btnTest"
+            android:id="@+id/simple_emv_demo_bt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Test(reDefine-AID)" />
+            android:enabled="false"
+            android:onClick="simpleEmvDemoIn"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Simple EMV Demo" />
 
+        <Button
+            android:id="@+id/sysdemo_customer_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="systemServiceDemoIn"
+            android:text="System Service Demo" />
 
+        <Button
+            android:id="@+id/sysdemo_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="systemServiceTestIn"
+            android:text="System Service Test" />
+
+        <Button
+            android:id="@+id/system_service_test_client_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="systemServiceClientIn"
+            android:text="SystemService TestClient" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/whitesmoke"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/service_info_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/service_info_title"
+                android:textColor="@color/color_black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/device_service_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/service_info_loading"
+                android:textColor="@color/color_black"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/system_service_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/service_info_loading"
+                android:textColor="@color/color_black"
+                android:textIsSelectable="true" />
+        </LinearLayout>
     </LinearLayout>
-
-</FrameLayout>
+</ScrollView>

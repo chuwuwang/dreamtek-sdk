@@ -1,14 +1,10 @@
 package com.dreamtek.demo_emv;
 
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -35,12 +31,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.dreamtek.demo_emv.Utilities.*;
 import com.dreamtek.demo_emv.basic.ISO8583;
 import com.dreamtek.demo_emv.caseA.ISO8583u;
 import com.dreamtek.demo_emv.usecase.EmvSetAidRid;
+import com.verifone.activity.R;
+
+import base.MyApplication;
 
 /**
  * \Brief this a EMV workflow demo
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_emv_demo);
 
         btnCheckCard = findViewById(R.id.btnCheckCard);
         btnCheckCard.setOnClickListener(onClickListener);
@@ -179,18 +179,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Intent intent = new Intent();
-        intent.setAction("com.dreamtek.smartpos.device_service");
-        intent.setPackage("com.dreamtek.smartpos.deviceservice");
-        boolean isSucc = bindService(intent, conn, Context.BIND_AUTO_CREATE);
-        if (!isSucc) {
-            Log.i("TAG", "deviceService connect fail!");
-        } else {
-            Log.i("TAG", "deviceService connect success");
-            initializeEMV();
-            initializePinInputListener();
+        idevice = MyApplication.serviceMoudle.deviceService;
+        if (idevice == null) {
+            Log.e(TAG, "Device service is not connected");
+            Toast.makeText(this, "Device service is not connected", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
+        try {
+            iemv = idevice.getEMV();
+            ipinpad = idevice.getPinpad(1);
+            iBeeper = idevice.getBeeper();
+            imksk = idevice.getMKSK();
+            iDukpt = idevice.getDUKPT();
+            initializeEMV();
+            initializePinInputListener();
+            Log.i(TAG, "Using the test client's connected device service");
+        } catch (RemoteException e) {
+            Log.e(TAG, "Unable to initialize EMV interfaces", e);
+            Toast.makeText(this, "Unable to initialize EMV interfaces", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // button -- start
@@ -198,7 +207,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if (view == btnCheckCard) {
-                doBalance();
+                if (readHostConfiguration()) {
+                    doBalance();
+                }
             } else if (view == btnPinPad) {
                 doPinPad();
             } else if (view == btnSetKeys) {
@@ -212,33 +223,17 @@ public class MainActivity extends AppCompatActivity {
             } else if (view == btnClearRID) {
                 doSetRID(3);
             } else if (view == btnTransSignIn) {
-                if (null == edIP) {
-                    Log.e(TAG, "cannot get the IP edit");
+                if (readHostConfiguration()) {
+                    doSignIn();
                 }
-                if (null == edPort) {
-                    Log.e(TAG, "cannot get the Port edit");
-                }
-
-                hostIP = edIP.getText().toString();
-                String port = edPort.getText().toString();
-                if (port.length() == 0) {
-                    Log.e(TAG, "cannot read port");
-                    hostPort = 5555;
-                } else {
-                    hostPort = Integer.valueOf(port);
-                }
-                Log.e(TAG, "Host:" + hostIP + ":" + hostPort);
-
-                doSignIn();
             } else if (view == btnTransBalance) {
-                if (null == hostIP) {
-                    toastShow("Sign In first!");
-                    // return;
+                if (readHostConfiguration()) {
+                    doBalance();
                 }
-                doBalance();
-
             } else if (view == btnPurchase) {
-                doPurchase();
+                if (readHostConfiguration()) {
+                    doPurchase();
+                }
             } else if (view == btnTest) {
                 // test redefine the AID to kernel
                 Log.d(TAG, "re-define the AID to kernel");
@@ -258,39 +253,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    // connect service -- start
-    /**
-     */
-    private ServiceConnection conn = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            idevice = IDeviceService.Stub.asInterface(service);
-            try {
-                iemv = idevice.getEMV();
-                ipinpad = idevice.getPinpad(1);
-                iBeeper = idevice.getBeeper();
-                imksk = idevice.getMKSK();
-                iDukpt = idevice.getDUKPT();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-            Toast.makeText(MainActivity.this, "bind service success", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
-    // connect service -- end
-
     // log & display
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            String string = msg.getData().getString("string");
             super.handleMessage(msg);
-            Log.d(TAG, msg.getData().getString("msg"));
             Toast.makeText(MainActivity.this, msg.getData().getString("msg"), Toast.LENGTH_SHORT).show();
 
         }
@@ -300,6 +267,34 @@ public class MainActivity extends AppCompatActivity {
         Message msg = new Message();
         msg.getData().putString("msg", str);
         handler.sendMessage(msg);
+    }
+
+    private boolean readHostConfiguration() {
+        if (edIP == null || edPort == null) {
+            toastShow("Host configuration is unavailable");
+            return false;
+        }
+
+        String ip = edIP.getText().toString().trim();
+        String portText = edPort.getText().toString().trim();
+        if (ip.length() == 0 || portText.length() == 0) {
+            toastShow("Enter the host IP and port");
+            return false;
+        }
+
+        try {
+            int port = Integer.parseInt(portText);
+            if (port < 1 || port > 65535) {
+                throw new NumberFormatException("port out of range");
+            }
+            hostIP = ip;
+            hostPort = port;
+            Log.i(TAG, "Using host " + hostIP + ":" + hostPort);
+            return true;
+        } catch (NumberFormatException e) {
+            toastShow("Invalid host port");
+            return false;
+        }
     }
 
 
@@ -345,29 +340,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onConfirmCardInfo(Bundle info) throws RemoteException {
                 Log.d(TAG, "onConfirmCardInfo...");
-                savedPan = info.getString(ConstPBOCHandler.onConfirmCardInfo.info.KEY_PAN_String);
-
-                String result = "onConfirmCardInfo callback, " +
-                        "\nPAN:" + savedPan +
-                        "\nTRACK2:" + info.getString(ConstPBOCHandler.onConfirmCardInfo.info.KEY_TRACK2_String) +
-                        "\nCARD_SN:" + info.getString(ConstPBOCHandler.onConfirmCardInfo.info.KEY_CARD_SN_String) +
-                        "\nSERVICE_CODE:" + info.getString(ConstPBOCHandler.onConfirmCardInfo.info.KEY_SERVICE_CODE_String) +
-                        "\nEXPIRED_DATE:" + info.getString(ConstPBOCHandler.onConfirmCardInfo.info.KEY_EXPIRED_DATE_String);
-
-                byte[] tlv = iemv.getCardData("9F51");
-                result += ("\n9F51:" + Utility.byte2HexStr(tlv));
-
-                String track2 = info.getString(ConstPBOCHandler.onConfirmCardInfo.info.KEY_TRACK2_String);
-                if (null != track2) {
-                    int a = track2.indexOf('D');
-                    if (a > 0) {
-                        track2 = track2.substring(0, a);
-                    }
-                    data8583.put(ISO8583u.F_Track_2_Data_35, track2);
+                if (info == null || data8583 == null) {
+                    Log.e(TAG, "Card information is unavailable");
+                    iemv.importCardConfirmResult(ConstIPBOC.importCardConfirmResult.pass.refused);
+                    return;
                 }
 
-                toastShow("onConfirmCardInfo:" + result);
+                savedPan = info.getString(ConstPBOCHandler.onConfirmCardInfo.info.KEY_PAN_String);
+                if (savedPan != null && savedPan.length() > 0) {
+                    data8583.put(ISO8583u.F_AccountNumber_02, savedPan);
+                }
 
+                String track2 = info.getString(ConstPBOCHandler.onConfirmCardInfo.info.KEY_TRACK2_String);
+                if (track2 != null && track2.length() > 0) {
+                    data8583.put(ISO8583u.F_Track_2_Data_35, track2.replace('=', 'D'));
+                }
+
+                toastShow("Card information confirmed");
                 iemv.importCardConfirmResult(ConstIPBOC.importCardConfirmResult.pass.allowed);
             }
 
@@ -387,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onConfirmCertInfo(String certType, String certInfo) throws RemoteException {
-                toastShow("onConfirmCertInfo, type:" + certType + ",info:" + certInfo);
+                toastShow("Certificate confirmation requested, type: " + certType);
 
                 iemv.importCertConfirmResult(ConstIPBOC.importCertConfirmResult.option.CONFIRM);
             }
@@ -395,13 +384,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRequestOnlineProcess(Bundle aaResult) throws RemoteException {
                 Log.d(TAG, "onRequestOnlineProcess...");
+                if (aaResult == null) {
+                    Log.w(TAG, "Online request callback has no metadata");
+                    aaResult = new Bundle();
+                }
                 int result = aaResult.getInt(ConstPBOCHandler.onRequestOnlineProcess.aaResult.KEY_RESULT_int);
                 boolean signature = aaResult.getBoolean("SIGNATURE");
                 toastShow("onRequestOnlineProcess result=" + result + " signal=" + signature);
                 switch (result) {
                     case ConstPBOCHandler.onRequestOnlineProcess.aaResult.VALUE_RESULT_AARESULT_ARQC:
                     case ConstPBOCHandler.onRequestOnlineProcess.aaResult.VALUE_RESULT_QPBOC_ARQC:
-                        toastShow(aaResult.getString(ConstPBOCHandler.onRequestOnlineProcess.aaResult.KEY_ARQC_DATA_String));
+                        toastShow("Online authorization requested");
                         break;
                     case ConstPBOCHandler.onRequestOnlineProcess.aaResult.VALUE_RESULT_PAYPASS_EMV_ARQC:
                         break;
@@ -430,46 +423,51 @@ public class MainActivity extends AppCompatActivity {
                 };
 
                 for (int tag : tagList) {
-                    tlv = iemv.getCardData(Integer.toHexString(tag).toUpperCase());
+                    try {
+                        tlv = iemv.getCardData(Integer.toHexString(tag).toUpperCase(Locale.ROOT));
+                    } catch (RemoteException e) {
+                        Log.e(TAG, "Unable to read EMV tag " + Integer.toHexString(tag), e);
+                        continue;
+                    }
                     if (null != tlv && tlv.length > 0) {
-                        Log.d(TAG, Utility.byte2HexStr(tlv));
                         tagOfF55.put(tag, Utility.byte2HexStr(tlv));  // build up the field 55
                     } else {
                         Log.e(TAG, "getCardData:" + Integer.toHexString(tag) + ", fails");
                     }
                 }
 
-                // set the pin block
-                data8583.put(ISO8583u.F_PINData_52, Utility.byte2HexStr(savedPinblock));
-
+                if (savedPinblock != null && data8583 != null) {
+                    data8583.put(ISO8583u.F_PINData_52, Utility.byte2HexStr(savedPinblock));
+                }
 
                 Log.d(TAG, "start online request");
-                onlineRequest.run();
-                Log.d(TAG, "online request finished");
+                boolean onlineSucceeded = performOnlineRequest();
+                Log.d(TAG, "online request finished: " + onlineSucceeded);
 
                 // import the online result
                 Bundle onlineResult = new Bundle();
-                onlineResult.putBoolean(ConstIPBOC.inputOnlineResult.onlineResult.KEY_isOnline_boolean, true);
-                if (isoResponse.unpackValidField[ISO8583u.F_ResponseCode_39]) {
-                    onlineResult.putString(ConstIPBOC.inputOnlineResult.onlineResult.KEY_field55_String, isoResponse.getUnpack(ISO8583u.F_ResponseCode_39));
-                } else {
-                    onlineResult.putString(ConstIPBOC.inputOnlineResult.onlineResult.KEY_respCode_String, "00");
+                String responseCode = "91";
+                String field55 = "";
+                if (onlineSucceeded && hasResponseField(ISO8583u.F_ResponseCode_39)) {
+                    responseCode = isoResponse.getUnpack(ISO8583u.F_ResponseCode_39);
+                } else if (onlineSucceeded) {
+                    onlineSucceeded = false;
+                    responseCode = "96";
                 }
+                onlineResult.putBoolean(ConstIPBOC.inputOnlineResult.onlineResult.KEY_isOnline_boolean,
+                        onlineSucceeded);
+                onlineResult.putString(ConstIPBOC.inputOnlineResult.onlineResult.KEY_respCode_String,
+                        responseCode);
 
-                if (isoResponse.unpackValidField[ISO8583u.F_AuthorizationIdentificationResponseCode_38]) {
-                    //
+                if (onlineSucceeded && hasResponseField(ISO8583u.F_AuthorizationIdentificationResponseCode_38)) {
                     onlineResult.putString(ConstIPBOC.inputOnlineResult.onlineResult.KEY_authCode_String, isoResponse.getUnpack(ISO8583u.F_AuthorizationIdentificationResponseCode_38));
-                } else {
-                    onlineResult.putString(ConstIPBOC.inputOnlineResult.onlineResult.KEY_authCode_String, "123456");
                 }
 
-                // onlineResult.putString( ConstIPBOC.inputOnlineResult.onlineResult.KEY_field55_String, "910A1A1B1C1D1E1F2A2B30307211860F04DA9F790A0000000100001A1B1C1D");
-                if (isoResponse.unpackValidField[55]) {
-                    onlineResult.putString(ConstIPBOC.inputOnlineResult.onlineResult.KEY_field55_String, isoResponse.getUnpack(55));
-
-                } else {
-                    onlineResult.putString(ConstIPBOC.inputOnlineResult.onlineResult.KEY_field55_String, "5F3401019F3303E0F9C8950500000000009F1A0201569A039707039F3704F965E43082027C009F3602041C9F260805142531F709C8669C01009F02060000000000125F2A0201569F101307010103A02000010A01000000000063213EC29F2701809F1E0831323334353637389F0306000000000000");
+                if (onlineSucceeded && hasResponseField(55)) {
+                    field55 = isoResponse.getUnpack(55);
                 }
+                onlineResult.putString(ConstIPBOC.inputOnlineResult.onlineResult.KEY_field55_String,
+                        field55);
 //                onlineResult.putBoolean("getPBOCData", true);
 //                onlineResult.putInt("importAppSelectResult", 1);
 //                onlineResult.putInt("IsPinInput", 1);
@@ -478,14 +476,15 @@ public class MainActivity extends AppCompatActivity {
 //                onlineResult.putBoolean("cancelCardConfirmResult", false);
 
 
-                iemv.inputOnlineResult(onlineResult, new OnlineResultHandler.Stub() {
+                iemv.importOnlineResult(onlineResult, new OnlineResultHandler.Stub() {
                     @Override
                     public void onProccessResult(int result, Bundle data) throws RemoteException {
                         Log.i(TAG, "onProccessResult callback:");
-                        String str = "RESULT:" + result +
-                                "\nTC_DATA:" + data.getString(ConstOnlineResultHandler.onProccessResult.data.KEY_TC_DATA_String, "not defined") +
-                                "\nSCRIPT_DATA:" + data.getString(ConstOnlineResultHandler.onProccessResult.data.KEY_SCRIPT_DATA_String, "not defined") +
-                                "\nREVERSAL_DATA:" + data.getString(ConstOnlineResultHandler.onProccessResult.data.KEY_REVERSAL_DATA_String, "not defined");
+                        if (data == null) {
+                            toastShow("Online result callback has no data, code: " + result);
+                            return;
+                        }
+                        String str = "Online processing result: " + result;
                         toastShow(str);
 
                         switch (result) {
@@ -506,7 +505,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTransactionResult(int result, Bundle data) throws RemoteException {
                 Log.d(TAG, "onTransactionResult");
-                String msg = data.getString("ERROR");
+                String msg = data == null ? "" : data.getString("ERROR", "");
                 toastShow("onTransactionResult result = " + result + ",msg = " + msg);
 
                 switch (result) {
@@ -517,7 +516,9 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     case ConstPBOCHandler.onTransactionResult.result.EMV_MULTI_CARD_ERROR:
                         // multi-cards found
-                        toastShow(data.getString(ConstPBOCHandler.onTransactionResult.data.KEY_ERROR_String));
+                        toastShow(data == null ? "Multiple cards detected"
+                                : data.getString(ConstPBOCHandler.onTransactionResult.data.KEY_ERROR_String,
+                                "Multiple cards detected"));
                         return;
                 }
 
@@ -541,39 +542,44 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onCardSwiped(Bundle track) throws RemoteException {
                             Log.d(TAG, "onCardSwiped ...");
+                            if (track == null || data8583 == null) {
+                                toastShow("Card data is unavailable");
+                                return;
+                            }
 //                            iemv.stopCheckCard();
 //                            iemv.abortPBOC();
 
                             iBeeper.startBeep(200);
 
                             String pan = track.getString(ConstCheckCardListener.onCardSwiped.track.KEY_PAN_String);
-                            String track1 = track.getString(ConstCheckCardListener.onCardSwiped.track.KEY_TRACK1_String);
                             String track2 = track.getString(ConstCheckCardListener.onCardSwiped.track.KEY_TRACK2_String);
                             String track3 = track.getString(ConstCheckCardListener.onCardSwiped.track.KEY_TRACK3_String);
-                            String serviceCode = track.getString(ConstCheckCardListener.onCardSwiped.track.KEY_SERVICE_CODE_String);
+
+                            if (pan != null && pan.length() > 0) {
+                                data8583.put(ISO8583u.F_AccountNumber_02, pan);
+                            }
 
                             Log.d(TAG, "onCardSwiped ...1");
-                            byte[] bytes = Utility.hexStr2Byte(track2);
-                            Log.d(TAG, "Track2:" + track2 + " (" + Utility.byte2HexStr(bytes) + ")");
+                            if (track2 != null && track2.length() > 0) {
+                                String normalizedTrack2 = track2.replace('=', 'D');
+                                data8583.put(ISO8583u.F_Track_2_Data_35, normalizedTrack2);
+                                byte[] bytes = Utility.hexStr2Byte(normalizedTrack2);
+                                Log.d(TAG, "Track 2 received");
 
-                            Boolean bIsKeyExist = iDukpt.isKeyExist(1, 0x01,null);
-                            if (!bIsKeyExist) {
-                                Log.e(TAG, "no key exist type: 12, @: 1");
-                            }
-//                            byte[] enctypted = iDukpt.dukptEncryptData(1, 1, 1, bytes, new byte[]{0, 0, 0, 0, 0, 0, 0, 0,});
-                            Bundle bundle = iDukpt.calculateData(1, 1, 1, bytes, new byte[]{0, 0, 0, 0, 0, 0, 0, 0,},null);
-                            byte[] enctypted =null;
-                            if(bundle!=null){
-                                enctypted = bundle.getByteArray("encryptedData");
-                            }
-                            if (null == enctypted) {
-                                Log.e(TAG, "NO DUKPT Encrypted got");
-                            } else {
-                                Log.d(TAG, "DUKPT:" + Utility.byte2HexStr(enctypted));
-                            }
-                            bIsKeyExist = iDukpt.isKeyExist(1, 0x01,null);
-                            if (!bIsKeyExist) {
-                                Log.e(TAG, "no key exist type: 12, @: 1");
+                                Boolean bIsKeyExist = iDukpt.isKeyExist(1, 0x01, null);
+                                if (!bIsKeyExist) {
+                                    Log.e(TAG, "No DUKPT key available");
+                                } else {
+                                    Bundle bundle = iDukpt.calculateData(1, 1, 1, bytes,
+                                            new byte[]{0, 0, 0, 0, 0, 0, 0, 0}, null);
+                                    byte[] encrypted = bundle == null
+                                            ? null : bundle.getByteArray("encryptedData");
+                                    if (encrypted == null) {
+                                        Log.e(TAG, "DUKPT encryption failed");
+                                    } else {
+                                        Log.d(TAG, "DUKPT encryption completed");
+                                    }
+                                }
                             }
 
 
@@ -586,8 +592,13 @@ public class MainActivity extends AppCompatActivity {
                                 data8583.put(ISO8583u.F_DateOfExpired_14, validDate);
                             }
                             Log.d(TAG, "onCardSwiped ...3");
-                            onlineRequest.run();
-                            toastShow("response:" + isoResponse.getField(ISO8583u.F_ResponseCode_39));
+                            boolean onlineSucceeded = performOnlineRequest();
+                            if (onlineSucceeded && hasResponseField(ISO8583u.F_ResponseCode_39)) {
+                                toastShow("Response code: "
+                                        + isoResponse.getUnpack(ISO8583u.F_ResponseCode_39));
+                            } else {
+                                toastShow("Online request failed");
+                            }
                         }
 
                         @Override
@@ -643,7 +654,9 @@ public class MainActivity extends AppCompatActivity {
         Bundle emvIntent = new Bundle();
         emvIntent.putInt(ConstIPBOC.startEMV.intent.KEY_cardType_int, type);
         if (transType == TransType.T_PURCHASE) {
-            emvIntent.putLong(ConstIPBOC.startEMV.intent.KEY_authAmount_long, Long.valueOf(edAmount.getText().toString()));
+            String amount = data8583.get(ISO8583u.F_AmountOfTransactions_04);
+            emvIntent.putLong(ConstIPBOC.startEMV.intent.KEY_authAmount_long,
+                    Long.parseLong(amount));
         }
         emvIntent.putString(ConstIPBOC.startEMV.intent.KEY_merchantName_String, merchantName);
 
@@ -653,9 +666,8 @@ public class MainActivity extends AppCompatActivity {
 //        emvIntent.putBoolean(ConstIPBOC.startEMV.intent.KEY_isSupportQ_boolean, ConstIPBOC.startEMV.intent.VALUE_unsupported);
         emvIntent.putBoolean(ConstIPBOC.startEMV.intent.KEY_isSupportSM_boolean, ConstIPBOC.startEMV.intent.VALUE_supported);
         emvIntent.putBoolean(ConstIPBOC.startEMV.intent.KEY_isQPBOCForceOnline_boolean, ConstIPBOC.startEMV.intent.VALUE_unforced);
-        if (type == ConstIPBOC.startEMV.intent.VALUE_cardType_contactless) {   // todo, check here
-            emvIntent.putByte(ConstIPBOC.startEMV.intent.KEY_transProcessCode_byte, (byte) 0x00);
-        }
+        byte processingCode = transType == TransType.T_BANLANCE ? (byte) 0x31 : (byte) 0x00;
+        emvIntent.putByte(ConstIPBOC.startEMV.intent.KEY_transProcessCode_byte, processingCode);
         emvIntent.putBoolean("isSupportPBOCFirst", false);
         emvIntent.putString("transCurrCode", "0156");
         emvIntent.putString("otherAmount", "0");
@@ -676,34 +688,45 @@ public class MainActivity extends AppCompatActivity {
      * @see
      */
     void doSetKeys() {
-        // Load Main key
-        // 758F0CD0C866348099109BAF9EADFA6E
-        boolean bRet;
+        int successCount = 0;
+        final int operationCount = 3;
+
         try {
-//            bRet = ipinpad.loadMainKey(mainKeyId, Utility.hexStr2Byte(mainKey_MasterKey), null);
-            bRet = imksk.loadPlainMasterKey(mainKeyId, Utility.hexStr2Byte(mainKey_MasterKey), 0x02,null);
-            toastShow("loadMainKey:" + bRet);
+            if (imksk.loadPlainMasterKey(mainKeyId,
+                    Utility.hexStr2Byte(mainKey_MasterKey), 0x02, null)) {
+                successCount++;
+            }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Unable to load master key", e);
         }
 
         String DukptSN = "01020304050607080900";
         String dukptKey = "34343434343434343434343434343434";
 
-
-        // Load work key
-        // 89B07B35A1B3F47E89B07B35A1B3F488
         try {
-//            bRet = ipinpad.loadWorkKey(PinpadKeyType.PINKEY, mainKeyId, workKeyId, Utility.hexStr2Byte(pinKey_WorkKey), null);
-            bRet = imksk.loadSessionKey(2, mainKeyId, workKeyId, 0x00,Utility.hexStr2Byte(pinKey_WorkKey), null,new Bundle());
-            toastShow("loadWorkKey:" + bRet);
-
-//            bRet = ipinpad.loadDukptKey(1, Utility.hexStr2Byte(DukptSN), Utility.hexStr2Byte(dukptKey), null);
-            bRet = iDukpt.loadDukptKey(1, Utility.hexStr2Byte(DukptSN), Utility.hexStr2Byte(dukptKey), null,new Bundle());
-            toastShow("loadDukptKey:" + bRet);
+            if (imksk.loadSessionKey(2, mainKeyId, workKeyId, 0x00,
+                    Utility.hexStr2Byte(pinKey_WorkKey), null, new Bundle())) {
+                successCount++;
+            }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Unable to load session key", e);
         }
+
+        try {
+            if (iDukpt.loadDukptKey(1, Utility.hexStr2Byte(DukptSN),
+                    Utility.hexStr2Byte(dukptKey), null, new Bundle())) {
+                successCount++;
+            }
+        } catch (RemoteException e) {
+            Log.e(TAG, "Unable to load DUKPT key", e);
+        }
+
+        String state = successCount == operationCount ? "SUCCESS"
+                : (successCount == 0 ? "FAILED" : "PARTIAL");
+        String summary = "Set Keys: " + state + " (" + successCount + "/"
+                + operationCount + ")";
+        Log.i(TAG, summary);
+        toastShow(summary);
     }
 
 
@@ -727,7 +750,12 @@ public class MainActivity extends AppCompatActivity {
         try {
             ipinpad.startPinInput(workKeyId , param , globeParam, pinInputListener);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Unable to start PIN input", e);
+            try {
+                iemv.importPin(0, null);
+            } catch (RemoteException importException) {
+                Log.e(TAG, "Unable to cancel PIN input", importException);
+            }
         }
 
 
@@ -743,13 +771,17 @@ public class MainActivity extends AppCompatActivity {
         pinInputListener = new PinInputListener.Stub() {
             @Override
             public void onInput(int len, int key) throws RemoteException {
-                Log.d(TAG, "PinPad onInput, len:" + len + ", key:" + key);
+                Log.d(TAG, "PIN key entered, length:" + len);
             }
 
             @Override
             public void onConfirm(Bundle pinInfos) throws RemoteException {
                 Log.d(TAG, "PinPad onConfirm");
-                byte[] data = pinInfos.getByteArray("pinblock");
+                byte[] data = pinInfos == null ? null : pinInfos.getByteArray("pinblock");
+                if (data == null) {
+                    iemv.importPin(0, null);
+                    return;
+                }
                 iemv.importPin(1, data);
                 savedPinblock = data;
             }
@@ -758,37 +790,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancel() throws RemoteException {
                 Log.d(TAG, "PinPad onCancel");
+                iemv.importPin(0, null);
             }
 
             @Override
             public void onError(int errorCode) throws RemoteException {
                 Log.d(TAG, "PinPad onError, code:" + errorCode);
+                iemv.importPin(0, null);
             }
         };
     }
 
     private void doSetAID(int type) {
-        toastShow("Set AID start");
+        String operation = type == ConstIPBOC.updateAID.operation.clear ? "Clear AID" : "Set AID";
+        toastShow(operation + " start");
         EmvSetAidRid emvSetAidRid = new EmvSetAidRid(iemv);
-        emvSetAidRid.setAID(type);
+        EmvSetAidRid.OperationResult result = emvSetAidRid.setAID(type);
         try {
             iBeeper.startBeep(200);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Unable to beep after " + operation, e);
         }
-        toastShow("Set AID DONE");
+        String summary = result.describe(operation);
+        Log.i(TAG, summary);
+        toastShow(summary);
     }
 
     private void doSetRID(int type) {
-        toastShow("Set RID start");
+        String operation = type == ConstIPBOC.updateRID.operation.clear ? "Clear RID" : "Set RID";
+        toastShow(operation + " start");
         EmvSetAidRid emvSetAidRid = new EmvSetAidRid(iemv);
-        emvSetAidRid.setRID(type);
+        EmvSetAidRid.OperationResult result = emvSetAidRid.setRID(type);
         try {
             iBeeper.startBeep(200);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Unable to beep after " + operation, e);
         }
-        toastShow("Set RID DONE");
+        String summary = result.describe(operation);
+        Log.i(TAG, summary);
+        toastShow(summary);
     }
 
 
@@ -802,125 +842,159 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public ISO8583u isoResponse = null;
+    private volatile ISO8583u isoResponse = null;
 
     Runnable onlineRequest = new Runnable() {
         @Override
         public void run() {
-
-            ISO8583u iso8583u = new ISO8583u();
-            if (tagOfF55 != null) {
-                for (int i = 0; i < tagOfF55.size(); i++) {
-                    int tag = tagOfF55.keyAt(i);
-                    String value = tagOfF55.valueAt(i);
-                    if (value.length() > 0) {
-                        byte[] tmp = iso8583u.appendF55(tag, value);
-                        if (tmp == null) {
-                            Log.e(TAG, "error of tag:" + Integer.toHexString(tag) + ", value:" + value);
-                        } else {
-                            Log.d(TAG, "append F55 tag:" + Integer.toHexString(tag) + ", value:" + Utility.byte2HexStr(tmp));
-                        }
-                    }
-                }
-                tagOfF55 = null;
-
+            if (!performOnlineRequest()) {
+                toastShow("Online request failed");
             }
-            byte[] packet = iso8583u.makePacket(data8583, ISO8583.PACKET_TYPE.PACKET_TYPE_HEXLEN_BUF);
-//            byte[] packet = iso8583u.makePacket(data8583, ISO8583.PACKET_TYPE.PACKET_TYPE_NONE);
-
-            Comm comm = new Comm(hostIP, hostPort);
-            if (false == comm.connect()) {
-                Log.e(TAG, "connect server error");
-                return;
-            }
-
-            comm.send(packet);
-            byte[] response = comm.receive(1024, 30);
-            if (null == response) {
-                Log.e(TAG, "receive error");
-            }
-            comm.disconnect();
-
-            if (response == null) {
-                Log.e(TAG, "Test fails");
-            } else {
-                Log.i(TAG, "Test return length:" + response.length);
-                Log.i(TAG, Utility.byte2HexStr(response));
-                isoResponse = new ISO8583u();
-                if (isoResponse.unpack(response, 2)) {
-                    String message = "";
-                    String s;
-                    String type = "";
-
-                    s = isoResponse.getUnpack(0);
-                    if (null != s) {
-                        type = s;
-                        message += "Message Type:";
-                        message += s;
-                        message += "\n";
-                    }
-
-                    s = isoResponse.getUnpack(39);
-                    if (null != s) {
-                        message += "Response(39):";
-                        message += s;
-                        message += "\n";
-                    }
-                    if (type.equals("0810")) {
-                        s = isoResponse.getUnpack(62 + 200);
-                        if (null != s) {
-                            Log.d(TAG, "Field62:" + s);
-                            if (s.length() == 48) {
-                                pinKey_WorkKey = s.substring(0, 32);
-                                macKey = s.substring(32, 48);
-                            } else if (s.length() == 80) {
-                                pinKey_WorkKey = s.substring(0, 64);
-                                macKey = s.substring(64, 80);
-                            } else if (s.length() == 120) {
-                                pinKey_WorkKey = s.substring(0, 64);
-                                macKey = s.substring(64, 80);
-                            }
-                            message += "pinKey:";
-                            message += pinKey_WorkKey;
-                            message += "\n";
-                            message += "macKey:";
-                            message += macKey;
-                            message += "\n";
-                        }
-                    } else if (type.equals("0210")) {
-                        s = isoResponse.getUnpack(54);
-                        if (null != s) {
-                            message += "Balance(54):";
-                            message += s.substring(0, 2) + "," + s.substring(2, 4) + "," + s.substring(4, 7) + "," + s.substring(7, 8);
-                            message += "\n" + Integer.valueOf(s.substring(8, s.length() - 1));
-                            message += "\n";
-                        }
-
-                    }
-
-                    toastShow(message);
-                }
-            }
-
-
-            Message msg = new Message();
-            Bundle data = new Bundle();
-            data.putString("value", "receive finished");
-            msg.setData(data);
-            onlineResponse.sendMessage(msg);
         }
     };
+
+    private boolean performOnlineRequest() {
+        try {
+            return performOnlineRequestInternal();
+        } catch (RuntimeException e) {
+            isoResponse = null;
+            Log.e(TAG, "Online request failed unexpectedly", e);
+            notifyOnlineStatus("request failed");
+            return false;
+        }
+    }
+
+    private boolean performOnlineRequestInternal() {
+        isoResponse = null;
+        if (data8583 == null || hostIP == null || hostPort <= 0) {
+            Log.e(TAG, "Online request parameters are incomplete");
+            notifyOnlineStatus("request failed");
+            return false;
+        }
+
+        ISO8583u iso8583u = new ISO8583u();
+        if (tagOfF55 != null) {
+            for (int i = 0; i < tagOfF55.size(); i++) {
+                int tag = tagOfF55.keyAt(i);
+                String value = tagOfF55.valueAt(i);
+                if (value.length() > 0 && iso8583u.appendF55(tag, value) == null) {
+                    Log.e(TAG, "Unable to append field 55 tag: " + Integer.toHexString(tag));
+                }
+            }
+            tagOfF55 = null;
+        }
+
+        byte[] packet = iso8583u.makePacket(data8583, ISO8583.PACKET_TYPE.PACKET_TYPE_HEXLEN_BUF);
+        if (packet == null || packet.length == 0) {
+            Log.e(TAG, "Unable to build ISO8583 packet");
+            notifyOnlineStatus("request failed");
+            return false;
+        }
+
+        Comm comm = new Comm(hostIP, hostPort);
+        byte[] response;
+        try {
+            if (!comm.connect()) {
+                Log.e(TAG, "connect server error");
+                notifyOnlineStatus("connect failed");
+                return false;
+            }
+            if (comm.send(packet) != packet.length) {
+                Log.e(TAG, "send error");
+                notifyOnlineStatus("send failed");
+                return false;
+            }
+            response = comm.receive(1024, 30);
+        } finally {
+            comm.disconnect();
+        }
+
+        if (response == null || response.length == 0) {
+            Log.e(TAG, "receive error");
+            notifyOnlineStatus("receive failed");
+            return false;
+        }
+
+        Log.i(TAG, "Test return length:" + response.length);
+        ISO8583u parsedResponse = new ISO8583u();
+        if (!parsedResponse.unpack(response, 2)) {
+            Log.e(TAG, "Unable to unpack ISO8583 response");
+            notifyOnlineStatus("invalid response");
+            return false;
+        }
+        isoResponse = parsedResponse;
+
+        StringBuilder message = new StringBuilder();
+        String type = parsedResponse.getUnpack(0);
+        if (type != null) {
+            message.append("Message Type:").append(type).append('\n');
+        }
+
+        String responseCode = parsedResponse.getUnpack(39);
+        if (responseCode != null) {
+            message.append("Response(39):").append(responseCode).append('\n');
+        }
+
+        if ("0810".equals(type)) {
+            String keyData = parsedResponse.getUnpack(62 + 200);
+            if (keyData != null) {
+                if (keyData.length() == 48) {
+                    pinKey_WorkKey = keyData.substring(0, 32);
+                    macKey = keyData.substring(32, 48);
+                } else if (keyData.length() == 80 || keyData.length() == 120) {
+                    pinKey_WorkKey = keyData.substring(0, 64);
+                    macKey = keyData.substring(64, 80);
+                }
+                message.append("Session keys received\n");
+            }
+        } else if ("0210".equals(type)) {
+            String balance = parsedResponse.getUnpack(54);
+            if (balance != null) {
+                message.append("Balance(54) received\n");
+            }
+        }
+
+        toastShow(message.toString());
+        notifyOnlineStatus("receive finished");
+        return true;
+    }
+
+    private boolean hasResponseField(int field) {
+        return isoResponse != null
+                && isoResponse.unpackValidField != null
+                && field >= 0
+                && field < isoResponse.unpackValidField.length
+                && isoResponse.unpackValidField[field]
+                && isoResponse.getUnpack(field) != null;
+    }
+
+    private void notifyOnlineStatus(String value) {
+        Message msg = new Message();
+        Bundle data = new Bundle();
+        data.putString("value", value);
+        msg.setData(data);
+        onlineResponse.sendMessage(msg);
+    }
 
     /**
      * \Brief make purchase fields
      */
     void doPurchase() {
-        //
+        if (edAmount == null) {
+            toastShow("Transaction amount is unavailable");
+            return;
+        }
+        String amount = edAmount.getText().toString().trim();
+        if (!amount.matches("\\d{1,12}")) {
+            toastShow("Enter a valid amount with up to 12 digits");
+            return;
+        }
+
         SparseArray<String> data8583_u_purchase = new SparseArray<>();
         data8583_u_purchase.put(ISO8583u.F_MessageType_00, "0200");
         data8583_u_purchase.put(ISO8583u.F_AccountNumber_02, "");
         data8583_u_purchase.put(3, "00 00 00");
-        data8583_u_purchase.put(ISO8583u.F_AmountOfTransactions_04, edAmount.getText().toString());
+        data8583_u_purchase.put(ISO8583u.F_AmountOfTransactions_04, amount);
         data8583_u_purchase.put(11, "01 02 03");
         data8583_u_purchase.put(22, "02 1");   // 02 mag, 05 smart, 07 ctls; 1 pin
         data8583_u_purchase.put(25, "00");
@@ -969,16 +1043,16 @@ public class MainActivity extends AppCompatActivity {
      * \Brief make sign in fields
      */
     void doSignIn() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss", Locale.US);
         Date dt = new Date();
 
         SparseArray<String> data8583_u_signin = new SparseArray<>();
         data8583_u_signin.put(0, "0800");
         // data8583_u_signin.put( 1, "");
         data8583_u_signin.put(11, "012345");
-        sdf = new SimpleDateFormat("HHmmss");
+        sdf = new SimpleDateFormat("HHmmss", Locale.US);
         data8583_u_signin.put(12, sdf.format(dt));
-        sdf = new SimpleDateFormat("MMdd");
+        sdf = new SimpleDateFormat("MMdd", Locale.US);
         data8583_u_signin.put(13, sdf.format(dt));
         data8583_u_signin.put(32, "12345678");
         data8583_u_signin.put(37, "ABCDEF123456");

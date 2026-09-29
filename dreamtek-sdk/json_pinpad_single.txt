@@ -1,0 +1,26 @@
+[
+ {
+
+  "moudleId":"Pinpad",
+  "API":"isKeyExist",
+  "caseId":"Pinpad_isKeyExist_001",
+  "caseDescribe":"",
+  "methodParams":
+//int
+   {
+    "keyId":1,
+	"keyType":2
+   },
+
+  "expectResultType":"",
+  "expectResult":"",
+
+// int 1:continue 2:stop 3:exit
+  "caseState":,
+  },
+  {
+	//....
+  }
+]
+
+

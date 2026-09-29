@@ -25,3 +25,4 @@ public class EMVParamKeyCaseA extends EMVParamKey {
         return super.append(fixedTag, fixedValue);
     }
 }
+

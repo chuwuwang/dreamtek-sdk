@@ -128,7 +128,7 @@ public class ISO8583 {
                     trimmedValue = String.copyValueOf( fill) + trimmedValue;
                     len = trimmedValue.length();
 
-                    Log.d(TAG, "after fill:" + trimmedValue );
+                    Log.d(TAG, "value padded to field length");
                 }
             }
 
@@ -206,7 +206,7 @@ public class ISO8583 {
                     retBytes = new byte[wantLen/2];
                     Arrays.fill(retBytes, (byte) 0);
                     System.arraycopy(value,0,retBytes,(wantLen-len)/2, len/2);
-                    Log.d(TAG, "before:" + Utility.byte2HexStr(value) + ", after:" + Utility.byte2HexStr(retBytes) );
+                    Log.d(TAG, "field value padded");
                 }
             }
         } else {
@@ -219,7 +219,9 @@ public class ISO8583 {
         } else {
             allField[field] = retBytes;
             validField[field] = true;
-            Log.d( TAG, "save field:" + field + ", type " +  Integer.toHexString(attribute_array[field][ATTR_INDEX_TYPE]) + ", len:" + value.length + ", value:" + Utility.byte2HexStr(retBytes) );
+            Log.d(TAG, "save field:" + field + ", type "
+                    + Integer.toHexString(attribute_array[field][ATTR_INDEX_TYPE])
+                    + ", len:" + value.length);
         }
         return retBytes;
     }
@@ -296,7 +298,7 @@ public class ISO8583 {
                 System.arraycopy( allField[i], 0 ,tmp, offset, len );
                 offset += len ;
 
-                Log.d( TAG, "set field " + i + ", len:" + len + ", value:" + Utility.byte2HexStr(allField[i]) );
+                Log.d(TAG, "set field " + i + ", len:" + len);
             } else {
             }
         }
@@ -304,7 +306,7 @@ public class ISO8583 {
         if( false == validField[ISO_BIT_MAX] ){
             byte[] mac = calculateMac( tmp, header.length, offset );
             if( null != mac ){
-                Log.d(TAG, "get mac:" + Utility.byte2HexStr(mac));
+                Log.d(TAG, "MAC calculated");
                 len = 8;
                 System.arraycopy( mac, 0 ,tmp, offset, len );
                 offset += len ;
@@ -334,8 +336,6 @@ public class ISO8583 {
             return null;
         }
 
-        Log.d(TAG, Utility.byte2HexStr(packet));
-
         return packet;
 
     }
@@ -363,8 +363,6 @@ public class ISO8583 {
         Log.d(TAG, "getHeaderLen:" + headerLen);
         int index = offset + headerLen;
         int fieldOffset = 0;
-
-        Log.d(TAG, "unpack:" + Utility.byte2HexStr(packet));
 
         isoData = new SparseArray<>();
         unpackValidField = new boolean[ISO_BIT_MAX+1];
@@ -429,7 +427,9 @@ public class ISO8583 {
                     fieldOffset += length;
                 }
 
-                Log.d(TAG, "set field:" + field + ", type:" + Integer.toHexString(attribute_array[field][ATTR_INDEX_TYPE]) + ", Length:" + length + ", value:" + isoData.get( field ));
+                Log.d(TAG, "set field:" + field + ", type:"
+                        + Integer.toHexString(attribute_array[field][ATTR_INDEX_TYPE])
+                        + ", Length:" + length);
 
             } else {
                 unpackValidField[field] = false;
@@ -489,7 +489,7 @@ public class ISO8583 {
         System.arraycopy(bLength, 0, TLV, offset, lenLen);
         offset += lenLen;
         System.arraycopy(value, 0, TLV, offset, value.length);
-        Log.d(TAG, "TLV:"  + Utility.byte2HexStr(TLV));
+        Log.d(TAG, "TLV appended, length:" + TLV.length);
 
         return appendF(field, TLV);
     }
@@ -523,7 +523,7 @@ public class ISO8583 {
             fieldValue = data.valueAt(i);
             tmp = setField( fieldIndex, fieldValue );
             if( tmp == null ){
-                Log.e(TAG, "error of index:" + fieldIndex + ", value:" +  fieldValue );
+                Log.e(TAG, "error of index:" + fieldIndex);
             }
         }
 

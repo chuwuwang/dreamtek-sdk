@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".BottomNavActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/getSerialNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getSerialNo"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getIMSI"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getIMSI"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/getIMEI"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getIMEI"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/getICCID"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getICCID"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getManufacture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getManufacture"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/getModel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getModel"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/getAndroidOSVersion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getAndroidOSVersion"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getAndroidKernelVersion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getAndroidKernelVersion"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/getROMVersion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getROMVersion"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/getFirmwareVersion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getFirmwareVersion"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getHardwareVersion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getHardwareVersion"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getPN"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getPN"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/getRamTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getRamTotal"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getRamAvailable"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getRamAvailable"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/getRomTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getRomTotal"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getRomAvailable"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getRomAvailable"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/getMobileDataUsageTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getMobileDataUsageTotal"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getBootCounts"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getBootCounts"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getPrintPaperLen"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getPrintPaperLen"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/getMagCardUsedTimes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getMagCardUsedTimes"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getSmartCardUsedTimes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getSmartCardUsedTimes"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getCTLSCardUsedTimes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getCTLSCardUsedTimes"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/getBatteryTemperature"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getBatteryTemperature"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getBatteryLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getBatteryLevel"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/getBatteryChargingTimes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getBatteryChargingTimes"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/getButtonBatteryVol"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getButtonBatteryVol"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getDeviceInfoEx"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getDeviceInfoEx"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/getMEID"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getMEID"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/getTamperCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getTamperCode"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/getServiceVersion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getServiceVersion"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/getCertificate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getcertificate"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getDeviceStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getDeviceStatus"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/getDeviceInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="getDeviceInfo"
+                        android:layout_weight="1"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Switch
+                        android:id="@+id/sw_setpower"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="true/false"
+                        android:padding="10dp" />
+                    <Button
+                        android:id="@+id/setPowerStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="setPowerStatus"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

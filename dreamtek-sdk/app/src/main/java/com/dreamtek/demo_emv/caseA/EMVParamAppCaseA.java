@@ -40,3 +40,4 @@ public class EMVParamAppCaseA extends EMVParamApplication {
         return super.append(fixedTag, fixedValue);
     }
 }
+

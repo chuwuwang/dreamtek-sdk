@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#f6f5fa"
-    android:baselineAligned="false"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#f6f5fa"
+              android:baselineAligned="false"
+              android:orientation="vertical">
 
 
     <LinearLayout
@@ -15,23 +15,23 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:background="#f5f6fa"
             android:orientation="horizontal">
 
-            <!--<Button-->
-                <!--android:id="@+id/keyboard_btn_cancel"-->
-                <!--style="?android:attr/borderlessButtonStyle"-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_marginLeft="7dp"-->
-                <!--android:background="#f5f6fa"-->
-                <!--android:gravity="left|center_vertical"-->
-                <!--android:padding="6dp"-->
-                <!--android:text="X"-->
-                <!--android:textColor="@color/black"-->
-                <!--android:textSize="15sp" />-->
+            <Button
+                android:id="@+id/keyboard_btn_cancel"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="7dp"
+                android:background="#f5f6fa"
+                android:gravity="left|center_vertical"
+                android:padding="6dp"
+                android:text="X"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/textView_nouse"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_gravity="center"
-                android:background="@color/black" />
+                android:background="@color/black"/>
         </LinearLayout>
 
         <LinearLayout
@@ -78,23 +78,23 @@
             <TextView
                 android:id="@+id/dsp_pwd"
                 android:layout_width="match_parent"
-                android:layout_height="26dp"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:letterSpacing="0.4"
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="28sp" />
+                android:textSize="28sp"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/keyboard_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black_pearl"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="93dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <Button
@@ -102,47 +102,47 @@
                     android:layout_width="fill_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/black_pearl"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/darkgray"
-                    android:textSize="40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="fill_parent"
-                    android:background="@color/gray" />
+                    android:background="@color/gray"/>
 
                 <Button
                     android:id="@+id/keyboard_btn2"
                     android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/black_pearl"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/darkgray"
-                    android:textSize="40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="fill_parent"
-                    android:background="@color/gray" />
+                    android:background="@color/gray"/>
 
                 <Button
                     android:id="@+id/keyboard_btn3"
                     android:layout_width="fill_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/black_pearl"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/darkgray"
-                    android:textSize="40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray" />
+                android:background="@color/gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -154,194 +154,143 @@
                     android:layout_width="fill_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/black_pearl"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/darkgray"
-                    android:textSize="40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="fill_parent"
-                    android:background="@color/gray" />
+                    android:background="@color/gray"/>
 
                 <Button
                     android:id="@+id/keyboard_btn5"
                     android:layout_width="fill_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/black_pearl"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/darkgray"
-                    android:textSize="40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="fill_parent"
-                    android:background="@color/gray" />
+                    android:background="@color/gray"/>
 
                 <Button
                     android:id="@+id/keyboard_btn6"
                     android:layout_width="fill_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/black_pearl"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/darkgray"
-                    android:textSize="40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray" />
+                android:background="@color/gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="fill_parent"
-                    android:background="@color/gray" />
 
                 <Button
                     android:id="@+id/keyboard_btn7"
                     android:layout_width="fill_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/black_pearl"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/darkgray"
-                    android:textSize="40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="fill_parent"
-                    android:background="@color/gray" />
+                    android:background="@color/gray"/>
 
                 <Button
                     android:id="@+id/keyboard_btn8"
                     android:layout_width="fill_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/black_pearl"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/darkgray"
-                    android:textSize="40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="fill_parent"
-                    android:background="@color/gray" />
+                    android:background="@color/gray"/>
 
                 <Button
                     android:id="@+id/keyboard_btn9"
                     android:layout_width="fill_parent"
                     android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/black_pearl"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:textColor="@color/darkgray"
-                    android:textSize="40sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray" />
+                android:background="@color/gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
+                <Button
+                    android:id="@+id/keyboard_btn_delete"
+                    android:layout_width="fill_parent"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:background="#C0FF8C00"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Backspace"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
                 <View
                     android:layout_width="1dp"
                     android:layout_height="fill_parent"
-                    android:background="@color/gray" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="fill_parent"
-                    android:background="@color/gray" />
-
-                <!--<Button-->
-                <!--android:id="@+id/keyboard_btn_delete"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="140dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@color/black_pearl"-->
-                <!--android:gravity="center_horizontal|center_vertical"-->
-                <!--android:text="Backspace"-->
-                <!--android:textColor="@color/darkgray"-->
-                <!--android:textSize="18sp" />-->
+                    android:background="@color/gray"/>
 
                 <Button
-                    android:id="@+id/keyboard_btn_cancel"
+                    android:id="@+id/keyboard_btn0"
                     android:layout_width="fill_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/firebrick"
+                    android:background="@color/white"
                     android:gravity="center_horizontal|center_vertical"
-                    android:text="Cancel"
-                    android:textColor="@color/darkgray"
-                    android:textSize="30sp" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="fill_parent"
-                    android:background="@color/gray" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/keyboard_btn0"
-                        android:layout_width="fill_parent"
-                        android:layout_height="70dp"
-                        android:layout_weight="1"
-                        android:background="@color/black_pearl"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:textColor="@color/darkgray"
-                        android:textSize="40sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/gray" />
-
-                    <Button
-                        android:id="@+id/keyboard_btn_delete"
-                        android:layout_width="fill_parent"
-                        android:layout_height="70dp"
-                        android:layout_weight="1"
-                        android:background="@color/yellow"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:text="←"
-                        android:textColor="@color/darkgray"
-                        android:textSize="48sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="fill_parent"
-                    android:background="@color/gray" />
+                    android:background="@color/gray"/>
 
                 <Button
                     android:id="@+id/keyboard_btn_confirm"
                     android:layout_width="fill_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
-                    android:background="@color/darkgreen"
+                    android:background="#C00EA708"
                     android:gravity="center_horizontal|center_vertical"
-                    android:text="CONFIRM"
-                    android:textColor="@color/darkgray"
-                    android:textSize="18sp" />
+                    android:text="Confirm"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <TextView
@@ -351,7 +300,7 @@
                 android:layout_weight="1"
                 android:background="#f5f6fa"
                 android:gravity="center|center_vertical"
-                android:text="Press YELLOW KEY while need correct "
+                android:text="Press BACKSPACE while need correct "
                 android:textColor="#555555"
                 android:textSize="20sp" />
 

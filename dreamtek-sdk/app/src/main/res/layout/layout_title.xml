@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="720px"
+    android:layout_height="112px">
+
+    <RelativeLayout
+        android:layout_width="720px"
+        android:layout_height="112px">
+
+        <ImageButton
+            android:id="@+id/btn_trans_back"
+            android:layout_width="96px"
+            android:layout_height="96px"
+            android:layout_marginLeft="8px"
+            android:layout_marginTop="8px"
+            android:background="#FFD400"
+            android:src="@drawable/icon_back_title"/>
+        <TextView
+            android:id="@+id/tv_tool_title"
+            android:layout_width="wrap_content"
+            android:layout_height="67px"
+            android:text=""
+            android:textSize="40px"
+            android:textColor="#3A3433"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="112px"
+            android:layout_marginTop="23px"/>
+        <TextView
+            android:id="@+id/tv_demo_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DEMO MODE"
+            android:layout_centerHorizontal="true"
+            android:textSize="40px"
+            android:textColor="@color/color_red"
+            android:visibility="gone"/>
+        <ImageButton
+            android:id="@+id/btn_scan"
+            android:layout_width="78px"
+            android:layout_height="41px"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/barcode"
+            android:layout_marginTop="36px"
+            android:layout_marginRight="33px"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

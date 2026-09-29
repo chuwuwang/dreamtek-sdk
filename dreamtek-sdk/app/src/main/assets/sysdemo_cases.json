@@ -1,0 +1,2717 @@
+[
+  {
+    "id": "SYS-1001",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "installApp",
+    "key": "ISystemManager.installApp",
+    "params": [
+      {
+        "type": "String",
+        "name": "apkPath"
+      },
+      {
+        "type": "IAppInstallObserver",
+        "name": "observer"
+      },
+      {
+        "type": "String",
+        "name": "installerPackageName"
+      }
+    ],
+    "defaults": [
+      "",
+      "callback",
+      "${PACKAGE}"
+    ],
+    "callback": true,
+    "mutating": true,
+    "source": "MainActivity.java, SystemFragment.java",
+    "help": "### 4.32.1 installApp\n\n**Description:** Install an APK.\n\n**Signature:**\n\n```aidl\nvoid installApp(String apkPath, IAppInstallObserver observer, String installerPackageName);\n```\n\n**Parameters:**\n\n| Parameter | Requirement |\n| --- | --- |\n| `apkPath` | Existing APK file readable by the service. |\n| `observer` | Required installation callback. |\n| `installerPackageName` | The calling app's package name. |\n\n**Callback:** `onInstallFinished(packageName, returnCode)`: `0` means success; `-1` means failure or a 120-second timeout. `packageName` can be `null` if the APK could not be parsed.\n\n**Errors:** `IllegalArgumentException` for invalid arguments; `SecurityException` if the installer package does not belong to the caller. Concurrent installation throws `IllegalStateException` with `SYSTEM_MODULE_INSTALL_BUSY`.\n\n**Requirements:** The service needs installation permission and firmware support for silent installation. A timeout does not cancel an installation already submitted to Android.\n\n**Example:**\n\n```java\nsystemManager.installApp(apkPath, observer, installerPackageName);\n```",
+    "presets": [
+      {
+        "label": "Selected APK / current installer",
+        "values": [
+          "",
+          "callback",
+          "${PACKAGE}"
+        ]
+      },
+      {
+        "label": "Selected APK / custom installer",
+        "values": [
+          "",
+          "callback",
+          "test.custom.installer"
+        ]
+      },
+      {
+        "label": "Selected APK / empty installer",
+        "values": [
+          "",
+          "callback",
+          ""
+        ]
+      },
+      {
+        "label": "Selected APK / null installer",
+        "values": [
+          "",
+          "callback",
+          "<null>"
+        ]
+      },
+      {
+        "label": "Current client APK",
+        "values": [
+          "${SELF_APK}",
+          "callback",
+          "${PACKAGE}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1002",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "uninstallApp",
+    "key": "ISystemManager.uninstallApp",
+    "params": [
+      {
+        "type": "String",
+        "name": "packageName"
+      },
+      {
+        "type": "IAppDeleteObserver",
+        "name": "observer"
+      }
+    ],
+    "defaults": [
+      "",
+      "callback"
+    ],
+    "callback": true,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.2 uninstallApp\n\n**Description:** Uninstall an app.\n\n**Signature:**\n\n```aidl\nvoid uninstallApp(String packageName, IAppDeleteObserver observer);\n```\n\n**Parameters:** `packageName` is the app to remove. `observer` is required.\n\n**Callback:** `onDeleteFinished(packageName, returnCode)`: `0` means success; `-1` means failure or a 120-second timeout.\n\n**Errors:** Invalid arguments or an attempt to uninstall the Device Service throw `IllegalArgumentException`. Concurrent deletion throws `IllegalStateException` with `SYSTEM_MODULE_DELETE_BUSY`.\n\n**Requirements:** The service needs deletion permission and firmware support for silent uninstallation. A timeout does not cancel a request already submitted to Android.\n\n**Example:**\n\n```java\nsystemManager.uninstallApp(packageName, observer);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "",
+          "callback"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1003",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "reboot",
+    "key": "ISystemManager.reboot",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.3 reboot\n\n**Signature:**\n\n```aidl\nvoid reboot();\n```\n\n**Description:** Reboot the terminal device.\n\n**Parameters:** None\n\n**Returns:** No result.\n\n**Requirements:** The service needs reboot permission.\n\n**Example:**\n\n```java\nsystemManager.reboot();\n```"
+  },
+  {
+    "id": "SYS-1004",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "isMaskHomeKey",
+    "key": "ISystemManager.isMaskHomeKey",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "state"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.4 isMaskHomeKey\n\n**Signature:**\n\n```aidl\nvoid isMaskHomeKey(boolean state);\n```\n\n**Description:** Enable or disable the home key.\n\n**Parameters:**\n\n- `state` (boolean): true to disable home key, false to enable home key\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nsystemManager.isMaskHomeKey(state);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1005",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "isMaskRecentStatusKey",
+    "key": "ISystemManager.isMaskRecentStatusKey",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "state"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.5 isMaskRecentStatusKey\n\n**Signature:**\n\n```aidl\nvoid isMaskRecentStatusKey(boolean state);\n```\n\n**Description:** Enable or disable the Recent Apps/Overview key.\n\n**Parameters:**\n\n- `state` (boolean): true to disable Recent key, false to enable Recent key\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nsystemManager.isMaskRecentStatusKey(state);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1006",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "isMaskStatusBard",
+    "key": "ISystemManager.isMaskStatusBard",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "state"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.6 isMaskStatusBard\n\n**Signature:**\n\n```aidl\nvoid isMaskStatusBard(boolean state);\n```\n\n**Description:** Enable or disable the system status bar.\n\n**Parameters:**\n\n- `state` (boolean): true to disable system status bar, false to enable system status bar\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nsystemManager.isMaskStatusBard(state);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1007",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "chekcK21Update",
+    "key": "ISystemManager.chekcK21Update",
+    "params": [
+      {
+        "type": "String",
+        "name": "sysBin"
+      },
+      {
+        "type": "String",
+        "name": "appBin"
+      }
+    ],
+    "defaults": [
+      "",
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.7 chekcK21Update\n\n**Signature:**\n\n```aidl\nboolean chekcK21Update(String sysBin, String appBin);\n```\n\n**Description:** Upgrade K21 driver.\n\n**Parameters:**\n\n- `sysBin` (String): Path of sys bin file\n- `appBin` (String): Path of app bin file\n\n**Returns:** boolean - true if successful, false otherwise\n\n**Behavior:**\n\n- Validates that the file paths are not empty\n- If `sysBin` is not empty, updates using `sysBin` path\n- If `sysBin` is empty but `appBin` is not empty, updates using `appBin` path\n- Returns false if both paths are empty\n\n**Note:** This method internally calls `UpdateSecurityDriver` method for the actual update process.\n\nThe same 300-second host deadline, concurrency gate, recovery behavior and device restrictions as `UpdateSecurityDriver` apply.\n\n**Example:**\n\n```java\nboolean result = systemManager.chekcK21Update(sysBin, appBin);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "",
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1008",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "updateROM",
+    "key": "ISystemManager.updateROM",
+    "params": [
+      {
+        "type": "String",
+        "name": "zipPath"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.8 updateROM\n\n**Signature:**\n\n```aidl\nvoid updateROM(String zipPath);\n```\n\n**Description:** Upgrade ROM driver.\n\n**Parameters:**\n\n- `zipPath` (String): Path of ROM package (zip file)\n\n**Returns:** No result.\n\n**Behavior:**\n\n- Validates that zipPath is not null\n- Validates that the file exists and is a zip file (ends with \".zip\")\n- If validation fails, the method returns without performing the update\n- The ROM update process is asynchronous and may take some time\n\n**Requirements:** Vendor ROM updater, matching signed ZIP and firmware authorization; void return does not establish upgrade success.\n\n**Example:**\n\n```java\nsystemManager.updateROM(zipPath);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1009",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "getNetworkManager",
+    "key": "ISystemManager.getNetworkManager",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "MainActivity.java, DeviceInfoFragment.java, NetworkFragment.java, SettingsFragment.java, SystemFragment.java",
+    "help": "### 4.32.9 getNetworkManager\n\n**Signature:**\n\n```aidl\nINetworkManager getNetworkManager();\n```\n\n**Description:** Get the network interface.\n\n**Parameters:** None\n\n**Returns:** INetworkManager - Network manager interface instance\n\n**Example:**\n\n```java\nINetworkManager result = systemManager.getNetworkManager();\n```"
+  },
+  {
+    "id": "SYS-1010",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "setLocationMode",
+    "key": "ISystemManager.setLocationMode",
+    "params": [
+      {
+        "type": "int",
+        "name": "status"
+      }
+    ],
+    "defaults": [
+      "0"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.10 setLocationMode\n\n**Signature:**\n\n```aidl\nvoid setLocationMode(int status);\n```\n\n**Description:** Set location mode (only supports Android 5/7).\n\n**Parameters:**\n\n- `status` (int): Location mode\n  - 0: Off\n  - 1: Sensor only\n  - 2: Battery saving\n  - 3: High accuracy\n\n**Location Mode Constants:**\n\n- `0`: LOCATION_MODE_OFF - Location services disabled\n- `1`: LOCATION_MODE_SENSORS_ONLY - GPS only (Android 5.0+) / GPS provider (Android 4.4-)\n- `2`: LOCATION_MODE_BATTERY_SAVING - Network only (Android 5.0+) / Network provider (Android 4.4-)\n- `3`: LOCATION_MODE_HIGH_ACCURACY - GPS and network (Android 5.0+) / All providers (Android 4.4-)\n\n**Returns:** No result.\n\n**Note:** If turning on status 2 or 3 from 0 or 1, system will pop up a window to let user allow IZat for hardware acceleration.\n\n**Example:**\n\n```java\nsystemManager.setLocationMode(status);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1011",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "isAdbMode",
+    "key": "ISystemManager.isAdbMode",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.11 isAdbMode\n\n**Signature:**\n\n```aidl\nboolean isAdbMode();\n```\n\n**Description:** Get ADB status.\n\n**Parameters:** None\n\n**Returns:** boolean - true if ADB is enabled, false if disabled\n\n**Example:**\n\n```java\nboolean result = systemManager.isAdbMode();\n```"
+  },
+  {
+    "id": "SYS-1012",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "killApplication",
+    "key": "ISystemManager.killApplication",
+    "params": [
+      {
+        "type": "String",
+        "name": "packageName"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.12 killApplication\n\n**Signature:**\n\n```aidl\nboolean killApplication(String packageName);\n```\n\n**Description:** Kill an application process.\n\n**Parameters:**\n\n- `packageName` (String): Application package name\n\n**Returns:** boolean - true if successful, false if failed\n\n**Requirements:** FORCE_STOP_PACKAGES and the firmware hidden PackageManager/ActivityManager implementation.\n\n**Example:**\n\n```java\nboolean result = systemManager.killApplication(packageName);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1013",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "restartApplication",
+    "key": "ISystemManager.restartApplication",
+    "params": [
+      {
+        "type": "String",
+        "name": "packageName"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.13 restartApplication\n\n**Signature:**\n\n```aidl\nboolean restartApplication(String packageName);\n```\n\n**Description:** Restart an application by launching its main activity.\n\n**Parameters:**\n\n- `packageName` (String): Application package name\n\n**Returns:** boolean - true if successful, false if failed\n\n**Behavior:**\n\n- Validates that packageName is not null or empty\n- Gets the launch intent for the package using PackageManager.getLaunchIntentForPackage()\n- Adds FLAG_ACTIVITY_CLEAR_TOP flag to clear the activity stack\n- Starts the activity\n- Returns false if packageName is invalid or no launch intent is found\n\n**Example:**\n\n```java\nboolean result = systemManager.restartApplication(packageName);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1014",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "initLogcat",
+    "key": "ISystemManager.initLogcat",
+    "params": [
+      {
+        "type": "int",
+        "name": "logcatBufferSize"
+      },
+      {
+        "type": "int",
+        "name": "logcatBufferSizeSuffix"
+      },
+      {
+        "type": "Bundle",
+        "name": "bundle"
+      }
+    ],
+    "defaults": [
+      "6",
+      "0",
+      "<null>"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.14 initLogcat\n\n**Description:** Set the logcat buffer size.\n\n**Signature:**\n\n```aidl\nvoid initLogcat(int logcatBufferSize, int logcatBufferSizeSuffix, in Bundle bundle);\n```\n\n**Parameters:**\n\n| Parameter | Values |\n| --- | --- |\n| `logcatBufferSize` | `0`: use 8 MiB. Positive value: use the size and suffix below. |\n| `logcatBufferSizeSuffix` | `0`: MiB. Any other value: KiB. |\n| `bundle` | Unused. May be `null`. |\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nsystemManager.initLogcat(8, 0, null);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "6",
+          "0",
+          "<null>"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1015",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "getLogcat",
+    "key": "ISystemManager.getLogcat",
+    "params": [
+      {
+        "type": "String",
+        "name": "logcatFileName"
+      },
+      {
+        "type": "int",
+        "name": "compressType"
+      }
+    ],
+    "defaults": [
+      "<null>",
+      "0"
+    ],
+    "callback": false,
+    "mutating": false,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.15 getLogcat\n\n**Description:** Save logcat output to a file.\n\n**Signature:**\n\n```aidl\nString getLogcat(String logcatFileName, int compressType);\n```\n\n**Parameters:**\n\n| Parameter | Values |\n| --- | --- |\n| `logcatFileName` | `null` or empty: generate a name in the service's external-files `system/log/` directory. A relative name uses that directory. An absolute path must be in writable primary shared external storage. A trailing slash selects a directory. |\n| `compressType` | `0`: plain text. `1`: gzip. |\n\n**Returns:** Output path, or `null` on failure or after the 40-second wait limit. The capture process has a 30-second limit.\n\n**Errors:** Invalid compression throws `IllegalArgumentException`. Concurrent capture throws `IllegalStateException` with `SYSTEM_MODULE_LOG_BUSY`.\n\n**Notes:** Existing files are not overwritten. Default-directory files older than seven days are deleted. Other directories are not cleaned. A returned path does not grant file access; select a directory both apps can access if the client must read the file.\n\n**Example:**\n\n```java\nString logPath = systemManager.getLogcat(null, 1);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "<null>",
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1016",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "getLaunchAppsInfo",
+    "key": "ISystemManager.getLaunchAppsInfo",
+    "params": [
+      {
+        "type": "long",
+        "name": "beginTime"
+      },
+      {
+        "type": "long",
+        "name": "endTime"
+      }
+    ],
+    "defaults": [
+      "0",
+      "${NOW}"
+    ],
+    "callback": false,
+    "mutating": false,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.16 getLaunchAppsInfo\n\n**Description:** Read app usage statistics for a time range.\n\n**Signature:**\n\n```aidl\nBundle getLaunchAppsInfo(long beginTime, long endTime);\n```\n\n**Parameters:** `beginTime` and `endTime` are Unix timestamps in milliseconds.\n\n**Returns:** A Bundle containing `UsageStatsList` (String), a JSON array of usage statistics. Returns an empty Bundle if the usage-statistics service is unavailable.\n\n**Requirements:** The service needs usage-statistics access. An empty result does not establish that no apps ran.\n\n**Example:**\n\n```java\nlong endTime = System.currentTimeMillis();\nlong beginTime = endTime - 86400000L;\nBundle usage = systemManager.getLaunchAppsInfo(beginTime, endTime);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "0",
+          "${NOW}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1017",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "getSettingsManager",
+    "key": "ISystemManager.getSettingsManager",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "MainActivity.java, DeviceInfoFragment.java, NetworkFragment.java, SettingsFragment.java, SystemFragment.java",
+    "help": "### 4.32.17 getSettingsManager\n\n**Signature:**\n\n```aidl\nISettingsManager getSettingsManager();\n```\n\n**Description:** Get the settings interface.\n\n**Parameters:** None\n\n**Returns:** ISettingsManager - Settings manager interface instance\n\n**Example:**\n\n```java\nISettingsManager result = systemManager.getSettingsManager();\n```"
+  },
+  {
+    "id": "SYS-1018",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "takeCapture",
+    "key": "ISystemManager.takeCapture",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.18 takeCapture\n\n**Signature:**\n\n```aidl\nBitmap takeCapture();\n```\n\n**Description:** Take a screenshot of the screen.\n\n**Parameters:** None\n\n**Returns:** Bitmap - Bitmap data of screen capture\n\n**Requirements:** Firmware hidden screenshot implementation and capture permission. Hidden API availability is version dependent; null is possible.\n\n**Example:**\n\n```java\nBitmap result = systemManager.takeCapture();\n```"
+  },
+  {
+    "id": "SYS-1019",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "shutdownDevice",
+    "key": "ISystemManager.shutdownDevice",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.19 shutdownDevice\n\n**Signature:**\n\n```aidl\nvoid shutdownDevice();\n```\n\n**Description:** Shutdown the device.\n\n**Parameters:** None\n\n**Returns:** No result.\n\n**Requirements:** System power privilege plus the firmware hidden PowerManager.shutdown method.\n\n**Example:**\n\n```java\nsystemManager.shutdownDevice();\n```"
+  },
+  {
+    "id": "SYS-1020",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "UpdateSecurityDriver",
+    "key": "ISystemManager.UpdateSecurityDriver",
+    "params": [
+      {
+        "type": "String",
+        "name": "updatePackagePath"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.20 UpdateSecurityDriver\n\n**Description:** Update security-processor firmware. A status screen is shown.\n\n**Signature:**\n\n```aidl\nboolean UpdateSecurityDriver(String updatePackagePath);\n```\n\n**Parameters:** `updatePackagePath` is a nonempty binary file readable by the service, no larger than 64 MiB. Use the update file for the target terminal.\n\n**Returns:** `true` after all update steps succeed. Returns `false` for invalid input, failure, interruption, or a 300-second wait timeout.\n\n**Errors:** Another update throws `IllegalStateException` with `SYSTEM_MODULE_UPGRADE_BUSY`.\n\n**Notes:** The device operation can continue after timeout. Further updates remain blocked until the operation finishes and recovery succeeds. Do not retry or restart the terminal until its update state is known.\n\n**Example:**\n\n```java\nboolean result = systemManager.UpdateSecurityDriver(updatePackagePath);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1021",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "isAppForeground",
+    "key": "ISystemManager.isAppForeground",
+    "params": [
+      {
+        "type": "String",
+        "name": "packageName"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": false,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.21 isAppForeground\n\n**Signature:**\n\n```aidl\nboolean isAppForeground(String packageName);\n```\n\n**Description:** Check whether an application is currently in foreground or background.\n\n**Parameters:**\n\n- `packageName` (String): Application package name\n\n**Returns:** boolean - true if foreground, false if background or process not found\n\n**Behavior:**\n\n- Queries all running app processes\n- Checks if the process with matching package name has importance level IMPORTANCE_FOREGROUND or IMPORTANCE_VISIBLE\n\n**Importance Constants (from ActivityManager.RunningAppProcessInfo):**\n\n- `IMPORTANCE_FOREGROUND`: App is in foreground\n- `IMPORTANCE_VISIBLE`: App is visible but not in foreground\n- Returns false if no running processes found, process list is empty, or process not found\n\n**Example:**\n\n```java\nboolean result = systemManager.isAppForeground(packageName);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1022",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "getScreenBrightness",
+    "key": "ISystemManager.getScreenBrightness",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.22 getScreenBrightness\n\n**Signature:**\n\n```aidl\nint getScreenBrightness();\n```\n\n**Description:** Get screen brightness.\n\n**Parameters:** None\n\n**Returns:** int - Brightness value\n\n**Example:**\n\n```java\nint result = systemManager.getScreenBrightness();\n```"
+  },
+  {
+    "id": "SYS-1023",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "changeScreenBrightness",
+    "key": "ISystemManager.changeScreenBrightness",
+    "params": [
+      {
+        "type": "int",
+        "name": "brightnessData"
+      }
+    ],
+    "defaults": [
+      "128"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.23 changeScreenBrightness\n\n**Signature:**\n\n```aidl\nvoid changeScreenBrightness(int brightnessData);\n```\n\n**Description:** Change screen brightness.\n\n**Parameters:**\n\n- `brightnessData` (int): Brightness value, must be between 10 and 255 (inclusive)\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nsystemManager.changeScreenBrightness(brightnessData);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "128"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1024",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "verifySignSync",
+    "key": "ISystemManager.verifySignSync",
+    "params": [
+      {
+        "type": "String",
+        "name": "path"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": false,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.24 verifySignSync\n\n**Description:** Verify a file signature and wait for the result.\n\n**Signature:**\n\n```aidl\nboolean verifySignSync(String path);\n```\n\n**Parameters:** `path` is an existing APK or ZIP file readable by the service.\n\n**Returns:** `true` if verification succeeds; `false` for invalid input or a verification failure.\n\n**Notes:** This call has no service timeout. Run it on a worker thread. Use `verifySign()` for a callback with a timeout.\n\n**Example:**\n\n```java\nboolean result = systemManager.verifySignSync(path);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1025",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "verifySign",
+    "key": "ISystemManager.verifySign",
+    "params": [
+      {
+        "type": "String",
+        "name": "path"
+      },
+      {
+        "type": "IVerifysignCallback",
+        "name": "callback"
+      }
+    ],
+    "defaults": [
+      "",
+      "callback"
+    ],
+    "callback": true,
+    "mutating": false,
+    "source": "SystemFragment.java",
+    "help": "### 4.32.25 verifySign\n\n**Description:** Verify a file signature through a callback.\n\n**Signature:**\n\n```aidl\nvoid verifySign(String path, IVerifysignCallback callback);\n```\n\n**Parameters:** `path` is an APK or ZIP file readable by the service. `callback` is required.\n\n**Callback:** `onVerifySignResult(true)` means success. `false` means invalid input, verification failure, or a 120-second timeout. Each accepted request sends at most one result while the client is connected.\n\n**Notes:** Timeout does not cancel a verification already running on the device.\n\n**Example:**\n\n```java\nsystemManager.verifySign(path, callback);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "",
+          "callback"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-1026",
+    "group": "System",
+    "interface": "ISystemManager",
+    "method": "getSysDeviceInfo",
+    "key": "ISystemManager.getSysDeviceInfo",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.32.26 getSysDeviceInfo\n\n**Signature:**\n\n```aidl\nISysDeviceInfo getSysDeviceInfo();\n```\n\n**Description:** Get the system device-info interface.\n\n**Parameters:** None\n\n**Returns:** ISysDeviceInfo - Device info interface instance\n\n**Example:**\n\n```java\nISysDeviceInfo result = systemManager.getSysDeviceInfo();\n```"
+  },
+  {
+    "id": "SYS-2001",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getSerialNo",
+    "key": "ISysDeviceInfo.getSerialNo",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.1 getSerialNo\n\n**Signature:**\n\n```aidl\nString getSerialNo();\n```\n\n**Description:** Get the serial number (SN) of the terminal.\n\n**Parameters:** None\n\n**Returns:** String - Serial number\n\n**Example:**\n\n```java\nString result = deviceInfo.getSerialNo();\n```"
+  },
+  {
+    "id": "SYS-2002",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getIMSI",
+    "key": "ISysDeviceInfo.getIMSI",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.2 getIMSI\n\n**Signature:**\n\n```aidl\nString getIMSI();\n```\n\n**Description:** Get the IMSI of the terminal.\n\n**Parameters:** None\n\n**Returns:** String - IMSI value\n\n**Example:**\n\n```java\nString result = deviceInfo.getIMSI();\n```"
+  },
+  {
+    "id": "SYS-2003",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getIMEI",
+    "key": "ISysDeviceInfo.getIMEI",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.3 getIMEI\n\n**Signature:**\n\n```aidl\nString getIMEI();\n```\n\n**Description:** Get the IMEI of the terminal.\n\n**Parameters:** None\n\n**Returns:** String - IMEI value\n\n**Example:**\n\n```java\nString result = deviceInfo.getIMEI();\n```"
+  },
+  {
+    "id": "SYS-2004",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getICCID",
+    "key": "ISysDeviceInfo.getICCID",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.4 getICCID\n\n**Signature:**\n\n```aidl\nString getICCID();\n```\n\n**Description:** Get the ICCID of the SIM card which is present.\n\n**Parameters:** None\n\n**Returns:** String - ICCID value, or empty string if SIM card is not present\n\n**Behavior:**\n\n- Uses TelephonyManager.getSimSerialNumber() to get the ICCID\n- Returns empty string if SIM card is not present or ICCID is null\n\n**Example:**\n\n```java\nString result = deviceInfo.getICCID();\n```"
+  },
+  {
+    "id": "SYS-2005",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getManufacture",
+    "key": "ISysDeviceInfo.getManufacture",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.5 getManufacture\n\n**Signature:**\n\n```aidl\nString getManufacture();\n```\n\n**Description:** Get name of manufacturer.\n\n**Parameters:** None\n\n**Returns:** String - Manufacturer name\n\n**Example:**\n\n```java\nString result = deviceInfo.getManufacture();\n```"
+  },
+  {
+    "id": "SYS-2006",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getModel",
+    "key": "ISysDeviceInfo.getModel",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.6 getModel\n\n**Signature:**\n\n```aidl\nString getModel();\n```\n\n**Description:** Get model of the terminal.\n\n**Parameters:** None\n\n**Returns:** String - Device model\n\n**Example:**\n\n```java\nString result = deviceInfo.getModel();\n```"
+  },
+  {
+    "id": "SYS-2007",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getAndroidOSVersion",
+    "key": "ISysDeviceInfo.getAndroidOSVersion",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.7 getAndroidOSVersion\n\n**Signature:**\n\n```aidl\nString getAndroidOSVersion();\n```\n\n**Description:** Get the version of the Android OS.\n\n**Parameters:** None\n\n**Returns:** String - Android OS version\n\n**Example:**\n\n```java\nString result = deviceInfo.getAndroidOSVersion();\n```"
+  },
+  {
+    "id": "SYS-2008",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getAndroidKernelVersion",
+    "key": "ISysDeviceInfo.getAndroidKernelVersion",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.8 getAndroidKernelVersion\n\n**Signature:**\n\n```aidl\nString getAndroidKernelVersion();\n```\n\n**Description:** Get the version of Android Kernel.\n\n**Parameters:** None\n\n**Returns:** String - Android kernel version\n\n**Example:**\n\n```java\nString result = deviceInfo.getAndroidKernelVersion();\n```"
+  },
+  {
+    "id": "SYS-2009",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getROMVersion",
+    "key": "ISysDeviceInfo.getROMVersion",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.9 getROMVersion\n\n**Signature:**\n\n```aidl\nString getROMVersion();\n```\n\n**Description:** Get the ROM version of Android.\n\n**Parameters:** None\n\n**Returns:** String - ROM version\n\n**Example:**\n\n```java\nString result = deviceInfo.getROMVersion();\n```"
+  },
+  {
+    "id": "SYS-2010",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getFirmwareVersion",
+    "key": "ISysDeviceInfo.getFirmwareVersion",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.10 getFirmwareVersion\n\n**Signature:**\n\n```aidl\nString getFirmwareVersion();\n```\n\n**Description:** Get the firmware version of the terminal.\n\n**Parameters:** None\n\n**Returns:** String - Firmware version\n\n**Example:**\n\n```java\nString result = deviceInfo.getFirmwareVersion();\n```"
+  },
+  {
+    "id": "SYS-2011",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getHardwareVersion",
+    "key": "ISysDeviceInfo.getHardwareVersion",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.11 getHardwareVersion\n\n**Signature:**\n\n```aidl\nString getHardwareVersion();\n```\n\n**Description:** Get the hardware version.\n\n**Parameters:** None\n\n**Returns:** String - Hardware version\n\n**Example:**\n\n```java\nString result = deviceInfo.getHardwareVersion();\n```"
+  },
+  {
+    "id": "SYS-2012",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getTUSN",
+    "key": "ISysDeviceInfo.getTUSN",
+    "params": [
+      {
+        "type": "int",
+        "name": "mode"
+      },
+      {
+        "type": "byte[]",
+        "name": "input"
+      }
+    ],
+    "defaults": [
+      "0",
+      ""
+    ],
+    "callback": false,
+    "mutating": false,
+    "source": "New coverage",
+    "help": "### 4.33.12 getTUSN\n\n**Signature:**\n\n```aidl\nTusnData getTUSN(int mode, in byte[] input);\n```\n\n**Description:** Deprecated. The service does not return TUSN data.\n\n**Parameters:** `mode` and `input` are ignored.\n\n**Returns:** null\n\n**Note:** This method is deprecated and always returns null in the service.\n\n`getSerialNo()` supplies the ordinary device serial number; it is not a cryptographic replacement for TUSN/MAC.\n\n**Example:**\n\n```java\nTusnData result = deviceInfo.getTUSN(mode, input);\n```",
+    "presets": [
+      {
+        "label": "Mode 0 / empty challenge",
+        "values": [
+          "0",
+          ""
+        ]
+      },
+      {
+        "label": "Mode 1 / editable challenge",
+        "values": [
+          "1",
+          "0001020304050607"
+        ]
+      },
+      {
+        "label": "Mode 2 / editable challenge",
+        "values": [
+          "2",
+          "0001020304050607"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-2013",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getPN",
+    "key": "ISysDeviceInfo.getPN",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.13 getPN\n\n**Signature:**\n\n```aidl\nString getPN();\n```\n\n**Description:** Get the PN (Product Number) of the terminal.\n\n**Parameters:** None\n\n**Returns:** String - Product number\n\n**Example:**\n\n```java\nString result = deviceInfo.getPN();\n```"
+  },
+  {
+    "id": "SYS-2014",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "setPowerStatus",
+    "key": "ISysDeviceInfo.setPowerStatus",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "status"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.14 setPowerStatus\n\n**Signature:**\n\n```aidl\nvoid setPowerStatus(boolean status);\n```\n\n**Description:** Set power key disable or enable.\n\n**Parameters:**\n\n- `status` (boolean): true to disable the power key, false to enable the power key\n\n**Returns:** No result.\n\n**Example:**\n\n```java\ndeviceInfo.setPowerStatus(status);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-2015",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getRamTotal",
+    "key": "ISysDeviceInfo.getRamTotal",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.15 getRamTotal\n\n**Signature:**\n\n```aidl\nString getRamTotal();\n```\n\n**Description:** Get the total RAM. Unit is byte.\n\n**Parameters:** None\n\n**Returns:** String - Total RAM in bytes (for example, \"4096000000B\")\n\n**Example:**\n\n```java\nString result = deviceInfo.getRamTotal();\n```"
+  },
+  {
+    "id": "SYS-2016",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getRamAvailable",
+    "key": "ISysDeviceInfo.getRamAvailable",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.16 getRamAvailable\n\n**Signature:**\n\n```aidl\nString getRamAvailable();\n```\n\n**Description:** Get the available RAM capacity. Unit is byte.\n\n**Parameters:** None\n\n**Returns:** String - Available RAM in bytes\n\n**Example:**\n\n```java\nString result = deviceInfo.getRamAvailable();\n```"
+  },
+  {
+    "id": "SYS-2017",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getRomTotal",
+    "key": "ISysDeviceInfo.getRomTotal",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.17 getRomTotal\n\n**Signature:**\n\n```aidl\nString getRomTotal();\n```\n\n**Description:** Get the flash RAM capacity. Unit is byte.\n\n**Parameters:** None\n\n**Returns:** String - Total ROM in bytes\n\n**Example:**\n\n```java\nString result = deviceInfo.getRomTotal();\n```"
+  },
+  {
+    "id": "SYS-2018",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getRomAvailable",
+    "key": "ISysDeviceInfo.getRomAvailable",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.18 getRomAvailable\n\n**Signature:**\n\n```aidl\nString getRomAvailable();\n```\n\n**Description:** Get the available flash RAM capacity. Unit is byte.\n\n**Parameters:** None\n\n**Returns:** String - Available ROM in bytes\n\n**Example:**\n\n```java\nString result = deviceInfo.getRomAvailable();\n```"
+  },
+  {
+    "id": "SYS-2019",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getMobileDataUsageTotal",
+    "key": "ISysDeviceInfo.getMobileDataUsageTotal",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.19 getMobileDataUsageTotal\n\n**Signature:**\n\n```aidl\nString getMobileDataUsageTotal();\n```\n\n**Description:** Get the mobile data usage total amount. Unit is byte.\n\n**Parameters:** None\n\n**Returns:** String - Total mobile data usage in bytes\n\n**Example:**\n\n```java\nString result = deviceInfo.getMobileDataUsageTotal();\n```"
+  },
+  {
+    "id": "SYS-2020",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getBootCounts",
+    "key": "ISysDeviceInfo.getBootCounts",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.20 getBootCounts\n\n**Signature:**\n\n```aidl\nString getBootCounts();\n```\n\n**Description:** Get the boot count.\n\n**Parameters:** None\n\n**Returns:** String - Boot count\n\n**Example:**\n\n```java\nString result = deviceInfo.getBootCounts();\n```"
+  },
+  {
+    "id": "SYS-2021",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getPrintPaperLen",
+    "key": "ISysDeviceInfo.getPrintPaperLen",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.21 getPrintPaperLen\n\n**Signature:**\n\n```aidl\nString getPrintPaperLen();\n```\n\n**Description:** Get the print paper length. Unit is millimeter.\n\n**Parameters:** None\n\n**Returns:** String - Print paper length in millimeters\n\n**Example:**\n\n```java\nString result = deviceInfo.getPrintPaperLen();\n```"
+  },
+  {
+    "id": "SYS-2022",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getMagCardUsedTimes",
+    "key": "ISysDeviceInfo.getMagCardUsedTimes",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.22 getMagCardUsedTimes\n\n**Signature:**\n\n```aidl\nString getMagCardUsedTimes();\n```\n\n**Description:** Get the times of magnetic card used.\n\n**Parameters:** None\n\n**Returns:** String - Number of times magnetic card was used\n\n**Example:**\n\n```java\nString result = deviceInfo.getMagCardUsedTimes();\n```"
+  },
+  {
+    "id": "SYS-2023",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getSmartCardUsedTimes",
+    "key": "ISysDeviceInfo.getSmartCardUsedTimes",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.23 getSmartCardUsedTimes\n\n**Signature:**\n\n```aidl\nString getSmartCardUsedTimes();\n```\n\n**Description:** Get the times of smart card used.\n\n**Parameters:** None\n\n**Returns:** String - Number of times smart card was used\n\n**Example:**\n\n```java\nString result = deviceInfo.getSmartCardUsedTimes();\n```"
+  },
+  {
+    "id": "SYS-2024",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getCTLSCardUsedTimes",
+    "key": "ISysDeviceInfo.getCTLSCardUsedTimes",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.24 getCTLSCardUsedTimes\n\n**Signature:**\n\n```aidl\nString getCTLSCardUsedTimes();\n```\n\n**Description:** Get the times of CTLS card used.\n\n**Parameters:** None\n\n**Returns:** String - Number of times CTLS card was used\n\n**Example:**\n\n```java\nString result = deviceInfo.getCTLSCardUsedTimes();\n```"
+  },
+  {
+    "id": "SYS-2025",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getBatteryTemperature",
+    "key": "ISysDeviceInfo.getBatteryTemperature",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.25 getBatteryTemperature\n\n**Signature:**\n\n```aidl\nString getBatteryTemperature();\n```\n\n**Description:** Get the battery temperature.\n\n**Parameters:** None\n\n**Returns:** String - Battery temperature\n\n**Example:**\n\n```java\nString result = deviceInfo.getBatteryTemperature();\n```"
+  },
+  {
+    "id": "SYS-2026",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getBatteryLevel",
+    "key": "ISysDeviceInfo.getBatteryLevel",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.26 getBatteryLevel\n\n**Signature:**\n\n```aidl\nString getBatteryLevel();\n```\n\n**Description:** Get the battery level.\n\n**Parameters:** None\n\n**Returns:** String - Battery level\n\n**Example:**\n\n```java\nString result = deviceInfo.getBatteryLevel();\n```"
+  },
+  {
+    "id": "SYS-2027",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getMEID",
+    "key": "ISysDeviceInfo.getMEID",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.27 getMEID\n\n**Signature:**\n\n```aidl\nString getMEID();\n```\n\n**Description:** Get the MEID info.\n\n**Parameters:** None\n\n**Returns:** String - MEID value\n\n**Example:**\n\n```java\nString result = deviceInfo.getMEID();\n```"
+  },
+  {
+    "id": "SYS-2028",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getTamperCode",
+    "key": "ISysDeviceInfo.getTamperCode",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.28 getTamperCode\n\n**Signature:**\n\n```aidl\nString getTamperCode();\n```\n\n**Description:** Get the tamper code.\n\n**Parameters:** None\n\n**Returns:** String - Tamper code\n\n**Example:**\n\n```java\nString result = deviceInfo.getTamperCode();\n```"
+  },
+  {
+    "id": "SYS-2029",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getServiceVersion",
+    "key": "ISysDeviceInfo.getServiceVersion",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.29 getServiceVersion\n\n**Description:** Read the installed Device Service app version.\n\n**Signature:**\n\n```aidl\nString getServiceVersion();\n```\n\n**Parameters:** None.\n\n**Returns:** Version string. The device-info Bundle key `DTKSysSerivceVer` reports the same version.\n\n**Example:**\n\n```java\nString result = deviceInfo.getServiceVersion();\n```"
+  },
+  {
+    "id": "SYS-2030",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getCertificate",
+    "key": "ISysDeviceInfo.getCertificate",
+    "params": [
+      {
+        "type": "int",
+        "name": "mode"
+      }
+    ],
+    "defaults": [
+      "0"
+    ],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.30 getCertificate\n\n**Signature:**\n\n```aidl\nString getCertificate(int mode);\n```\n\n**Description:** Get certificate.\n\n**Parameters:**\n\n- `mode` (int): Certificate mode\n  - `0`: Sponsor digest certificate\n  - Others: Not supported\n\n**Certificate Mode Constants:**\n\n- `0`: CERT_MODE_SPONSOR_DIGEST - Get sponsor digest certificate\n\n**Returns:** String\n- Certificate string if mode is 0\n- null if mode is not 0 or the SDK call fails\n\n**Example:**\n\n```java\nString result = deviceInfo.getCertificate(mode);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-2031",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getBatteryChargingTimes",
+    "key": "ISysDeviceInfo.getBatteryChargingTimes",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.31 getBatteryChargingTimes\n\n**Signature:**\n\n```aidl\nString getBatteryChargingTimes();\n```\n\n**Description:** Get battery charging times.\n\n**Parameters:** None\n\n**Returns:** String - Battery charging times\n\n**Example:**\n\n```java\nString result = deviceInfo.getBatteryChargingTimes();\n```"
+  },
+  {
+    "id": "SYS-2032",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getDeviceStatus",
+    "key": "ISysDeviceInfo.getDeviceStatus",
+    "params": [
+      {
+        "type": "Bundle",
+        "name": "bundle"
+      }
+    ],
+    "defaults": [
+      "{\"DeviceType\":\"PRINTER\"}"
+    ],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.32 getDeviceStatus\n\n**Signature:**\n\n```aidl\nint getDeviceStatus(in Bundle bundle);\n```\n\n**Description:** Check camera presence or primary external-storage state.\n\n**Parameters:** `bundle` is required. Set `DeviceType` (String) to one of the values below.\n\n| `DeviceType` | Result |\n| --- | --- |\n| `CAMERA_FRONT`, `CAMERA_REAR` | `0` if the camera is present; `-1` otherwise. This does not test image capture. |\n| `SDCARD` | `0` if primary external storage is mounted; `-1` otherwise. This does not identify a physical TF card. |\n| `PRINTER`, `ICCARDREADER_SLOT1`, `ICCARDREADER_SLOT2`, `RFCARDREADER`, `SAMCARDREADER_SLOT1`, `SAMCARDREADER_SLOT2`, `PINPAD` | Throws `IllegalStateException` with `SYSTEM_CAPABILITY_UNSUPPORTED`. |\n| Missing or unknown value | `-1` |\n\n**Returns:** Status from the table above.\n\n**Example:**\n\n```java\nBundle bundle = new Bundle();\nbundle.putString(\"DeviceType\", \"CAMERA_FRONT\");\nint presence = deviceInfo.getDeviceStatus(bundle);\n```",
+    "presets": [
+      {
+        "label": "CAMERA_FRONT",
+        "values": [
+          "{\"DeviceType\": \"CAMERA_FRONT\"}"
+        ]
+      },
+      {
+        "label": "CAMERA_REAR",
+        "values": [
+          "{\"DeviceType\": \"CAMERA_REAR\"}"
+        ]
+      },
+      {
+        "label": "SDCARD",
+        "values": [
+          "{\"DeviceType\": \"SDCARD\"}"
+        ]
+      },
+      {
+        "label": "PRINTER",
+        "values": [
+          "{\"DeviceType\": \"PRINTER\"}"
+        ]
+      },
+      {
+        "label": "ICCARDREADER_SLOT1",
+        "values": [
+          "{\"DeviceType\": \"ICCARDREADER_SLOT1\"}"
+        ]
+      },
+      {
+        "label": "ICCARDREADER_SLOT2",
+        "values": [
+          "{\"DeviceType\": \"ICCARDREADER_SLOT2\"}"
+        ]
+      },
+      {
+        "label": "RFCARDREADER",
+        "values": [
+          "{\"DeviceType\": \"RFCARDREADER\"}"
+        ]
+      },
+      {
+        "label": "SAMCARDREADER_SLOT1",
+        "values": [
+          "{\"DeviceType\": \"SAMCARDREADER_SLOT1\"}"
+        ]
+      },
+      {
+        "label": "SAMCARDREADER_SLOT2",
+        "values": [
+          "{\"DeviceType\": \"SAMCARDREADER_SLOT2\"}"
+        ]
+      },
+      {
+        "label": "PINPAD",
+        "values": [
+          "{\"DeviceType\": \"PINPAD\"}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-2033",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getButtonBatteryVol",
+    "key": "ISysDeviceInfo.getButtonBatteryVol",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.33 getButtonBatteryVol\n\n**Signature:**\n\n```aidl\nString getButtonBatteryVol();\n```\n\n**Description:** Get button battery voltage.\n\n**Parameters:** None\n\n**Returns:** String - Button battery voltage value\n\n**Example:**\n\n```java\nString result = deviceInfo.getButtonBatteryVol();\n```"
+  },
+  {
+    "id": "SYS-2034",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getDeviceInfo",
+    "key": "ISysDeviceInfo.getDeviceInfo",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.34 getDeviceInfo\n\n**Signature:**\n\n```aidl\nBundle getDeviceInfo();\n```\n\n**Description:** Get information of device.\n\n**Parameters:** None\n\n**Returns:** Bundle containing device information with the following keys:\n- `\"SN\"` (String): Serial number\n- `\"PN\"` (String): Product number\n- `\"IMSI\"` (String): IMSI\n- `\"IMEI\"` (String): International Mobile Equipment Identity\n- `\"MEID\"` (String): Mobile Equipment Identifier\n- `\"manufacture\"` (String): Manufacturer information\n- `\"deviceModel\"` (String): Device model\n- `\"androidOsVer\"` (String): Android OS version\n- `\"androidKernalVer\"` (String): Android kernel version\n- `\"romVer\"` (String): ROM version\n- `\"firmwareVer\"` (String): Firmware version\n- `\"hardwareVer\"` (String): Hardware version\n- `\"DTKSysSerivceVer\"` (String): hosting Device Service version\n- `\"VRKSn\"` (String): VRK serial number\n- `\"SponsorID\"` (String): Sponsor ID\n\n`DTKSysSerivceVer` contains the Device Service app version. Unknown keys are omitted. Check each requested key before using its value.\n\n**Example:**\n\n```java\nBundle result = deviceInfo.getDeviceInfo();\n```"
+  },
+  {
+    "id": "SYS-2035",
+    "group": "Device Info",
+    "interface": "ISysDeviceInfo",
+    "method": "getDeviceInfoEx",
+    "key": "ISysDeviceInfo.getDeviceInfoEx",
+    "params": [
+      {
+        "type": "Bundle",
+        "name": "extend"
+      }
+    ],
+    "defaults": [
+      "{\"SN\":\"\",\"romVer\":\"\"}"
+    ],
+    "callback": false,
+    "mutating": false,
+    "source": "DeviceInfoFragment.java",
+    "help": "### 4.33.35 getDeviceInfoEx\n\n**Signature:**\n\n```aidl\nBundle getDeviceInfoEx(in Bundle extend);\n```\n\n**Description:** Get information of device with extended parameters.\n\n**Parameters:**\n\n- `extend` (Bundle): Key-value pairs specifying which device information to retrieve\n  - Keys represent the information types to query\n  - Values are typically empty strings (reserved for future use)\n\n**Supported Keys:**\n\n- `\"SN\"`: Serial number\n- `\"PN\"`: Product number\n- `\"IMSI\"`: IMSI\n- `\"IMEI\"`: International Mobile Equipment Identity\n- `\"MEID\"`: Mobile Equipment Identifier\n- `\"manufacture\"`: Manufacturer information\n- `\"deviceModel\"`: Device model\n- `\"androidOsVer\"`: Android OS version\n- `\"androidKernalVer\"`: Android kernel version\n- `\"romVer\"`: ROM version\n- `\"firmwareVer\"`: Firmware version\n- `\"hardwareVer\"`: Hardware version\n- `\"DTKSysSerivceVer\"`: hosting Device Service version\n- `\"VRKSn\"`: VRK serial number\n- `\"SponsorID\"`: Sponsor hash value\n- `\"SponsorName\"`: Sponsor name\n- `\"bootVer\"`: Boot version\n- `\"IMEIS\"`: IMEI list for dual SIM (StringArray)\n- `\"IMSIS\"`: IMSI list for dual SIM (StringArray)\n- `\"ICCIDS\"`: ICCID list for dual SIM (StringArray)\n\n**Returns:** Bundle - Contains only the requested information based on input keys\n\n**Example:**\n```java\nBundle request = new Bundle();\nrequest.putString(\"IMEI\", \"\");\nrequest.putString(\"SponsorID\", \"\");\nBundle result = deviceInfo.getDeviceInfoEx(request);\nString imei = result.getString(\"IMEI\");\nString sponsorId = result.getString(\"SponsorID\");\n```\n\n**Note:** Only returns information for the keys specified in the input bundle.\n\n`DTKSysSerivceVer` contains the Device Service app version. Unknown keys are omitted. Check each requested key before using its value.",
+    "presets": [
+      {
+        "label": "Serial / ROM version",
+        "values": [
+          "{\"SN\":\"\",\"romVer\":\"\"}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3001",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setNetworkType",
+    "key": "INetworkManager.setNetworkType",
+    "params": [
+      {
+        "type": "int",
+        "name": "mode"
+      }
+    ],
+    "defaults": [
+      "7"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.1 setNetworkType\n\n**Signature:**\n\n```aidl\nvoid setNetworkType(int mode);\n```\n\n**Description:** Set network type of terminal.\n\n**Parameters:**\n\n- `mode` (int): Network type status code\n  - 7: Global\n  - 6: EvDo only\n  - 5: CDMA w/o EvDo\n  - 4: CDMA / EvDo auto\n  - 3: GSM / WCDMA auto\n  - 2: WCDMA only\n  - 1: GSM only\n  - 0: GSM / WCDMA preferred\n  - -1: Acquiring failed\n\n**Network Type Constants:**\n\n- `0`: NETWORK_TYPE_GSM_WCDMA_PREFERRED - GSM / WCDMA preferred\n- `1`: NETWORK_TYPE_GSM_ONLY - GSM only\n- `2`: NETWORK_TYPE_WCDMA_ONLY - WCDMA only\n- `3`: NETWORK_TYPE_GSM_WCDMA_AUTO - GSM / WCDMA auto\n- `4`: NETWORK_TYPE_CDMA_EVDO_AUTO - CDMA / EvDo auto\n- `5`: NETWORK_TYPE_CDMA_WITHOUT_EVDO - CDMA w/o EvDo\n- `6`: NETWORK_TYPE_EVDO_ONLY - EvDo only\n- `7`: NETWORK_TYPE_GLOBAL - Global\n- `-1`: NETWORK_TYPE_ACQUIRING_FAILED - Acquiring failed\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nnetworkManager.setNetworkType(mode);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "7"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3002",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "getNetworkType",
+    "key": "INetworkManager.getNetworkType",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.2 getNetworkType\n\n**Signature:**\n\n```aidl\nint getNetworkType();\n```\n\n**Description:** Get current network type of terminal.\n\n**Parameters:** None\n\n**Returns:** int - Current network type code\n\n**Example:**\n\n```java\nint result = networkManager.getNetworkType();\n```"
+  },
+  {
+    "id": "SYS-3003",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "enableWifi",
+    "key": "INetworkManager.enableWifi",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "state"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.3 enableWifi\n\n**Signature:**\n\n```aidl\nvoid enableWifi(boolean state);\n```\n\n**Description:** Control WiFi.\n\n**Parameters:**\n\n- `state` (boolean): true to open WiFi, false to close WiFi\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nnetworkManager.enableWifi(state);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3004",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "enableAirplayMode",
+    "key": "INetworkManager.enableAirplayMode",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "state"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.4 enableAirplayMode\n\n**Signature:**\n\n```aidl\nvoid enableAirplayMode(boolean state);\n```\n\n**Description:** Control Airplane mode.\n\n**Parameters:**\n\n- `state` (boolean): true to open Airplane mode, false to close Airplane mode\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nnetworkManager.enableAirplayMode(state);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3005",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setAPN",
+    "key": "INetworkManager.setAPN",
+    "params": [
+      {
+        "type": "Bundle",
+        "name": "infos"
+      }
+    ],
+    "defaults": [
+      "{}"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.5 setAPN\n\n**Signature:**\n\n```aidl\nint setAPN(in Bundle infos);\n```\n\n**Description:** Add a new APN configuration and set it to default.\n\n**Parameters:**\n\n- `infos` (Bundle): APN configuration information\n\n**Required fields:**\n\n- `\"name\"` (String): APN name - **MUST be provided**\n- `\"apn\"` (String): APN value - **MUST be provided**\n\n**Optional fields with defaults:**\n\n- `\"selected\"` (boolean): Whether to set as default APN\n  - **Default:** `true`\n- `\"authtype\"` (String): Authentication type. Allowed values are `\"-1\"`, `\"0\"`, `\"1\"`, `\"2\"`, and `\"3\"`\n  - `\"0\"`: None\n  - `\"1\"`: PAP\n  - `\"2\"`: CHAP\n  - `\"3\"`: PAP or CHAP\n  - `\"-1\"`: Use Android's APN default behavior\n  - **Default:** `\"0\"` in the service\n- `\"proxy\"` (String): Proxy address. Default is an empty string\n- `\"port\"` (String): Proxy port. Default is an empty string\n- `\"user\"` (String): User name. If omitted, the value is copied from the current APN row\n- `\"password\"` (String): Password. If omitted, the value is copied from the current APN row\n- `\"server\"` (String): Server address. If omitted, the value is copied from the current APN row\n- `\"mmsproxy\"` (String): MMS proxy address. If omitted, the value is copied from the current APN row\n- `\"mmsport\"` (String): MMS proxy port. If omitted, the value is copied from the current APN row\n- `\"mmsc\"` (String): MMSC URL. If omitted, the value is copied from the current APN row\n- `\"SLOT\"` (String): SIM card slot. Use `\"1\"` for slot 1 or `\"2\"` for slot 2. If omitted, the active SIM operator is used\n- `\"fixed_numeric\"` (String): Fixed MCC+MNC value. If provided, it takes priority over `\"SLOT\"`\n\n**Current APN Field Behavior:**\n\n- `protocol`, `roaming_protocol`, `bearer`, `mvno_type`, and `type` are copied from the current APN row\n- `max_conns`, `max_conns_time`, and `mvno_match_data` are ignored by the service\n\n**Returns:** int\n- `1` on success\n- `-1` on failure (if required fields missing, or database insertion fails)\n\n**Error Handling:**\n\n- Returns `-1` immediately if `\"name\"` or `\"apn\"` keys are missing from bundle\n- Returns `-1` if SIM card is not available\n- Returns `-1` if database insertion fails\n\n**Behavior:**\n\n- Validates that SIM card is available (returns -1 if not)\n- Validates that both \"name\" and \"apn\" keys are present in the bundle\n- Returns -1 immediately if required fields are missing\n- If \"SLOT\" is provided (\"1\" or \"2\"), uses that SIM card's MCC/MNC to derive numeric\n- If \"fixed_numeric\" is provided, uses that value instead\n- If neither \"SLOT\" nor \"fixed_numeric\" is provided, uses active SIM card's operator\n- Inserts new APN configuration into telephony database\n- If \"selected\" is true (default), sets the new APN as the default/preferred APN\n\n**Example:**\n```java\nBundle infos = new Bundle();\ninfos.putString(\"name\", \"test01\");\ninfos.putString(\"apn\", \"test01\");\ninfos.putString(\"authtype\", \"-1\");\ninfos.putString(\"proxy\", \"\");\ninfos.putString(\"port\", \"\");\ninfos.putString(\"mmsproxy\", \"\");\ninfos.putString(\"mmsport\", \"\");\ninfos.putString(\"user\", \"\");\ninfos.putString(\"server\", \"\");\ninfos.putString(\"password\", \"\");\ninfos.putString(\"mmsc\", \"\");\ninfos.putBoolean(\"selected\", true);\nint result = networkManager.setAPN(infos);\n```",
+    "presets": [
+      {
+        "label": "Named APN",
+        "values": [
+          "{\"name\":\"TEST_APN\",\"apn\":\"test.apn\",\"selected\":true}"
+        ]
+      },
+      {
+        "label": "Extended APN",
+        "values": [
+          "{\"name\":\"TEST_APN\",\"apn\":\"test.apn\",\"SLOT\":\"1\",\"proxy\":\"\",\"port\":\"\",\"fixed_numeric\":\"\"}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3006",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "enableMobileData",
+    "key": "INetworkManager.enableMobileData",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "state"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.6 enableMobileData\n\n**Signature:**\n\n```aidl\nvoid enableMobileData(boolean state);\n```\n\n**Description:** Control Mobile data.\n\n**Parameters:**\n\n- `state` (boolean): true to open Mobile data, false to close Mobile data\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nnetworkManager.enableMobileData(state);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3007",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "getSelectedApnInfo",
+    "key": "INetworkManager.getSelectedApnInfo",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.7 getSelectedApnInfo\n\n**Signature:**\n\n```aidl\nBundle getSelectedApnInfo();\n```\n\n**Description:** Get current selected APN configurations.\n\n**Parameters:** None\n\n**Returns:** Bundle - Current selected APN information\n\n**Example:**\n\n```java\nBundle result = networkManager.getSelectedApnInfo();\n```"
+  },
+  {
+    "id": "SYS-3008",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "selectMobileDataOnSlot",
+    "key": "INetworkManager.selectMobileDataOnSlot",
+    "params": [
+      {
+        "type": "int",
+        "name": "slotIdx"
+      }
+    ],
+    "defaults": [
+      "0"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.8 selectMobileDataOnSlot\n\n**Signature:**\n\n```aidl\nint selectMobileDataOnSlot(int slotIdx);\n```\n\n**Description:** Select which SIM slot to use for mobile data.\n\n**Parameters:**\n\n- `slotIdx` (int): Slot index (1 for first slot, 2 for second slot)\n\n**Returns:** int - Result code (0 for success, -1 for failure)\n\n**Behavior:**\n\n- Converts slot index from 1-based (1, 2) to 0-based (0, 1) internally\n- Gets the active subscription ID for the specified slot\n- Sets that subscription as the default data subscription\n- Returns -1 if slot index is invalid (< 0 or > 1 after conversion) or if subscription is not found\n\n**Example:**\n\n```java\nint result = networkManager.selectMobileDataOnSlot(slotIdx);\n```",
+    "presets": [
+      {
+        "label": "SIM 0",
+        "values": [
+          "0"
+        ]
+      },
+      {
+        "label": "SIM 1",
+        "values": [
+          "1"
+        ]
+      },
+      {
+        "label": "SIM 2",
+        "values": [
+          "2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3009",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "isMultiNetwork",
+    "key": "INetworkManager.isMultiNetwork",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.9 isMultiNetwork\n\n**Signature:**\n\n```aidl\nboolean isMultiNetwork();\n```\n\n**Description:** Check if MultiNetwork is enabled.\n\n**Parameters:** None\n\n**Returns:** boolean - true if enabled, false if disabled\n\n**Example:**\n\n```java\nboolean result = networkManager.isMultiNetwork();\n```"
+  },
+  {
+    "id": "SYS-3010",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setMultiNetwork",
+    "key": "INetworkManager.setMultiNetwork",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "enable"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.10 setMultiNetwork\n\n**Signature:**\n\n```aidl\nvoid setMultiNetwork(boolean enable);\n```\n\n**Description:** Control MultiNetwork.\n\n**Parameters:**\n\n- `enable` (boolean): true to enable MultiNetwork, false to disable\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nnetworkManager.setMultiNetwork(enable);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3011",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "getMultiNetworkPrefer",
+    "key": "INetworkManager.getMultiNetworkPrefer",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.11 getMultiNetworkPrefer\n\n**Signature:**\n\n```aidl\nString getMultiNetworkPrefer();\n```\n\n**Description:** Get the preference of MultiNetwork.\n\n**Parameters:** None\n\n**Returns:** String - MultiNetwork preference string\n\n**Example:**\n\n```java\nString result = networkManager.getMultiNetworkPrefer();\n```"
+  },
+  {
+    "id": "SYS-3012",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setMultiNetworkPrefer",
+    "key": "INetworkManager.setMultiNetworkPrefer",
+    "params": [
+      {
+        "type": "String",
+        "name": "prefer"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.12 setMultiNetworkPrefer\n\n**Signature:**\n\n```aidl\nboolean setMultiNetworkPrefer(String prefer);\n```\n\n**Description:** Set the preference of MultiNetwork.\n\n**Parameters:**\n\n- `prefer` (String): Network preference. Supported values:\n  - \"wifi,ethernet,cellular\"\n  - \"wifi,cellular,ethernet\"\n  - \"cellular,wifi,ethernet\"\n  - \"cellular,ethernet,wifi\"\n  - \"ethernet,cellular,wifi\"\n  - \"ethernet,wifi,cellular\"\n\n**Returns:** boolean - true if successful, false otherwise\n\n**Example:**\n\n```java\nboolean result = networkManager.setMultiNetworkPrefer(prefer);\n```",
+    "presets": [
+      {
+        "label": "wifi,ethernet,cellular",
+        "values": [
+          "wifi,ethernet,cellular"
+        ]
+      },
+      {
+        "label": "wifi,cellular,ethernet",
+        "values": [
+          "wifi,cellular,ethernet"
+        ]
+      },
+      {
+        "label": "cellular,wifi,ethernet",
+        "values": [
+          "cellular,wifi,ethernet"
+        ]
+      },
+      {
+        "label": "cellular,ethernet,wifi",
+        "values": [
+          "cellular,ethernet,wifi"
+        ]
+      },
+      {
+        "label": "ethernet,cellular,wifi",
+        "values": [
+          "ethernet,cellular,wifi"
+        ]
+      },
+      {
+        "label": "ethernet,wifi,cellular",
+        "values": [
+          "ethernet,wifi,cellular"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3013",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setEthernetStaticIp",
+    "key": "INetworkManager.setEthernetStaticIp",
+    "params": [
+      {
+        "type": "Bundle",
+        "name": "bundle"
+      }
+    ],
+    "defaults": [
+      "{}"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.13 setEthernetStaticIp\n\n**Signature:**\n\n```aidl\nvoid setEthernetStaticIp(in Bundle bundle);\n```\n\n**Description:** Set ethernet static IP.\n\n**Parameters:**\n\n- `bundle` (Bundle): Static IP configuration. **All fields are required:**\n  - `\"STATIC_IP\"` (String): Static IP address\n    - Set to `\"0.0.0.0\"` or `\"0\"` to change connection type to DHCP\n    - **Default:** None (must be provided)\n  - `\"STATIC_GATEWAY\"` (String): Gateway address\n    - **Default:** None (must be provided)\n  - `\"STATIC_NETMASK\"` (String): Netmask (for example, \"255.255.255.0\")\n    - **Default:** None (must be provided)\n  - `\"STATIC_DNS1\"` (String): Primary DNS address\n    - **Default:** None (must be provided)\n  - `\"STATIC_DNS2\"` (String): Secondary DNS address\n    - **Default:** None (must be provided)\n\n**Returns:** No result.\n\n**Behavior:**\n\n- If bundle is null, method returns without performing any action\n- Sets static IP configuration for ethernet interface\n- Changes to DHCP mode if STATIC_IP is \"0.0.0.0\" or \"0\"\n\n**Note:** Need to re-insert ethernet cable to take effect.\n\n**Example:**\n```java\nBundle bundle = new Bundle();\nbundle.putString(\"STATIC_IP\", \"192.168.1.1\");\nbundle.putString(\"STATIC_GATEWAY\", \"192.168.1.1\");\nbundle.putString(\"STATIC_NETMASK\", \"255.255.255.0\");\nbundle.putString(\"STATIC_DNS1\", \"192.168.1.1\");\nbundle.putString(\"STATIC_DNS2\", \"192.168.1.1\");\nnetworkManager.setEthernetStaticIp(bundle);\n```",
+    "presets": [
+      {
+        "label": "Static IP / edit for test network",
+        "values": [
+          "{\"STATIC_IP\":\"192.168.1.100\",\"STATIC_GATEWAY\":\"192.168.1.1\",\"STATIC_NETMASK\":\"255.255.255.0\",\"STATIC_DNS1\":\"192.168.1.1\",\"STATIC_DNS2\":\"192.168.1.1\"}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3014",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setWifiStaticIp",
+    "key": "INetworkManager.setWifiStaticIp",
+    "params": [
+      {
+        "type": "Bundle",
+        "name": "bundle"
+      }
+    ],
+    "defaults": [
+      "{}"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.14 setWifiStaticIp\n\n**Signature:**\n\n```aidl\nvoid setWifiStaticIp(in Bundle bundle);\n```\n\n**Description:** Set WiFi static IP.\n\n**Parameters:**\n\n- `bundle` (Bundle): Static IP configuration. **All fields are required:**\n  - `\"STATIC_IP\"` (String): Static IP address\n    - Set to `\"0.0.0.0\"` or `\"0\"` to change connection type to DHCP\n    - **Default:** None (must be provided)\n  - `\"STATIC_GATEWAY\"` (String): Gateway address\n    - **Default:** None (must be provided)\n  - `\"STATIC_NETMASK\"` (String): Netmask (for example, \"255.255.255.0\")\n    - **Default:** None (must be provided)\n  - `\"STATIC_DNS1\"` (String): Primary DNS address\n    - **Default:** None (must be provided)\n  - `\"STATIC_DNS2\"` (String): Secondary DNS address\n    - **Default:** None (must be provided)\n\n**Returns:** No result.\n\n**Behavior:**\n\n- If bundle is null, method returns without performing any action\n- Sets static IP configuration for WiFi interface\n- Changes to DHCP mode if STATIC_IP is \"0.0.0.0\" or \"0\"\n\n**Example:**\n\n```java\nnetworkManager.setWifiStaticIp(bundle);\n```",
+    "presets": [
+      {
+        "label": "Static IP / edit for test network",
+        "values": [
+          "{\"STATIC_IP\":\"192.168.1.100\",\"STATIC_GATEWAY\":\"192.168.1.1\",\"STATIC_NETMASK\":\"255.255.255.0\",\"STATIC_DNS1\":\"192.168.1.1\",\"STATIC_DNS2\":\"192.168.1.1\"}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3015",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setMobilePreferredNetworkType",
+    "key": "INetworkManager.setMobilePreferredNetworkType",
+    "params": [
+      {
+        "type": "String",
+        "name": "type"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.15 setMobilePreferredNetworkType\n\n**Signature:**\n\n```aidl\nvoid setMobilePreferredNetworkType(String type);\n```\n\n**Description:** Set mobile preferred network type for the current SIM card.\n\n**Parameters:**\n\n- `type` (String): Network type\n  - \"2G\": Only use 2G\n  - \"3G\": Use 2G/3G\n  - \"4G\": Use 2G/3G/4G\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nnetworkManager.setMobilePreferredNetworkType(type);\n```",
+    "presets": [
+      {
+        "label": "2G",
+        "values": [
+          "2G"
+        ]
+      },
+      {
+        "label": "3G",
+        "values": [
+          "3G"
+        ]
+      },
+      {
+        "label": "4G",
+        "values": [
+          "4G"
+        ]
+      },
+      {
+        "label": "3G/2G",
+        "values": [
+          "3G/2G"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3016",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "getMobilePreferredNetworkType",
+    "key": "INetworkManager.getMobilePreferredNetworkType",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.16 getMobilePreferredNetworkType\n\n**Signature:**\n\n```aidl\nString getMobilePreferredNetworkType();\n```\n\n**Description:** Get mobile preferred network type for the current SIM card.\n\n**Parameters:** None\n\n**Returns:** String - \"2G\", \"3G\", or \"4G\" for success, null for failure\n\n**Example:**\n\n```java\nString result = networkManager.getMobilePreferredNetworkType();\n```"
+  },
+  {
+    "id": "SYS-3017",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "deleteAPN",
+    "key": "INetworkManager.deleteAPN",
+    "params": [
+      {
+        "type": "String",
+        "name": "apn"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.17 deleteAPN\n\n**Signature:**\n\n```aidl\nint deleteAPN(in String apn);\n```\n\n**Description:** Delete an existing APN.\n\n**Parameters:**\n\n- `apn` (String): APN name that was set in setAPN()\n\n**Returns:** int - Result code\n\n**Example:**\n\n```java\nint result = networkManager.deleteAPN(apn);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3018",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setDataRoamingEnabled",
+    "key": "INetworkManager.setDataRoamingEnabled",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "enabled"
+      },
+      {
+        "type": "int",
+        "name": "slotId"
+      }
+    ],
+    "defaults": [
+      "false",
+      "0"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.18 setDataRoamingEnabled\n\n**Signature:**\n\n```aidl\nint setDataRoamingEnabled(boolean enabled, int slotId);\n```\n\n**Description:** Set Data Roaming state.\n\n**Parameters:**\n\n- `enabled` (boolean): true to enable data roaming, false to disable\n- `slotId` (int): Index of SIM card slot\n\n**Returns:** int - Result code\n\n**Example:**\n\n```java\nint result = networkManager.setDataRoamingEnabled(enabled, slotId);\n```",
+    "presets": [
+      {
+        "label": "SIM 1 / True",
+        "values": [
+          "true",
+          "1"
+        ]
+      },
+      {
+        "label": "SIM 1 / False",
+        "values": [
+          "false",
+          "1"
+        ]
+      },
+      {
+        "label": "SIM 2 / True",
+        "values": [
+          "true",
+          "2"
+        ]
+      },
+      {
+        "label": "SIM 2 / False",
+        "values": [
+          "false",
+          "2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3019",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "addNetwork",
+    "key": "INetworkManager.addNetwork",
+    "params": [
+      {
+        "type": "Bundle",
+        "name": "bundle"
+      }
+    ],
+    "defaults": [
+      "{}"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.19 addNetwork\n\n**Signature:**\n\n```aidl\nint addNetwork(in Bundle bundle);\n```\n\n**Description:** Add a new WiFi network.\n\n**Parameters:**\n\n- `bundle` (Bundle): WiFi network configuration\n  - `\"SSID\"` (String, **required**): Network name (SSID)\n  - `\"password\"` (String, **conditionally required**): Network password\n    - Required if `type` is not 1 (NONE)\n    - Can be empty or null if `type` is 1 (NONE)\n  - `\"type\"` (int, **optional**): Security type\n    - `1`: NONE (no password)\n    - `2`: WEP\n    - `3`: WPA (default)\n    - **Default:** `3` (WPA)\n\n**WiFi Security Type Constants:**\n\n- `1`: WIFI_SECURITY_NONE - No password (open network)\n- `2`: WIFI_SECURITY_WEP - WEP encryption\n- `3`: WIFI_SECURITY_WPA - WPA/WPA2 encryption (default)\n\n**Returns:** int\n- Non-negative network ID on success\n- `-1` on failure, including invalid SSID/password, missing fine-location permission, unavailable Wi-Fi service or unavailable configured-network list. Other platform permission exceptions may propagate.\n\n**Behavior:**\n\n- Removes existing network configuration with the same SSID before adding new one\n- Configures WiFi security settings based on type:\n  - For type 1 (NONE): No password, no encryption\n  - For type 2 (WEP): Uses WEP encryption with shared key authentication\n  - For type 3 (WPA): Uses WPA_PSK with TKIP and CCMP ciphers\n- The network is added to the system's WiFi configuration but not automatically connected\n\n**Error Handling:**\n\n- Returns `-1` if SSID is empty or null\n- Returns `-1` if type is not 1 and password is empty or null\n\n**Example:**\n```java\nBundle bundle = new Bundle();\nbundle.putString(\"SSID\", \"MyNetwork\");\nbundle.putString(\"password\", \"mypassword\");\nbundle.putInt(\"type\", 3); // WPA\nint networkId = networkManager.addNetwork(bundle);\n```\n\n**Bundle fields:**\n\n| Bundle/key | Type | Missing-key default |\n| --- | --- | --- |\n| `bundle.SSID` | String | `null` |\n| `bundle.password` | String | `null` |\n| `bundle.type` | Int | `3` |",
+    "presets": [
+      {
+        "label": "Empty Bundle",
+        "values": [
+          "{}"
+        ]
+      },
+      {
+        "label": "Configured Wi-Fi",
+        "values": [
+          "{\"SSID\":\"TEST_SSID\",\"password\":\"\",\"type\":1}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3020",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "connectWifi",
+    "key": "INetworkManager.connectWifi",
+    "params": [
+      {
+        "type": "String",
+        "name": "SSID"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.20 connectWifi\n\n**Signature:**\n\n```aidl\nboolean connectWifi(String SSID);\n```\n\n**Description:** Connect to a WiFi network.\n\n**Parameters:**\n\n- `SSID` (String): Network name\n\n**Returns:** boolean - true if successful, false if failed\n\n**Behavior:**\n\n- Searches for a configured network with the matching SSID\n- If found, disables all other configured networks first\n- Then enables and connects to the target network\n- Returns false if the SSID is not found in configured networks\n\n**Note:** The network must be added first using addNetwork().\n\n**Example:**\n\n```java\nboolean result = networkManager.connectWifi(SSID);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3021",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "addNetworkAllowedList",
+    "key": "INetworkManager.addNetworkAllowedList",
+    "params": [
+      {
+        "type": "String",
+        "name": "zipPath"
+      },
+      {
+        "type": "IAddNetworkAllowedListObserver",
+        "name": "observer"
+      },
+      {
+        "type": "boolean",
+        "name": "isReboot"
+      }
+    ],
+    "defaults": [
+      "",
+      "callback",
+      "false"
+    ],
+    "callback": true,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.21 addNetworkAllowedList\n\n**Description:** Import a signed network allowlist ZIP.\n\n**Signature:**\n\n```aidl\nvoid addNetworkAllowedList(String zipPath, IAddNetworkAllowedListObserver observer, boolean isReboot);\n```\n\n**Parameters:**\n\n| Parameter | Requirement |\n| --- | --- |\n| `zipPath` | Signed ZIP for the target terminal, readable by the service. |\n| `observer` | Required result callback. |\n| `isReboot` | `true`: request reboot after the update. `false`: do not request reboot. |\n\n**Callback:** `onResult(result)` uses `AddNetworkAllowedListResult`: `0` means success; negative values mean failure. See section 4.36.2. A 120-second timeout or service failure reports `ERR_OTHER` (`-1`).\n\n**Notes:** The result reports the device SDK's response. Timeout does not cancel firmware work or a reboot already requested.\n\n**Example:**\n\n```java\nnetworkManager.addNetworkAllowedList(zipPath, observer, isReboot);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "",
+          "callback",
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "",
+          "callback",
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3022",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setProxy",
+    "key": "INetworkManager.setProxy",
+    "params": [
+      {
+        "type": "String",
+        "name": "proxy"
+      },
+      {
+        "type": "Bundle",
+        "name": "extend"
+      }
+    ],
+    "defaults": [
+      "",
+      "<null>"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.22 setProxy\n\n**Signature:**\n\n```aidl\nint setProxy(String proxy, in Bundle extend);\n```\n\n**Description:** Set a network-independent global HTTP proxy.\n\n**Parameters:**\n\n- `proxy` (String): Proxy in format `\"ip:port\"` (for example, \"192.168.1.1:8080\")\n  - Use empty string `\"\"` or `\":0\"` to clear the proxy\n- `extend` (Bundle): Reserved for future use\n  - **Default:** Can be null or empty Bundle\n\n**Returns:** int\n- `0`: Success\n- `-1`: Failure (proxy format error, or method invocation failed)\n\n**Behavior:**\n\n- Sets a global HTTP proxy that applies to all network connections\n- Global HTTP proxy settings affect all networks\n- If the proxy is not reachable from the active network, HTTP traffic may fail\n- If proxy is empty string or \":0\", clears the global proxy\n- Uses reflection to call `ConnectivityManager.setGlobalProxy()`\n- Validates proxy format (must contain \":\" and split into exactly 2 parts)\n- The port part must be a valid integer. The service does not catch number parsing errors\n\n**Note:** After setting, you can verify using adb commands:\n```bash\nadb shell settings get global global_http_proxy_host\nadb shell settings get global global_http_proxy_port\n```\n\n**Error Handling:**\n\n- Returns `-1` if proxy format is invalid (does not contain \":\" or has wrong number of parts)\n- Returns `-1` if reflection method invocation fails\n- A non-numeric port may throw a runtime exception before the method returns\n\n**Example:**\n\n```java\nint result = networkManager.setProxy(proxy, extend);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "",
+          "<null>"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3023",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "getMacAddress",
+    "key": "INetworkManager.getMacAddress",
+    "params": [
+      {
+        "type": "int",
+        "name": "type"
+      }
+    ],
+    "defaults": [
+      "0"
+    ],
+    "callback": false,
+    "mutating": false,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.23 getMacAddress\n\n**Signature:**\n\n```aidl\nString getMacAddress(int type);\n```\n\n**Description:** Get MAC address.\n\n**Parameters:**\n\n- `type` (int): Network type\n  - 0: WiFi\n  - 1: Ethernet\n\n**Network Type Constants (for MAC Address):**\n\n- `0`: MAC_TYPE_WIFI - WiFi MAC address\n- `1`: MAC_TYPE_ETHERNET - Ethernet MAC address\n\n**Returns:** String - MAC address in uppercase format (for example, \"AA:BB:CC:DD:EE:FF\"), or null if failed\n\n**Behavior:**\n\n- For type 0 (WiFi):\n  - Checks if WiFi is connected first\n  - Returns null immediately if WiFi is not connected\n  - Gets MAC address from the connected WiFi interface\n- For type 1 (Ethernet):\n  - Gets MAC address from \"eth0\" network interface\n  - Returns null if eth0 interface does not exist\n\n**Example:**\n\n```java\nString result = networkManager.getMacAddress(type);\n```",
+    "presets": [
+      {
+        "label": "Wi-Fi",
+        "values": [
+          "0"
+        ]
+      },
+      {
+        "label": "Ethernet",
+        "values": [
+          "1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3024",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "getWifiProxyState",
+    "key": "INetworkManager.getWifiProxyState",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.24 getWifiProxyState\n\n**Signature:**\n\n```aidl\nboolean getWifiProxyState();\n```\n\n**Description:** Check whether the Wi-Fi proxy menu is visible.\n\n**Parameters:** None\n\n**Returns:** boolean - true if WiFi proxy menu is shown, false if hidden\n\n**Note:** The service inverts the underlying system value, so the returned value represents the actual menu visibility state from the user's perspective.\n\n**Example:**\n\n```java\nboolean result = networkManager.getWifiProxyState();\n```"
+  },
+  {
+    "id": "SYS-3025",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "setWifiProxyState",
+    "key": "INetworkManager.setWifiProxyState",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "state"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.25 setWifiProxyState\n\n**Signature:**\n\n```aidl\nvoid setWifiProxyState(boolean state);\n```\n\n**Description:** Show or hide the Wi-Fi proxy menu. Restart the terminal to apply the change.\n\n**Parameters:**\n\n- `state` (boolean): true to show WiFi proxy menu, false to hide\n\n**Returns:** No result.\n\n**Note:**\n\n- The service inverts the state parameter before setting it in the system\n- After setting, need to reboot device for changes to take effect\n- Check in Settings > Network & internet > WiFi > Network Details > Advanced options\n\n**Example:**\n\n```java\nnetworkManager.setWifiProxyState(state);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-3026",
+    "group": "Network",
+    "interface": "INetworkManager",
+    "method": "getCurrentNetworkDetails",
+    "key": "INetworkManager.getCurrentNetworkDetails",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "NetworkFragment.java",
+    "help": "### 4.34.26 getCurrentNetworkDetails\n\n**Signature:**\n\n```aidl\nBundle getCurrentNetworkDetails();\n```\n\n**Description:** Read the active network addresses, DNS servers, and available MAC address.\n\n**Parameters:** None. **Returns:** A non-null Bundle; no active network or no LinkProperties produces an empty Bundle. When properties are available, `IP` and `DNS` are comma-separated address strings (possibly empty). `MAC` is an uppercase colon-separated address only when the platform makes it available; otherwise that key is absent. No placeholder MAC or fabricated address is supplied. Access is subject to Android permissions, address randomization and firmware restrictions.\n\n**Example:**\n\n```java\nBundle result = networkManager.getCurrentNetworkDetails();\n```"
+  },
+  {
+    "id": "SYS-4001",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "settingsSetActions",
+    "key": "ISettingsManager.settingsSetActions",
+    "params": [
+      {
+        "type": "int",
+        "name": "settingsType"
+      },
+      {
+        "type": "Bundle",
+        "name": "bundle"
+      }
+    ],
+    "defaults": [
+      "0",
+      "{}"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.1 settingsSetActions\n\n**Signature:**\n\n```aidl\nint settingsSetActions(int settingsType, in Bundle bundle);\n```\n\n**Description:** Apply a settings action.\n\n**Parameters:** `settingsType` selects an action group. `bundle` is required.\n\n**Returns:** `0` on success; `-1` for failure or an unsupported action. Runtime or permission errors can also be thrown.\n\n| settingsType | Bundle keys and defaults | Implemented action |\n| --- | --- | --- |\n| `DATE_TIME` (0) | `SYSTEM_TIME_ACTIONS` String, default empty | Select a time action below |\n| `DATE_TIME` | `AUTO_SYSTEM_TIME` int, default 1 | `SET_AUTO_SYSTEM_TIME_STATE`; positive values enable automatic time |\n| `DATE_TIME` | `AUTO_SYSTEM_TIME_ZONE` int, default 1 | `SET_AUTO_SYSTEM_TIME_ZONE_STATE`; positive values enable automatic time zone |\n| `DATE_TIME` | `SYSTEM_DATE` String yyyyMMdd, default empty; `SYSTEM_TIME` String HHmmss, default empty | `SET_SYSTEM_TIME` |\n| `LAUNCHER` (1) | `LAUNCHER_ACTIONS` String = `SET_LAUNCHER`; `LAUNCHER_PACKAGE_NAME` String default empty; `RUN_PACKAGE` boolean default false | Set launcher, optionally start it |\n| `POWER_OPTIMIZE` (2) | `POWER_OPTIMIZE_PACKAGE` String default empty; `POWER_OPTIMIZE_ENABLE` boolean default true | Set app power policy. API 24-27 returns `-1`; API 28+ requires firmware support |\n| `TF_ENABLE` (3) | `TF_ENABLE` boolean default true | `false`: unmount TF storage; wait up to 3 seconds. `true`: permit later mounts |\n\nThe TF setting is saved after a successful change. Enabling TF permits later mounts; it does not mount a card that is already unmounted. This setting does not unmount USB storage.\n\n```java\nBundle bundle = new Bundle();\nbundle.putString(\"SYSTEM_TIME_ACTIONS\", SettingsActions.SystemTimeActions.SET_SYSTEM_TIME);\nbundle.putString(\"SYSTEM_DATE\", \"20260908\");\nbundle.putString(\"SYSTEM_TIME\", \"090000\");\nint result = settingsManager.settingsSetActions(SettingsType.DATE_TIME, bundle);\n```",
+    "presets": [
+      {
+        "label": "SET_AUTO_SYSTEM_TIME_STATE 0",
+        "values": [
+          "0",
+          "{\"SYSTEM_TIME_ACTIONS\":\"SET_AUTO_SYSTEM_TIME_STATE\",\"AUTO_SYSTEM_TIME\":0}"
+        ]
+      },
+      {
+        "label": "SET_AUTO_SYSTEM_TIME_STATE 1",
+        "values": [
+          "0",
+          "{\"SYSTEM_TIME_ACTIONS\":\"SET_AUTO_SYSTEM_TIME_STATE\",\"AUTO_SYSTEM_TIME\":1}"
+        ]
+      },
+      {
+        "label": "SET_AUTO_SYSTEM_TIME_ZONE_STATE 0",
+        "values": [
+          "0",
+          "{\"SYSTEM_TIME_ACTIONS\":\"SET_AUTO_SYSTEM_TIME_ZONE_STATE\",\"AUTO_SYSTEM_TIME_ZONE\":0}"
+        ]
+      },
+      {
+        "label": "SET_AUTO_SYSTEM_TIME_ZONE_STATE 1",
+        "values": [
+          "0",
+          "{\"SYSTEM_TIME_ACTIONS\":\"SET_AUTO_SYSTEM_TIME_ZONE_STATE\",\"AUTO_SYSTEM_TIME_ZONE\":1}"
+        ]
+      },
+      {
+        "label": "SET_SYSTEM_TIME",
+        "values": [
+          "0",
+          "{\"SYSTEM_TIME_ACTIONS\":\"SET_SYSTEM_TIME\",\"SYSTEM_DATE\":\"20260909\",\"SYSTEM_TIME\":\"120000\"}"
+        ]
+      },
+      {
+        "label": "LAUNCHER / run True",
+        "values": [
+          "1",
+          "{\"LAUNCHER_ACTIONS\":\"SET_LAUNCHER\",\"LAUNCHER_PACKAGE_NAME\":\"${PACKAGE}\",\"RUN_PACKAGE\":true}"
+        ]
+      },
+      {
+        "label": "POWER_OPTIMIZE True",
+        "values": [
+          "2",
+          "{\"POWER_OPTIMIZE_ENABLE\":true,\"POWER_OPTIMIZE_PACKAGE\":\"${PACKAGE}\"}"
+        ]
+      },
+      {
+        "label": "TF_ENABLE True",
+        "values": [
+          "3",
+          "{\"TF_ENABLE\":true}"
+        ]
+      },
+      {
+        "label": "LAUNCHER / run False",
+        "values": [
+          "1",
+          "{\"LAUNCHER_ACTIONS\":\"SET_LAUNCHER\",\"LAUNCHER_PACKAGE_NAME\":\"${PACKAGE}\",\"RUN_PACKAGE\":false}"
+        ]
+      },
+      {
+        "label": "POWER_OPTIMIZE False",
+        "values": [
+          "2",
+          "{\"POWER_OPTIMIZE_ENABLE\":false,\"POWER_OPTIMIZE_PACKAGE\":\"${PACKAGE}\"}"
+        ]
+      },
+      {
+        "label": "TF_ENABLE False",
+        "values": [
+          "3",
+          "{\"TF_ENABLE\":false}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4002",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "settingsReadActions",
+    "key": "ISettingsManager.settingsReadActions",
+    "params": [
+      {
+        "type": "int",
+        "name": "settingsType"
+      },
+      {
+        "type": "Bundle",
+        "name": "bundle"
+      }
+    ],
+    "defaults": [
+      "0",
+      "{}"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.2 settingsReadActions\n\n**Signature:**\n\n```aidl\nBundle settingsReadActions(int settingsType, in Bundle bundle);\n```\n\n**Description:** Read automatic time or time-zone settings.\n\n**Parameters:** `settingsType` must be `SettingsType.DATE_TIME`. `bundle` is required.\n\n**Input:** `SYSTEM_TIME_ACTIONS` (String, default empty) is `GET_AUTO_SYSTEM_TIME_STATE` or `GET_AUTO_SYSTEM_TIME_ZONE_STATE`.\n\n**Returns:** A new Bundle. `GET_AUTO_SYSTEM_TIME_STATE` includes both `AUTO_SYSTEM_TIME` and `AUTO_SYSTEM_TIME_ZONE`; `GET_AUTO_SYSTEM_TIME_ZONE_STATE` includes `AUTO_SYSTEM_TIME_ZONE`. Values are int 1 (automatic), 0 (manual), or -1 when the underlying setting cannot be read. Unknown action/type yields an empty Bundle. Other declared SettingsActions constants are not automatically supported.\n\n```java\nBundle bundle = new Bundle();\nbundle.putString(\"SYSTEM_TIME_ACTIONS\", SettingsActions.SystemTimeActions.GET_AUTO_SYSTEM_TIME_STATE);\nBundle result = settingsManager.settingsReadActions(SettingsType.DATE_TIME, bundle);\n```",
+    "presets": [
+      {
+        "label": "GET_AUTO_SYSTEM_TIME_STATE",
+        "values": [
+          "0",
+          "{\"SYSTEM_TIME_ACTIONS\":\"GET_AUTO_SYSTEM_TIME_STATE\"}"
+        ]
+      },
+      {
+        "label": "GET_AUTO_SYSTEM_TIME_ZONE_STATE",
+        "values": [
+          "0",
+          "{\"SYSTEM_TIME_ACTIONS\":\"GET_AUTO_SYSTEM_TIME_ZONE_STATE\"}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4003",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "settingPCIRebootTime",
+    "key": "ISettingsManager.settingPCIRebootTime",
+    "params": [
+      {
+        "type": "int",
+        "name": "hour"
+      },
+      {
+        "type": "int",
+        "name": "min"
+      },
+      {
+        "type": "int",
+        "name": "sec"
+      }
+    ],
+    "defaults": [
+      "23",
+      "59",
+      "59"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.3 settingPCIRebootTime\n\n**Signature:**\n\n```aidl\nboolean settingPCIRebootTime(int hour, int min, int sec);\n```\n\n**Description:** Set PCI reboot time.\n\n**Parameters:**\n\n- `hour` (int): Hour in 24-hour format (0-23)\n- `min` (int): Minute (0-59)\n- `sec` (int): Second (0-59)\n\n**Returns:** boolean - true if successful, false otherwise\n\n**Example:**\n\n```java\nboolean result = settingsManager.settingPCIRebootTime(hour, min, sec);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "23",
+          "59",
+          "59"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4004",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "getPCIRebootTime",
+    "key": "ISettingsManager.getPCIRebootTime",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.4 getPCIRebootTime\n\n**Signature:**\n\n```aidl\nlong getPCIRebootTime();\n```\n\n**Description:** Get PCI reboot time.\n\n**Parameters:** None\n\n**Returns:** long - Reboot time in seconds\n\n**Example:**\n\n```java\nlong result = settingsManager.getPCIRebootTime();\n```"
+  },
+  {
+    "id": "SYS-4005",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "setScreenLock",
+    "key": "ISettingsManager.setScreenLock",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "isLock"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.5 setScreenLock\n\n**Signature:**\n\n```aidl\nvoid setScreenLock(boolean isLock);\n```\n\n**Description:** Set screen lock (invalid after restart).\n\n**Parameters:**\n\n- `isLock` (boolean): true to lock screen and mask power key, false to unlock screen and enable power key\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nsettingsManager.setScreenLock(isLock);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4006",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "setDeviceBrightnessLevel",
+    "key": "ISettingsManager.setDeviceBrightnessLevel",
+    "params": [
+      {
+        "type": "int",
+        "name": "level"
+      }
+    ],
+    "defaults": [
+      "128"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.6 setDeviceBrightnessLevel\n\n**Signature:**\n\n```aidl\nboolean setDeviceBrightnessLevel(int level);\n```\n\n**Description:** Set device brightness level.\n\n**Parameters:**\n\n- `level` (int): Brightness level (0-255)\n\n**Returns:** boolean - true if successful, false otherwise\n\n**Example:**\n\n```java\nboolean result = settingsManager.setDeviceBrightnessLevel(level);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "128"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4007",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "isShowBatteryPercent",
+    "key": "ISettingsManager.isShowBatteryPercent",
+    "params": [
+      {
+        "type": "boolean",
+        "name": "isShow"
+      }
+    ],
+    "defaults": [
+      "false"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.7 isShowBatteryPercent\n\n**Signature:**\n\n```aidl\nboolean isShowBatteryPercent(boolean isShow);\n```\n\n**Description:** Set whether to show battery percent in status bar.\n\n**Parameters:**\n\n- `isShow` (boolean): true to show, false to hide\n\n**Returns:** boolean - true if successful, false otherwise\n\n**Example:**\n\n```java\nboolean result = settingsManager.isShowBatteryPercent(isShow);\n```",
+    "presets": [
+      {
+        "label": "true",
+        "values": [
+          "true"
+        ]
+      },
+      {
+        "label": "false",
+        "values": [
+          "false"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4008",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "enableAlertWindow",
+    "key": "ISettingsManager.enableAlertWindow",
+    "params": [
+      {
+        "type": "String",
+        "name": "packageName"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.8 enableAlertWindow\n\n**Signature:**\n\n```aidl\nvoid enableAlertWindow(String packageName);\n```\n\n**Description:** Enable the SYSTEM_ALERT_WINDOW permission for a package.\n\n**Parameters:**\n\n- `packageName` (String): Package name of the application\n\n**Returns:** No result.\n\n**Example:**\n\n```java\nsettingsManager.enableAlertWindow(packageName);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4009",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "clearCachesByPackageName",
+    "key": "ISettingsManager.clearCachesByPackageName",
+    "params": [
+      {
+        "type": "String",
+        "name": "packageName"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.9 clearCachesByPackageName\n\n**Signature:**\n\n```aidl\nvoid clearCachesByPackageName(String packageName);\n```\n\n**Description:** Clear application caches by package name.\n\n**Parameters:**\n\n- `packageName` (String): Package name of the application\n\n**Returns:** No result.\n\n**Requirements:** The service needs cache-deletion permission and firmware support. No completion callback is provided to the app.\n\n**Example:**\n\n```java\nsettingsManager.clearCachesByPackageName(packageName);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4010",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "setDefaultSystemLanguage",
+    "key": "ISettingsManager.setDefaultSystemLanguage",
+    "params": [
+      {
+        "type": "String",
+        "name": "language"
+      },
+      {
+        "type": "String",
+        "name": "country"
+      }
+    ],
+    "defaults": [
+      "zh",
+      "CN"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.10 setDefaultSystemLanguage\n\n**Signature:**\n\n```aidl\nvoid setDefaultSystemLanguage(String language, String country);\n```\n\n**Description:** Set default system language.\n\n**Parameters:**\n\n- `language` (String): Language code (for example, \"zh\", \"en\")\n- `country` (String): Country code (for example, \"CN\", \"US\")\n\n**Returns:** No result.\n\n**Supported Languages:**\nzh_CN, en_AU, en_IN, fr_FR, it_IT, es_ES, et_EE, de_DE, nl_NL, cs_CZ, pl_PL, ja_JP, zh_TW, en_US, zh_HK, ru_RU, ko_KR, nb_NO, es_US, da_DK, el_GR, tr_TR, pt_PT, pt_BR, rm_CH, sv_SE, bg_BG, ca_ES, en_GB, fi_FI, hi_IN, hr_HR, hu_HU, in_ID, iw_IL, lt_LT, lv_LV, ro_RO, sk_SK, sl_SI, sr_RS, uk_UA, vi_VN, tl_PH, ar_EG, fa_IR, th_TH, sw_TZ, ms_MY, af_ZA, zu_ZA, am_ET, en_XA, ar_XB, fr_CA, km_KH, lo_LA, ne_NP, si_LK, mn_MN, hy_AM, az_AZ, ka_GE, my_MM, mr_IN, ml_IN, is_IS, mk_MK, ky_KG, eu_ES, gl_ES, bn_BD, ta_IN, kn_IN, te_IN, uz_UZ, ur_PK, kk_KZ\n\n**Example:**\n```java\nsettingsManager.setDefaultSystemLanguage(\"zh\", \"CN\");\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "zh",
+          "CN"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4011",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "setTimeZone",
+    "key": "ISettingsManager.setTimeZone",
+    "params": [
+      {
+        "type": "String",
+        "name": "timeZoneCode"
+      }
+    ],
+    "defaults": [
+      "Asia/Shanghai"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.11 setTimeZone\n\n**Signature:**\n\n```aidl\nvoid setTimeZone(String timeZoneCode);\n```\n\n**Description:** Set the system's persistent default time zone.\n\n**Parameters:**\n\n- `timeZoneCode` (String): Time zone ID (for example, \"Asia/Shanghai\", \"Asia/Tokyo\")\n\n**Returns:** No result.\n\n**Requirements:** SET_TIME_ZONE/vendor SDK authorization.\n\n**Example:**\n\n```java\nsettingsManager.setTimeZone(timeZoneCode);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "Asia/Shanghai"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4012",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "loadCertificate",
+    "key": "ISettingsManager.loadCertificate",
+    "params": [
+      {
+        "type": "String",
+        "name": "certPath"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.12 loadCertificate\n\n**Signature:**\n\n```aidl\nboolean loadCertificate(String certPath);\n```\n\n**Description:** Install the given certificate as a user CA.\n\n**Parameters:**\n\n- `certPath` (String): Path to the certificate file\n\n**Returns:** boolean - true if successful, false otherwise\n\n**Note:** Use this function to load certification has some differences with loading certificates in Settings.\n\n**Requirements:** Device-policy certificate installation privilege/device-owner conditions imposed by firmware.\n\n**Example:**\n\n```java\nboolean result = settingsManager.loadCertificate(certPath);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4013",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "setSettingPwd",
+    "key": "ISettingsManager.setSettingPwd",
+    "params": [
+      {
+        "type": "String",
+        "name": "pwd"
+      }
+    ],
+    "defaults": [
+      ""
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.13 setSettingPwd\n\n**Signature:**\n\n```aidl\nboolean setSettingPwd(String pwd);\n```\n\n**Description:** Set the Settings password. Pass `null` or an empty string to remove it.\n\n**Parameters:**\n\n- `pwd` (String): Password. Use 2-10 digits as required by the terminal. Pass `null` or `\"\"` to remove it. The service forwards other values to the device SDK\n\n**Returns:** boolean - true if successful, false otherwise\n\n**Example:**\n\n```java\nboolean result = settingsManager.setSettingPwd(pwd);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4014",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "setWallpaper",
+    "key": "ISettingsManager.setWallpaper",
+    "params": [
+      {
+        "type": "Bitmap",
+        "name": "wallpaper"
+      }
+    ],
+    "defaults": [
+      "wallpaper1"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.14 setWallpaper\n\n**Signature:**\n\n```aidl\nboolean setWallpaper(in Bitmap wallpaper);\n```\n\n**Description:** Set wallpaper.\n\n**Parameters:**\n\n- `wallpaper` (Bitmap): Wallpaper bitmap image\n\n**Returns:** boolean - true if successful, false otherwise\n\n**Requirements:**\n\n- The wallpaper image resolution must match the screen resolution\n- Image width must equal screen width\n- Image height must equal screen height\n- Returns false if wallpaper is null or resolution does not match\n\n**Example:**\n```java\n// Get screen dimensions\nDisplayMetrics metrics = getResources().getDisplayMetrics();\nint screenWidth = metrics.widthPixels;\nint screenHeight = metrics.heightPixels;\n\n// Create or load bitmap with matching resolution\nBitmap wallpaper = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);\n// ... draw or load your wallpaper ...\n\n// Set wallpaper\nboolean result = settingsManager.setWallpaper(wallpaper);\n```\n\n**Requirements:** The service requires SET_WALLPAPER. The caller supplies a Bitmap, not a file path.",
+    "presets": [
+      {
+        "label": "Bundled wallpaper 1",
+        "values": [
+          "wallpaper1"
+        ]
+      },
+      {
+        "label": "Bundled wallpaper 2",
+        "values": [
+          "wallpaper2"
+        ]
+      },
+      {
+        "label": "Image file",
+        "values": [
+          ""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4015",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "isScreenLock",
+    "key": "ISettingsManager.isScreenLock",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.15 isScreenLock\n\n**Signature:**\n\n```aidl\nboolean isScreenLock();\n```\n\n**Description:** Check whether screen is locked. Invalid after restart.\n\n**Parameters:** None\n\n**Returns:** boolean - true if screen is locked, false if unlocked\n\n**Note:** This setting becomes invalid after device restart.\n\n**Example:**\n\n```java\nboolean result = settingsManager.isScreenLock();\n```"
+  },
+  {
+    "id": "SYS-4016",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "setSleepDuration",
+    "key": "ISettingsManager.setSleepDuration",
+    "params": [
+      {
+        "type": "int",
+        "name": "duration"
+      }
+    ],
+    "defaults": [
+      "60000"
+    ],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.16 setSleepDuration\n\n**Signature:**\n\n```aidl\nvoid setSleepDuration(int duration);\n```\n\n**Description:** Set the duration of sleep.\n\n**Parameters:**\n\n- `duration` (int): Sleep duration in milliseconds, value range: 10000~2147483646\n\n**Returns:** No result.\n\n**Note:** The duration must be between 10 seconds (10000ms) and approximately 24.8 days (2147483646ms).\n\n**Example:**\n\n```java\nsettingsManager.setSleepDuration(duration);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "60000"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4017",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "getSleepDuration",
+    "key": "ISettingsManager.getSleepDuration",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": false,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.17 getSleepDuration\n\n**Signature:**\n\n```aidl\nint getSleepDuration();\n```\n\n**Description:** Get the duration of sleep.\n\n**Parameters:** None\n\n**Returns:** int - Current sleep duration in milliseconds\n\n**Bundle fields:**\n\n| Bundle/key | Type | Missing-key default |\n| --- | --- | --- |\n| `bundle.times` | Int | `0` |\n\n**Example:**\n\n```java\nint result = settingsManager.getSleepDuration();\n```"
+  },
+  {
+    "id": "SYS-4018",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "upgradeCustomPackages",
+    "key": "ISettingsManager.upgradeCustomPackages",
+    "params": [
+      {
+        "type": "String",
+        "name": "path"
+      },
+      {
+        "type": "ICustomerConfigurationUpdateListener",
+        "name": "listener"
+      }
+    ],
+    "defaults": [
+      "",
+      "callback"
+    ],
+    "callback": true,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.18 upgradeCustomPackages\n\n**Description:** Import a customer configuration package.\n\n**Signature:**\n\n```aidl\nvoid upgradeCustomPackages(String path, ICustomerConfigurationUpdateListener listener);\n```\n\n**Parameters:** `path` is the configuration file for the target terminal, readable by the service. `listener` is required.\n\n**Callback:** `onError(errCode, msg)` reports success as well as failure. `errCode == 0` means success; the terminal may reboot. Other device codes and messages are returned unchanged.\n\nService failures use `-1` with `SYSTEM_OPERATION_FAILED` or `SYSTEM_MODULE_BUSY`. A 120-second timeout uses `-1` with `SYSTEM_OPERATION_TIMEOUT`.\n\n**Notes:** Each accepted request reports at most one result while the client is connected. Timeout does not cancel firmware work or a reboot already requested.\n\n**Example:**\n\n```java\nsettingsManager.upgradeCustomPackages(path, listener);\n```",
+    "presets": [
+      {
+        "label": "Editable parameters",
+        "values": [
+          "",
+          "callback"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "SYS-4019",
+    "group": "Settings",
+    "interface": "ISettingsManager",
+    "method": "setScreenSleep",
+    "key": "ISettingsManager.setScreenSleep",
+    "params": [],
+    "defaults": [],
+    "callback": false,
+    "mutating": true,
+    "source": "SettingsFragment.java",
+    "help": "### 4.35.19 setScreenSleep\n\n**Signature:**\n\n```aidl\nvoid setScreenSleep();\n```\n\n**Description:** Turn off the screen immediately.\n\n**Parameters:** None\n\n**Returns:** No result.\n\n**Behavior:**\n\n- Uses reflection to call PowerManager.goToSleep() method\n- Passes current uptime as the sleep time parameter\n- The screen will go to sleep immediately when this method is called\n\n**Example:**\n\n```java\nsettingsManager.setScreenSleep();\n```"
+  }
+]

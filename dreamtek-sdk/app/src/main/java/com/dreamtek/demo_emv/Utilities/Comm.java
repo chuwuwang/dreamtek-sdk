@@ -5,6 +5,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -20,8 +21,8 @@ public class Comm {
     private OutputStream outputStream;
     private InputStream inputStream;
     private int status;
-    String ip;
-    int port;
+    private String ip;
+    private int port;
 
     public Comm(){
         status = 0;
@@ -40,45 +41,45 @@ public class Comm {
     }
 
 
-    public boolean connect( String ip, int port) {
+    public boolean connect(String ip, int port) {
+        if (status > 0 && ip != null && ip.equals(this.ip) && port == this.port) {
+            return true;
+        }
+        disconnect();
         this.ip = ip;
         this.port = port;
-
         return connect();
-
     }
-    public boolean connect( ) {
 
-        if( status > 0 ) {
-            if( (this.ip == ip) && this.port==port  ) {
-                return true;
-            } else {
-                disconnect();
-            }
+    public boolean connect() {
+        if (status > 0) {
+            return true;
+        }
+        if (ip == null || ip.length() == 0 || port < 1 || port > 65535) {
+            Log.e(TAG, "Invalid host configuration");
+            return false;
         }
         try {
-            socket = new Socket(ip, port);
-            if( null == socket ){
-                return false;
-            }
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(ip, port), 10000);
             this.ip = ip;
             this.port = port;
             status = 1;
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Connect failed", e);
+            disconnect();
         }
         return false;
     }
 
 
-    public int send( byte[] data ) {
-        if( status <= 0 ) {
+    public int send(byte[] data) {
+        if (status <= 0 || data == null || data.length == 0) {
             return 0;
         }
 
-        Log.d(TAG, "SEND:");
-        Log.d(TAG, Utility.byte2HexStr(data));
+        Log.d(TAG, "Sending " + data.length + " bytes");
 
         try {
             outputStream = socket.getOutputStream();
@@ -90,40 +91,56 @@ public class Comm {
             outputStream.flush();
             return data.length;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Send failed", e);
         }
         return 0;
     }
 
 
-    public byte[] receive( int wantLength, int timeoutSecond ){
-        if( status <= 0 ){
+    public byte[] receive(int wantLength, int timeoutSecond) {
+        if (status <= 0 || wantLength < 3 || timeoutSecond <= 0) {
             return null;
         }
         try {
-            socket.setSoTimeout( timeoutSecond*1000 );
+            socket.setSoTimeout(timeoutSecond * 1000);
             inputStream = socket.getInputStream();
-            if( null == inputStream ) {
+            byte[] header = new byte[2];
+            if (!readFully(header, 0, header.length)) {
                 return null;
             }
-            byte[] tmp = new byte[wantLength];
-            int recvLen = inputStream.read(tmp);
-            if( recvLen > 0  ) {
-                byte[] ret = new byte[recvLen];
-                System.arraycopy(tmp,0, ret, 0, recvLen);
-                return ret;
-            } else if( recvLen == 0 ){
+            int bodyLength = ((header[0] & 0xFF) << 8) | (header[1] & 0xFF);
+            if (bodyLength <= 0 || bodyLength + header.length > wantLength) {
+                Log.e(TAG, "Invalid response length: " + bodyLength);
                 return null;
             }
+
+            byte[] response = new byte[bodyLength + header.length];
+            System.arraycopy(header, 0, response, 0, header.length);
+            if (!readFully(response, header.length, bodyLength)) {
+                return null;
+            }
+            return response;
         } catch (SocketException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Receive socket error", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Receive failed", e);
         }
         return null;
     }
 
-    public void disconnect(){
+    private boolean readFully(byte[] buffer, int offset, int length) throws IOException {
+        int total = 0;
+        while (total < length) {
+            int count = inputStream.read(buffer, offset + total, length - total);
+            if (count < 0) {
+                return false;
+            }
+            total += count;
+        }
+        return true;
+    }
+
+    public void disconnect() {
         status = 0;
         try {
             if( null != inputStream ) {
@@ -131,7 +148,7 @@ public class Comm {
                 inputStream = null;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.w(TAG, "Unable to close input stream", e);
         }
 
         try {
@@ -140,7 +157,7 @@ public class Comm {
                 outputStream = null;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.w(TAG, "Unable to close output stream", e);
         }
 
         try {
@@ -149,7 +166,7 @@ public class Comm {
                 socket = null;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.w(TAG, "Unable to close socket", e);
         }
         status = 0;
     }

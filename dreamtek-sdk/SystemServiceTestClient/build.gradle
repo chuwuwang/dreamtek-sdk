@@ -1,0 +1,40 @@
+apply plugin: 'com.android.library'
+
+android {
+    // FileHelper uses API 29 symbols (VERSION_CODES.Q / android.os.FileUtils), same as the source project.
+    compileSdkVersion 29
+    namespace "com.dreamtek.systemservice.test.demo"
+    defaultConfig {
+        minSdkVersion 24
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        disable 'ExpiredTargetSdkVersion'
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    // Unified device/system service AAR; exposed to :app so ServiceManager keeps compiling.
+    // Declared through the flatDir repository (see root build.gradle) rather than files(...) because a
+    // library module cannot bundle a direct local .aar file dependency into its own AAR output.
+    api(name: 'dreamtek_deviceservice_1.0.2_2609081603-release', ext: 'aar')
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.navigation:navigation-fragment:2.3.5'
+}

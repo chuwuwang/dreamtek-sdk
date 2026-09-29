@@ -1,33 +1,127 @@
 apply plugin: 'com.android.application'
+// apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 28
+    namespace "com.verifone.activity"
+    // ndkVersion '21.1.6352462'
     defaultConfig {
-        applicationId "com.dreamtek.demo_emv"
-        minSdkVersion 21
-        targetSdkVersion 22
+        applicationId "com.verifone.service_demo"
+        minSdkVersion 24
+        // noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionName "3.0.0"
+        // multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                // includeCompileClasspath true
+            }
+        }
+        flavorDimensions("model")
+        ndk {
+            // Specifies the ABI configurations of your native
+            // libraries Gradle should build and package with your APK.
+            abiFilters 'armeabi-v7a'
+        }
     }
+
+    productFlavors {
+        DTK_ {
+            dimension "model"
+            buildConfigField("String", "INTENT_PKGNAME", '"com.dreamtek.smartpos.deviceservice"')
+            buildConfigField("String", "INTENT_ACTION", '"com.dreamtek.smartpos.device_service"')
+        }
+    }
+
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    def fileName
+                    def date = new Date()
+                    def formattedDate = date.format('yyyyMMddHHmmss')
+                    // Customize the generated APK filename.
+                    if (variant.buildType.name.equals('release')) {
+                        fileName = "testclient_${variant.mergedFlavor.versionName}_release_${formattedDate}.apk"
+                    } else if (variant.buildType.name.equals('debug')) {
+                        fileName = "testclient_${variant.mergedFlavor.versionName}_debug_${formattedDate}.apk"
+                    }
+                    outputFileName = fileName
+                }
+            }
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
     }
     sourceSets {
-        main { java.srcDirs = ['src/main/java', 'src/main/aidl'] }
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/aidl']
+        }
+    }
+    productFlavors {}
+    lintOptions {
+        disable 'ExpiredTargetSdkVersion'
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    // The unified AAR now lives in :SystemServiceTestClient and is exposed via api.
+    implementation project(':SystemServiceTestClient')
+    implementation files('libs\\proguard-FunctionApi_V1.0.7_202107131455.jar')
+    implementation files('libs\\poi-3.9-20121203.jar')
+    implementation files('libs\\xmlbeans-2.3.0.jar')
+    implementation files('libs\\dom4j-1.6.1.jar')
 
-    configurations.all {
-        resolutionStrategy.force 'com.android.support:support-annotations:26.1.0'
-    }
+    implementation 'com.blankj:alog:1.8.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 
+    // implementation 'com.jakewharton:butterknife:10.2.3'
+    // annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+    // Support annotations are required only at compile time and are not packaged in the APK.
+    compileOnly 'com.android.support:support-annotations:28.0.0'
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+
+    implementation files('libs/jatools.jar')
+    implementation files('libs/atoolsjar-1.0.0.jar')
+    implementation files('libs/mysql-connector-java-5.1.35.jar')
+
+    // compile files('libs/poi-3.15.jar')
+    // compile files('libs/xmlbeans-2.6.0.jar' )
+    // compile files('libs/poi-excelant-3.15.jar')
+    // compile files('libs/poi-ooxml-3.15.jar')
+    // compile files('libs/poi-ooxml-schemas-3.15.jar')
+    // compile files('libs/poi-5.0.0.jar')
+    // implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.6.0'
+
+    implementation 'com.alibaba:fastjson:1.1.72.android'
+    implementation 'com.sun.mail:android-mail:1.5.5'
+    implementation 'com.sun.mail:android-activation:1.5.5'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }

@@ -81,3 +81,4 @@ public class ISO8583CaseB extends ISO8583 {
     }
 
 }
+
