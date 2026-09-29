@@ -91,8 +91,9 @@ def releaseTime() {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
-    // The unified AAR now lives in :SystemServiceTestClient and is exposed via api.
-    implementation project(':SystemServiceTestClient')
+
+    implementation project(':system-service-test-client')
+
     implementation files('libs\\dom4j-1.6.1.jar')
     implementation files('libs\\xmlbeans-2.3.0.jar')
     implementation files('libs\\poi-3.9-20121203.jar')

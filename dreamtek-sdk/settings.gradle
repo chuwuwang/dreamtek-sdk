@@ -1,4 +1,4 @@
+rootProject.name = 'dreamtek-sdk'
+
 include ':app'
-include ':printer_sam_demo'
-include ':DV01Printer'
-include ':SystemServiceTestClient'
+include ':system-service-test-client'
